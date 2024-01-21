@@ -1,0 +1,10 @@
+.story-list {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    gap: 0px;
+    list-style-type: none;
+    /*scroll-behavior: smooth;
+    overflow-y: auto;
+    height: 90%;*/
+}

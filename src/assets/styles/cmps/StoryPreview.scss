@@ -1,0 +1,85 @@
+.story-preview {
+    display: flex;
+    flex-direction: column;
+    width: 470px;
+    font-size: 14px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    hr {
+        padding: 20px 10px;
+        border-top: 1px solid lightgray;
+    }
+}
+
+.story-preview-header {
+    display: flex;
+    align-items: center;
+    height: 44px;
+    padding-left: 4px;
+    padding-bottom: 12px;
+    img {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        margin-right: 12px;
+    }
+    .preview-header-user {
+        font-weight: bolder;
+    }
+}
+
+.story-preview-image {
+    height: auto;
+}
+
+.dot-container {
+    display: flex;
+    align-items: center; 
+    height: 100vh;
+    .dot {
+        width: 3px;
+        height: 3px;
+        background-color: #737373;
+        border-radius: 50%; 
+        margin: 0 5px;
+    }
+  }
+  
+  .story-preview-icons {
+    display: flex;
+    align-items: center;
+    margin: 4px 0px;
+    justify-content: space-between;
+    height: 40px;
+    .single-icon {
+        width: 24px;
+        height: 24px;
+        margin: 8px;
+        color: black;
+        font-weight: bolder;
+    }
+}
+
+.story-preview-info {
+    & childRule {
+        height: 18px;
+    }
+    .preview-info-likes {
+        font-weight: bolder;
+    }
+    .preview-info-text {
+        span {
+            font-weight: bolder;
+            margin-right: 4px;
+        }
+    }
+    .preview-info-add-comment {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 16px;
+        border-bottom: 1px solid rgb(219, 219, 219);
+        margin-bottom: 20px;
+    }
+}
+
+

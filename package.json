@@ -1,0 +1,41 @@
+{
+  "name": "ShowCase",
+  "homepage": "https://hagit22.github.io/ShowCase",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "axios": "^1.5.0",
+    "bootstrap-icons": "^1.11.3",
+    "lorem-ipsum": "^2.0.8",
+    "react": "^18.2.0",
+    "react-bootstrap-icons": "^1.10.3",
+    "react-dom": "^18.2.0",
+    "react-lorem-ipsum": "^1.4.10",
+    "react-redux": "^8.1.2",
+    "react-router": "^6.16.0",
+    "react-router-dom": "^6.16.0",
+    "redux": "^4.2.1",
+    "socket.io-client": "^4.7.2"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react-swc": "^3.3.2",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "gh-pages": "^6.1.1",
+    "sass": "^1.67.0",
+    "vite": "^4.5.1"
+  }
+}
