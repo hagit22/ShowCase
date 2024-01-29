@@ -1,21 +1,25 @@
 {
   "name": "ShowCase",
-  "homepage": "https://hagit22.github.io/ShowCase",
+  "homepage": "https://hagit22.github.io",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "dev": "vite",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@cloudinary/react": "^1.11.2",
+    "@cloudinary/url-gen": "^1.16.0",
     "axios": "^1.5.0",
     "bootstrap-icons": "^1.11.3",
+    "cloudinary": "^1.41.3",
     "lorem-ipsum": "^2.0.8",
+    "postcss-font-family-system-ui": "^5.0.0",
     "react": "^18.2.0",
     "react-bootstrap-icons": "^1.10.3",
     "react-dom": "^18.2.0",

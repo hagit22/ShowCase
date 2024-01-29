@@ -1,4 +1,32 @@
+
 // Colors
+$color-separator: rgb(219, 219, 219);
+$color-light-text: rgb(115, 115, 115);
+$color-dot: #737373;
+$color-default: black;
+$color-like: #FF3040;
+$color-button: #0095F6;
+
+
+// Fonts & Sizes
+
+$font-size-small: 12px;
+$font-size-normal: 14px;
+$font-size-large: 16px;
+$font-size-large-caption: 20px;
+
+$font-weight-light: 400;
+$font-weight-normal: 600;
+
+$line-height-normal: 18px;
+
+
+// Breakpoints
+$mobile-breakpoint: 460px;
+$narrow-breakpoint: 720px;
+$normal-breakpoint: 960px;
+
+// Old Colors
 $clr1: #ce2e6c;
 $clr2: #4f3a65;
 $clr3: #574f7d;
@@ -6,9 +34,3 @@ $clr4: #95adbe;
 $clr5: #dff0ea;
 $clr6: #fff;
 $clr7: #222;
-
-
-// Breakpoints
-$mobile-breakpoint: 460px;
-$narrow-breakpoint: 720px;
-$normal-breakpoint: 960px;

@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { storyActions } from '../store/story.actions.js'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { userService } from '../services/user.service.js'
 import { storyService } from '../services/story.service.local.js'
+import { storyActions } from '../store/actions/story.actions.js'
 import { StoryList } from '../cmps/StoryList.jsx'
-//import { NavBar } from '../cmps/StoryList.jsx'
+import { NavBar } from '../cmps/NavBar.jsx'
 
 export function StoryIndex() {
 
@@ -13,11 +13,9 @@ export function StoryIndex() {
 
     useEffect(() => {
         storyActions.loadStories()
-    }, [])
+    }, [stories])
 
-    async function onAddStory() {
-        const story = storyService.getEmptyStory()
-        story.vendor = prompt('Vendor?')
+    async function onAddStory(story) {
         try {
             const savedStory = await storyActions.addStory(story)
             showSuccessMsg(`Story added (id: ${savedStory._id})`)
@@ -27,11 +25,9 @@ export function StoryIndex() {
     }
 
     async function onUpdateStory(story) {
-        const price = +prompt('New price?')
-        const storyToSave = { ...story, price }
         try {
-            const savedStory = await storyActions.updateStory(storyToSave)
-            showSuccessMsg(`Story updated, new price: ${savedStory.price}`)
+            const savedStory = await storyActions.updateStory(story)
+            console.log("onUpdateStory: ",savedStory)
         } catch (err) {
             showErrorMsg('Cannot update story')
         }        
@@ -56,15 +52,15 @@ export function StoryIndex() {
     return (
         <div className="app">
             <div className="nav-bar">
-                {/*<NavBar/>*/}
+                <NavBar onAddStory={onAddStory}/>
             </div>
             <div className="main-content">
                 {/*<div className="stories-bar">Stories Bar</div>*/}
                 <div className="feed">
-                    <StoryList stories={stories}/>
+                    <StoryList stories={stories} onUpdateStory={onUpdateStory}/>
                 </div>
             </div>
-            <div className="users-bar"></div>
+            {/*<div className="users-bar"></div>*/}
         </div>
     )
 }

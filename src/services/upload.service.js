@@ -1,9 +1,7 @@
-export const uploadService = {
-  uploadImg
-}
-async function uploadImg(ev) {
-  const CLOUD_NAME = "dcwibf9o5"
-  const UPLOAD_PRESET = "vt0iqgff"
+
+export async function uploadImage(ev) {
+  const CLOUD_NAME = "dyqbgymxz"
+  const UPLOAD_PRESET = "myseb6rn"
   const UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`
 
   try {
@@ -17,7 +15,8 @@ async function uploadImg(ev) {
     })
     const imgUrl = await res.json()
     return imgUrl
-  } catch (err) {
+  } 
+  catch (err) {
     console.error('Failed to upload', err)
     throw err
   }

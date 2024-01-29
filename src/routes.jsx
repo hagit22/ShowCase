@@ -4,19 +4,46 @@ import { StoryIndex } from './pages/StoryIndex.jsx'
 import { ReviewIndex } from './pages/ReviewIndex.jsx'
 import { ChatApp } from './pages/Chat.jsx'
 import { AdminApp } from './pages/AdminIndex.jsx'
+import { HouseDoor, Search, Chat, Heart, PlusSquare, Circle } from 'react-bootstrap-icons';
+import { HouseDoorFill, ChatFill, HeartFill, PlusSquareFill, CircleFill } from 'react-bootstrap-icons';
 
-// Routes accesible from the main navigation (in AppHeader)
 const routes = [
     {
         path: '/',
-        component: <StoryIndex />,
-        label: '🏠 Home',
+        component: <StoryIndex/>,
+        label: "home",
+        icons: {empty: HouseDoor, full: HouseDoorFill}
     },
-    /*{
-        path: 'car',
-        component: <CarIndex />,
-        label: 'Cars'
-    }*/
+    {
+        path: '/',
+        component: <StoryIndex />,
+        label: "search",
+        icons: {empty: Search, full: Search}
+    },
+    {
+        path: '/',
+        component: <StoryIndex />,
+        label: "notifications",
+        icons: {empty: Heart, full: HeartFill}
+    },
+    {
+        path: '/',
+        component: <StoryIndex />,
+        label: "messages",
+        icons: {empty: Chat, full: ChatFill}
+    },
+    {
+        path: '/',
+        component: null,
+        label: "create",
+        icons: {empty: PlusSquare, full: PlusSquareFill}
+    },
+    {
+        path: '/',
+        component: <StoryIndex />,
+        label: "profile",
+        icons: {empty: Circle, full: CircleFill}
+    }
 ]
 
 export default routes

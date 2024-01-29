@@ -1,0 +1,30 @@
+.dynamic-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); 
+    justify-content: center;
+    align-items: center;
+    z-index: 999; 
+
+  .close {
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      width: 34px;
+      height: 34px;
+      padding: 8px;
+      background: transparent;
+  }
+
+  .content {
+      /*padding: 3em;
+      height: 100%;
+      > * {
+          height: 100%;
+      }*/
+  }
+}
+  

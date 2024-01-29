@@ -133,10 +133,11 @@ function _generateUser() {
 
 function _generateLoggedInUser() {
     const userId = utilService.makeId(USER_ID_LENGTH)
-    const userImgUrl = `https://picsum.photos/seed/${userId}/470/600`
+    const username ="Instush"
+    const userImgUrl = `https://picsum.photos/seed/${username}1/470/600`
     userService.saveLocalUser( {
         _id: userId,
-        username: "Instush",
+        username: username,
         fullname: "Instagram User",
         imgUrl: userImgUrl
     })    

@@ -10,11 +10,13 @@ export const utilService = {
     generateText,
     generateRandomUsername,
     generateRandomTimestamp,
+    generateRandomTimestampFrom,
     generateRandomPastTime,
     dateTimeShortDisplay,
     dateTimeLongDisplay,
     getPassedTimeString,
-    alignTexts
+    alignTexts,
+    capitalizeWord
 }
 
 function makeId(length = 6) {
@@ -87,6 +89,14 @@ function generateRandomTimestamp() {
     return new Date(startTime + randomTime);
 }
 
+function generateRandomTimestampFrom(startTimestamp) {
+   const endTime = Date.now();
+    const timeDiff = endTime - startTimestamp
+    const randomTime = Math.random() * timeDiff;
+    const result = new Date(startTimestamp + randomTime); 
+    return result;
+}
+
 function generateRandomPastTime() {
     const HOUR = 1000 * 60 * 60
     //const DAY = 1000 * 60 * 60 * 24
@@ -135,6 +145,10 @@ function getPassedTimeString(timestamp) {
 function alignTexts (textArray) {
     const maxLength = Math.max(...(textArray.map(item => item.length)));
     return textArray.map(item => item.padEnd(maxLength,' '));
+}
+
+function capitalizeWord(word) {
+    return word.charAt(0).toUpperCase() + word.slice(1);
 }
 
 

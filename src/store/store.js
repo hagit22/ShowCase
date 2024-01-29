@@ -1,15 +1,17 @@
 import { createStore, combineReducers } from 'redux'
 
-import { storyReducer } from './story.reducer.js'
-import { userReducer } from './user.reducer.js'
-import { reviewReducer } from './review.reducer'
-import { systemReducer } from './system.reducer'
+import { storyReducer } from './reducers/story.reducer.js'
+import { userReducer } from './reducers/user.reducer.js'
+import { reviewReducer } from './reducers/review.reducer.js'
+import { systemReducer } from './reducers/system.reducer'
+import { appReducer } from './reducers/app.reducer'
 
 const rootReducer = combineReducers({
     storyModule: storyReducer,
     userModule: userReducer,
     systemModule: systemReducer,
     reviewModule: reviewReducer,
+    appModule: appReducer
 })
 
 
@@ -19,7 +21,7 @@ export const store = createStore(rootReducer, middleware)
 
 store.subscribe(() => {
     //console.log('**** Store state changed: ****')
-    console.log('storeState:\n', store.getState())
+    //console.log('storeState:\n', store.getState())
     //console.log('*******************************')
 })
 

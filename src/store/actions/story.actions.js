@@ -1,7 +1,7 @@
-import { store } from './store.js'
-import { storyService } from '../services/story.service.local.js'
-import { storyActionTypes } from './story.reducer.js'
-import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
+import { store } from '../store.js'
+import { storyService } from '../../services/story.service.local.js'
+import { storyActionTypes } from '../reducers/story.reducer.js'
+import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service.js'
 
 export const storyActions = {
     loadStories,
@@ -38,7 +38,7 @@ async function addStory(story) {
 function updateStory(story) {
     return storyService.save(story)
         .then(savedStory => {
-            console.log('Updated Story:', savedStory)
+            console.log('Updated Story:', story)
             store.dispatch(_getActionUpdateStory(savedStory))
             return savedStory
         })

@@ -1,24 +1,15 @@
 /* eslint-disable react/prop-types */
-import { Link } from "react-router-dom";
 
-export function NavBarItem({onClickItem, Icon, currentId, folderDisplayName}) {
+export function NavBarItem({text, icons, itemId, onClickItem, currentSelection}) {
 
     return (
-        <Link className="text-link" to={`/email/${folder}`}>
-            <section id={folder} onClick={onClickItem} 
-                className={`side-panel-item ${folder===currentId ? 'panel-item-selected' : ''}`}>
-                    <div>
-                        <Icon id={folder} className="icon-style1"/>
-                    </div>
-                    <div id={folder} className="side-panel-item-text">
-                        <div>
-                            <pre id={folder}> {folderDisplayName} </pre>
-                        </div>
-                        <div className="side-panel-item-number" id={folder}>
-                            {numUnReads > 0 ? numUnReads : <pre> </pre>}
-                        </div>
-                    </div>
-           </section>
-        </Link>
-    );
+        <section id={itemId} className="nav-bar-item" onClick={onClickItem}>
+            <div id={itemId} >
+                <icons.empty size="24" id={itemId}/>
+            </div>
+            <div id={itemId}>
+                {text}
+            </div>     
+        </section> 
+    )     
 }

@@ -6,9 +6,9 @@ body, html {
   
   .app {
     display: grid;
-    grid-template-columns: 2fr 5fr 3fr;
-    width: 100vw;
-    height: 100vh;
+    grid-template-columns: 2fr 5fr 2fr;
+    /*width: 100vw;
+    height: 100vh;*/
   }
   
   .nav-bar {
@@ -22,6 +22,7 @@ body, html {
     align-items: center;
     grid-column: 2 / 3;
     grid-row: 1 / span 2;
+    margin-left: 200px;
   }
   
   .feed {

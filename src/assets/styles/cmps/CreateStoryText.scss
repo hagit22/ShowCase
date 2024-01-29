@@ -1,0 +1,56 @@
+.create-story-text {
+    @include modal-layout;
+    width: 55%;
+    padding-bottom: 2px;
+    height: 73vh;
+    overflow: hidden;
+}
+
+.new-story-share {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 15fr;
+    justify-items: center;
+    margin-top: 25px;
+    .title {
+        font-weight: $font-weight-normal;
+        font-size: $font-size-large;
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        width: 100%;
+        padding: 15px;
+        margin-top: -40px;
+        a {
+            font-size: $font-size-normal;
+            color: $color-button;
+        }
+    }
+    .content {
+        @include separator($side: top);
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: flex-start;
+        margin-top: -15px;
+        .content-image {
+            width: 50%;
+            object-fit: scale-down;
+        }
+        .content-form {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            textarea {
+                border: none;
+                outline: none;
+                resize: none;
+                overflow: hidden;
+                margin-left: 12px;
+                @include separator($side: bottom);            }
+        }
+    }
+}
+
+
