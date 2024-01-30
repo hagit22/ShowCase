@@ -4,6 +4,7 @@ import routes from './routes'
 import { AppHeader } from './cmps/AppHeader'
 import { AppFooter } from './cmps/AppFooter'
 import { DynamicModal } from './cmps/DynamicModal';
+import { StoryIndex } from './pages/StoryIndex'
 import { UserDetails } from './pages/UserDetails'
 
 export function RootCmp() {
@@ -15,8 +16,9 @@ export function RootCmp() {
             {/*<AppHeader />*/}
             <main>
                 <Routes>
-                    {routableRoutes.map(route => <Route key={route.path} exact={true} element={route.component} path={route.path} />)}
-                    <Route path="/:username" element={<UserDetails/>} />
+                    {/*{routableRoutes.map(route => <Route key={route.path} exact={true} element={route.component} path={route.path} />)}*/}
+                    <Route path="/ShowCase" element={<StoryIndex/>} />
+                    <Route path="/ShowCase/:username" element={<UserDetails/>} />
                 </Routes>
             </main>
             <DynamicModal />
