@@ -27,7 +27,6 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 1;
 }
 
-
 section, main, footer {
     padding: 5px;
 }
@@ -45,12 +44,18 @@ a {
     cursor: pointer;
     color: inherit;
 }
+
+.modal-open {
+    overflow: initial;
+}
+
 a:hover {
     /*text-decoration: underline;*/
 }
 a:visited {
 
 }
+
 
 /*show-inline {
     display: inline;

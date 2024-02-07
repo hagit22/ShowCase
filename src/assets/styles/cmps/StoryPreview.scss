@@ -20,8 +20,18 @@
     height: 100vh;
     @include dot(0, 5px);
 }
-  
-  .story-preview-icons {
+
+.story-preview-text {
+    span {
+        font-weight: $font-weight-normal;
+        margin-right: 4px;
+    }
+    color: $color-default;
+    line-height: $line-height-normal;
+    white-space: pre-line;
+}
+
+.story-preview-icons {
     display: flex;
     align-items: center;
     margin: 4px 0px;
@@ -29,16 +39,13 @@
     margin-right: -7px;
     justify-content: space-between;
     height: 40px;
-    .single-icon {
-        width: 24px;
-        height: 24px;
-        margin: 8px;
-        color: $color-default;
-        font-weight: bolder;
-    }
     .like {
         color: $color-like;
     }
+}
+
+.single-icon-preview {
+    @include single-icon(24px);
 }
 
 .story-preview-info {
@@ -46,54 +53,47 @@
         height: 18px;
         font-weight: $font-weight-light;
     }
-    .preview-info-likes {
-        font-weight: $font-weight-normal;
-    }
-    .preview-info-text {
-        span {
-            font-weight: $font-weight-normal;
-            margin-right: 4px;
+}
+
+.preview-info-likes {
+    font-weight: $font-weight-normal;
+}
+
+.preview-info-comments {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: $color-light-text;
+    padding-top: 2px;
+    .preview-add-comment {
+        display: flex;
+        align-items: normal;
+        justify-content: space-between;
+        padding-bottom: 16px;
+        @include separator(bottom);
+        /*margin-bottom: 10px;*/
+        form {
+            width: 85%;
         }
-        color: $color-default;
-        line-height: $line-height-normal;
-        white-space: pre-line;
-    }
-    .preview-info-comments {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        color: $color-light-text;
-        padding-top: 2px;
-        .preview-info-add-comment {
-            display: flex;
-            align-items: normal;
-            justify-content: space-between;
-            padding-bottom: 16px;
-            @include separator(bottom);
-            /*margin-bottom: 10px;*/
-            form {
-                width: 85%;
-            }
-            textarea {
-                font-family: inherit;
-                font-size: inherit;
-                color: inherit;
-                width: inherit;
-                border: none;
-                margin: 0px;
-                outline: none;
-                resize: none;
-                overflow: hidden;
-            }
-            a {
-                font-family: inherit;
-                font-size: inherit;
-                color: rgb(0, 149, 246);
-                margin-right: 10px;
-                font-weight: $font-weight-normal;
-                display: none;
-            }
-            svg {
-                margin-bottom: -2px;
-            }
+        textarea {
+            font-family: inherit;
+            font-size: inherit;
+            color: inherit;
+            width: inherit;
+            border: none;
+            margin: 0px;
+            outline: none;
+            resize: none;
+            overflow: hidden;
+        }
+        a {
+            font-family: inherit;
+            font-size: inherit;
+            color: rgb(0, 149, 246);
+            margin-right: 10px;
+            font-weight: $font-weight-normal;
+            display: none;
+        }
+        svg {
+            margin-bottom: -2px;
         }
     }
 }

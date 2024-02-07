@@ -27,9 +27,15 @@ async function query(filterBy = { txt: '', by: 0 }) {
     if (filterBy.by) {
         stories = stories.filter(story => story.by.username === filterBy.by.username)
     }
+    
+    // sort comments by date
+    stories.map(story => ({...story, comments: story.comments.sort((a,b) => 
+        new Date(a["createdAt"]).getTime() < new Date(b["createdAt"]).getTime() ? 1 : -1)}))
+
+    // sort stories by date
     stories = stories.sort((a,b) => new Date(a["createdAt"]).getTime() < new Date(b["createdAt"]).getTime() ? 1 : -1);
     return stories
-}
+}  
 
 function getById(storyId) {
     return storageService.get(STORAGE_KEY_STORIES, storyId)

@@ -1,8 +1,8 @@
-.comments-modal {
+.story-details-modal {
     background: #fff;
     border-radius: 4px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    overflow-y: auto;
+    overflow-y: none;
     margin: 10px 250px;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -12,17 +12,22 @@
     align-self: center;*/
 }
 
-.comments-modal-image {
+.details-modal-image {
     display: flex;
     /*width: 40%;*/
 }
   
-.comments-modal-content {
+.details-modal-content-around {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.details-modal-content {
     display: flex;
     /*width: 60%;*/
-    overflow-y: hidden;
     flex-direction: column;
-    margin-bottom: 20px;
+    //margin-bottom: 20px;
     .header-row {
         display: flex;
         justify-content: space-between;
@@ -30,32 +35,45 @@
         margin-right: 15px;
         @include separator($side: bottom);
     }
-    .comments {
+    .details-modal-entries {
         overflow-y: scroll;
+        height: 59vh;
         margin-right: 15px;
         font-size: $font-size-normal;
         line-height: $line-height-normal;
         @include separator($side: bottom);
-        span {
-            margin-right: 10px;
-        }
-        .head {
+        .single-entry {
             @include profile-img($margin: 12px);
             display: flex;
-        }
-        .text {
-            display: flex;
             align-items: flex-start;
-            width: 90%;
-            margin: 10px 0px 5px 0px;
-            padding-top: 7px;
-            white-space: pre-line;
-        }
-        .comment-info {
-            display: flex;
-            gap: 10px;
-            margin-left: 60px;
-            font-size: $font-size-small;
+            margin-bottom: 5px;
+            .content {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+                gap: 5px;
+                width: 90%;
+                .data {
+                    padding-top: 12px;
+                    display: grid;
+                    grid-template-columns: 100fr 1fr;
+                    grid-template-rows: 1fr;
+                    justify-content: space-between;
+                    .heart {
+                        width: 10px;
+                        height: 10px;
+                        margin-left: 5px;
+                    }
+                }
+                .info {
+                    display: flex;
+                    gap: 10px;
+                    margin-bottom: 5px;
+                    font-size: $font-size-small;
+                    font-weight: $font-weight-light;
+                }
+            }
         }
     }
     .likes {
@@ -63,16 +81,74 @@
     }
 }
 
-#comments::-webkit-scrollbar {
-    display: none;
-}        
-
-.dots{
+.menu-dots{
     display: flex;
     .dot {
         @include dot(0, 1.5px);
     }
 }
+
+.details-modal-info {
+    padding: 5px 20px 0px 10px; 
+    height: 2px;
+    .story-preview-icons {
+        margin-bottom: -5px;
+    }
+    .preview-info-likes {
+        height: 16px;
+    }
+    span {
+        font-weight: $font-weight-very-light;
+        padding-bottom: 10px;
+        @include separator($side: bottom);
+    }
+}
+
+.single-icon-details {
+    @include single-icon(20px);
+}
+
+.details-add-comment {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    form {
+        margin-left: 5px;
+        width: 85%;
+    }
+    textarea {
+        font-family: inherit;
+        font-size: inherit;
+        color: inherit;
+        width: inherit;
+        border: none;
+        margin: 0px;
+        outline: none;
+        resize: none;
+        overflow: hidden;
+        width: 95%;
+        height: unset !important;
+    }
+    a {
+        font-family: inherit;
+        font-size: inherit;
+        color: rgb(0, 149, 246);
+        margin-right: 5px;
+        font-weight: $font-weight-normal;
+        opacity: 25%;
+    }
+    svg {
+        margin-bottom: -2px;
+    }
+}
+
+
+
+
+
+
+
 
 
   

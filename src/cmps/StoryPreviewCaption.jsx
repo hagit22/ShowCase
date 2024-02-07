@@ -1,11 +1,10 @@
 /* eslint-disable react/prop-types */
 
-export function StoryPreviewCaption({ story }) {
+export function StoryPreviewCaption({ caption, username }) {
 
-    const { txt, by } = story;
     return (
-        <div className="preview-info-text">
-            <span>{by.username}</span>{txt}
+        <div className="story-preview-text">
+            <span>{username}</span>{caption}
         </div>
     )
 }

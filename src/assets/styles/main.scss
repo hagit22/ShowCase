@@ -11,24 +11,22 @@
 @import "basics/links";
 @import "basics/forms";
 
-
-// Views
-@import "views/AboutUs";
-@import "views/HomePage";
-@import "views/CarIndex";
-@import "views/ReviewIndex";
-@import "views/StoryIndex";
-@import "views/UserDetails";
+// Pages
+@import "pages/AboutUs";
+@import "pages/HomePage";
+@import "pages/CarIndex";
+@import "pages/ReviewIndex";
+@import "pages/StoryIndex";
+@import "pages/UserDetails";
 
 // Components
 @import "cmps/AppHeader";
 @import "cmps/AppFooter";
-@import "cmps/CommentsModal";
-@import "cmps/CommentsModal";
 @import "cmps/CreateStoryImage";
 @import "cmps/CreateStoryText";
 @import "cmps/Common";
 @import "cmps/DynamicModal";
+@import "cmps/StoryDetails";
 @import "cmps/StoryList";
 @import "cmps/StoryPreview";
 @import "cmps/NavBar.scss";

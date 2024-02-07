@@ -1,58 +1,51 @@
 /* eslint-disable react/prop-types */
-import { utilService } from '../services/util.service.js';
+import { useSelector } from 'react-redux'
+import { utilService } from '../services/util.service.js'
 import { ProfileTitle } from './ProfileTitle.jsx';
+import { StoryDetailsSingleEntry } from './StoryDetailsSingleEntry.jsx';
+import { StoryPreviewIcons } from './StoryPreviewIcons'
+import { StoryPreviewLikedBy } from './StoryPreviewLikedBy.jsx';
+import { StoryAddComment } from './StoryAddComment.jsx';
 
-export function CommentsModal({story}) {
+export function StoryDetails({story, onUpdateStory, loggedInUser}) {
 
-    const {txt, imgUrl, createdAt, by, likedBy, comments } = story;
-    console.log('comments: ', comments)
+    const modalStories = useSelector(storeState => storeState.storyModule.stories)
+    const modalStory = modalStories.filter(storyItem => storyItem._id === story._id)[0]
+
+    const { imgUrl, createdAt, by, likedBy, comments } = modalStory;
     return (
         <section>
-            <div className="comments-modal">
-                <div className="comments-modal-image">
+            <div className="story-details-modal">
+                <div className="details-modal-image">
                     <img src={imgUrl}></img>
                 </div>
-                <div className="comments-modal-content">
-                    <div className="header-row">
-                        <ProfileTitle profile={by}><div></div></ProfileTitle>
-                        <div className="dots">
-                            <div className="dot"/><div className="dot"/><div className="dot"/>
-                        </div>
-                    </div>
-                    <div className="comments" id="comments">
-                        <div className="head">
-                            <img src={by.imgUrl}/>
-                            <div className='text'>
-                                <ProfileTitle profile={by} displayImage={false}/>
-                                <div>{txt}</div>
+                <div className='details-modal-content-around'>
+                <div>
+                    <div className="details-modal-content">
+                        <div className="header-row">
+                            <ProfileTitle profile={by}><div></div></ProfileTitle>
+                            <div className="menu-dots">
+                                <div className="dot"/><div className="dot"/><div className="dot"/>
                             </div>
                         </div>
-                        <div className="comment-info">
-                            <div>{utilService.getPassedTimeString(createdAt)}</div>
-                            <div>{likedBy.length == 0 ? '' :
-                                likedBy.length} like{likedBy.length > 1 ? 's' : ''}</div>
-                            <div>Reply</div>
-                        </div>
-                        {comments.map( comment => 
-                        <div key={comment.id} >
-                            <div className="head">
-                                <img src={comment.by.imgUrl}/>
-                                <div className='text'>
-                                    <ProfileTitle profile={comment.by} displayImage={false}/>
-                                    <div>{comment.txt}</div>
+                        <div className="details-modal-entries">
+                            <StoryDetailsSingleEntry entry={modalStory} extraInfo={false}/>
+                            {comments.map( comment => 
+                                <div key={comment.id} >
+                                    <StoryDetailsSingleEntry entry={comment} extraInfo={true}/>
                                 </div>
-                            </div>
-                            <div className="comment-info">
-                                <div>{utilService.getPassedTimeString(comment.createdAt)}</div>
-                                <div>{comment.likedBy.length == 0 ? '' :
-                                    comment.likedBy.length} like{comment.likedBy.length > 1 ? 's' : ''}</div>
-                                <div>Reply</div>
-                            </div>
+                            )} 
                         </div>
-                        )} 
                     </div>
-                    <div className="likes">likes</div>
-                    <div className="add-comment">add</div>
+                    <div className="story-preview details-modal-info">
+                        <StoryPreviewIcons story={modalStory} onUpdateStory={onUpdateStory} loggedInUser={loggedInUser}
+                            onViewDetails={null} origin={"Details"}/>
+                        <StoryPreviewLikedBy likedBy={likedBy}/>
+                        <span>{utilService.getPassedTimeString(createdAt)}</span>
+                        <StoryAddComment story={modalStory} onUpdateStory={onUpdateStory} 
+                            loggedInUser={loggedInUser} origin={"Details"}/>
+                    </div>
+                </div>
                 </div>
             </div>
         </section>

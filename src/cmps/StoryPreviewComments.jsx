@@ -1,17 +1,8 @@
 /* eslint-disable react/prop-types */
-import { onToggleModal } from "../store/actions/app.actions.js"
-import { StoryPreviewAddComment } from './StoryPreviewAddComment.jsx'
-import { CommentsModal } from './CommentsModal.jsx'
+import { StoryAddComment } from './StoryAddComment.jsx'
 
-export function StoryPreviewComments({ story, onUpdateStory, loggedInUser }) {
+export function StoryPreviewComments({ story, onUpdateStory, onViewDetails, loggedInUser }) {
 
-    const onViewDetails = () => {
-        onToggleModal({
-            cmp: CommentsModal,
-            props: { story }
-        })
-    }
-    
     const { comments } = story;
     return (
         <div className='preview-info-comments'>
@@ -20,7 +11,7 @@ export function StoryPreviewComments({ story, onUpdateStory, loggedInUser }) {
                     View {comments.length == 1 ? '' : `all ${comments.length}`} comment{comments.length > 1 ? 's' : ''}
                 </a>
             }
-            <StoryPreviewAddComment story={story} onUpdateStory={onUpdateStory} loggedInUser={loggedInUser}/>
+            <StoryAddComment story={story} onUpdateStory={onUpdateStory} loggedInUser={loggedInUser}/>
         </div>
     )
 }
