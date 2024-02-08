@@ -1,7 +1,45 @@
 .user-details {
-    .user-img {
-        height: 200px;
-        width: 200px;
-        background-size: contain;
-    }
+    display: flex;
 }
+
+.user-details-main {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 5fr 1fr auto;
+}
+
+.user-details-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    img {
+        grid-column: 1;
+        grid-row: 1 span 2;
+        border-radius: 50%;
+    }
+    @include separator($side: bottom)
+}
+
+.user-header-actions {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr;
+    gap: 15px;
+}
+
+.user-header-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 15px;
+}
+
+.user-details-tabs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+//user-details-content: 
+

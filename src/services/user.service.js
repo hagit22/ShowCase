@@ -15,6 +15,7 @@ export const userService = {
     saveLocalUser,
     getUsers,
     getById,
+    getByUsername,
     remove,
     update,
     changeImage,
@@ -32,6 +33,12 @@ function getUsers() {
 
 async function getById(userId) {
     const user = await storageService.get(STORAGE_KEY_USERS, userId)
+    // const user = await httpService.get(`user/${userId}`)
+    return user
+}
+
+async function getByUsername(username) {
+    const user = await storageService.getByName(STORAGE_KEY_USERS, username)
     // const user = await httpService.get(`user/${userId}`)
     return user
 }
@@ -110,12 +117,12 @@ function chooseRandomUserList(users, maxAmount) {
 }
 
 function generateInitialUsers() {
-    _generateLoggedInUser()
     let initialUsers = utilService.loadFromStorage(STORAGE_KEY_USERS)
     if (!initialUsers || !initialUsers.length) {
         initialUsers = [];
+        initialUsers.push(_generateLoggedInUser())
         for (let i = 0; i < 20; i++) 
-        initialUsers.push(_generateUser(userService.getLoggedInUser()));
+            initialUsers.push(_generateUser(userService.getLoggedInUser()));
         utilService.saveToStorage(STORAGE_KEY_USERS, initialUsers)
     }
     return initialUsers
@@ -133,14 +140,17 @@ function _generateUser() {
 
 function _generateLoggedInUser() {
     const userId = utilService.makeId(USER_ID_LENGTH)
-    const username ="Instush"
+    const username = "Instush"
     const userImgUrl = `https://picsum.photos/seed/${username}1/470/600`
-    userService.saveLocalUser( {
+    const loggedInUser = {
         _id: userId,
         username: username,
+        password: "1234",
         fullname: "Instagram User",
         imgUrl: userImgUrl
-    })    
+    }
+    userService.saveLocalUser(loggedInUser) 
+    return loggedInUser 
 }
 
 

@@ -6,7 +6,6 @@ import { loadUser } from '../store/actions/user.actions'
 import { store } from '../store/store'
 import { showSuccessMsg } from '../services/event-bus.service'
 import { socketService, SOCKET_EVENT_USER_UPDATED, SOCKET_EMIT_USER_WATCH } from '../services/socket.service'
-import { utilService } from '../services/util.service'
 
 export function UserDetails() {
 
@@ -14,32 +13,39 @@ export function UserDetails() {
   const user = useSelector(storeState => storeState.userModule.watchedUser)
 
   useEffect(() => {
-    loadUser(params.id)
-
-    socketService.emit(SOCKET_EMIT_USER_WATCH, params.id)
+    loadUser(params.username)
+    socketService.emit(SOCKET_EMIT_USER_WATCH, params.username)
     socketService.on(SOCKET_EVENT_USER_UPDATED, onUserUpdate)
-
     return () => {
       socketService.off(SOCKET_EVENT_USER_UPDATED, onUserUpdate)
     }
-
-  }, [params.id])
+  }, [params.username])
 
   function onUserUpdate(user) {
-    showSuccessMsg(`This user ${user.fullname} just got updated from socket, new score: ${user.score}`)
+    showSuccessMsg(`This user ${user.username} just got updated from socket`)
     store.dispatch({ type: 'SET_WATCHED_USER', user })
   }
 
+
   return (
     <section className="user-details">
-      <h1>User Details</h1>
-      {user && <div>
-        <h3>
-          {user.fullname}
-        </h3>
-        <img src={user.imgUrl} style={{ width: '100px' }} />
-        <pre> {JSON.stringify(user, null, 2)} </pre>
-      </div>}
+
     </section>
   )
 }
+
+
+
+
+  /*return (
+    <section className="user-details">
+      <h1>User Details</h1>
+      {user && 
+        <div>
+          <h3>{user.username}</h3>
+          <img src={user.imgUrl} style={{ width: '100px' }} />
+          <pre> {JSON.stringify(user, null, 2)} </pre>
+        </div>}
+    </section>
+  )
+}*/

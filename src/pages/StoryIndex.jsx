@@ -50,7 +50,7 @@ export function StoryIndex() {
 
     return (
         <div className="app">
-            <div className="nav-bar">
+            <div className="app-nav-bar nav-bar">
                 <NavBar onAddStory={onAddStory}/>
             </div>
             <div className="main-content">
