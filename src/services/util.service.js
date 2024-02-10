@@ -9,6 +9,7 @@ export const utilService = {
     loadFromStorage,
     generateText,
     generateRandomUsername,
+    generateRandomFullname,
     generateRandomTimestamp,
     generateRandomTimestampFrom,
     generateRandomPastTime,
@@ -78,6 +79,19 @@ function generateRandomUsername() {
     const randomFirstName = firstNames[Math.floor(Math.random() * firstNames.length)];
     const randomNumber = Math.floor(Math.random() * 1000); // You can adjust the range of numbers as needed
     return `${randomFirstName}_${randomNumber}`;
+}
+      
+function generateRandomFullname(username) {
+    const lastNames = [
+        "Smith", "Johnson", "Williams", "Jones", "Brown", "Davis", "Miller", "Wilson", "Moore", "Taylor",
+        "Anderson", "Thomas", "Jackson", "White", "Harris", "Martin", "Thompson", "Garcia", "Martinez", "Robinson",
+        "Clark", "Rodriguez", "Lewis", "Lee", "Walker", "Hall", "Allen", "Young", "Hernandez", "King",
+        "Wright", "Lopez", "Hill", "Scott", "Green", "Adams", "Baker", "Gonzalez", "Nelson", "Carter",
+        "Mitchell", "Perez", "Roberts", "Turner", "Phillips", "Campbell", "Parker", "Evans", "Edwards", "Collins"
+    ];    
+    const firstName = username.split('_')[0]
+    const randomLastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+    return `${firstName} ${randomLastName}`;
 }
       
 function generateRandomTimestamp() {

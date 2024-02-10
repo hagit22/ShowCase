@@ -1,14 +1,17 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import { useParams } from "react-router"
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { userService } from '../services/user.service.js'
 import { storyActions } from '../store/actions/story.actions.js'
-import { StoryList } from '../cmps/StoryList.jsx'
 import { NavBar } from '../cmps/NavBar.jsx'
+import { StoryList } from '../cmps/StoryList.jsx'
+import { UserDetails } from './UserDetails.jsx'
 
 export function StoryIndex() {
 
     const stories = useSelector(storeState => storeState.storyModule.stories)
+    const username = useParams().username
 
     useEffect(() => {
         storyActions.loadStories()
@@ -50,16 +53,21 @@ export function StoryIndex() {
 
     return (
         <div className="app">
-            <div className="app-nav-bar nav-bar">
+            <div className="nav-bar">
                 <NavBar onAddStory={onAddStory}/>
             </div>
+
+            {(username) ? <UserDetails/> :
+
             <div className="main-content">
                 {/*<div className="stories-bar">Stories Bar</div>*/}
                 <div className="feed">
                     <StoryList stories={stories} onUpdateStory={onUpdateStory}/>
                 </div>
-            </div>
+            </div>}
             {/*<div className="users-bar"></div>*/}
+
+
         </div>
     )
 }

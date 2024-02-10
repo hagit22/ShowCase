@@ -27,14 +27,38 @@ export function UserDetails() {
   }
 
 
-  return (
+  return ( user &&
     <section className="user-details">
-
+      <div className='user-details-header'>
+        <img src={user.imgUrl}></img>
+        <div className='user-header-actions'>
+          <span> {user.username} </span>
+          <div className='action-buttons'>
+            <button>Edit profile</button>
+            <button>View archive</button>
+          </div>
+        </div>
+        <hr className='user-details-hr'/>
+        <div className='user-header-info'>
+          <span>post(s)</span>
+          <span>followers</span>
+          <span>following</span>
+          <span> {user.fullname}</span>
+          <hr className="user-details-hr"/>
+          <span className='info-tabs'>POSTS</span>
+          <span className='info-tabs'>SAVED</span>
+          <span className='info-tabs'>TAGGED</span>
+        </div>
+      </div>
+      <div className='user-details-content'>
+        <img src={user.imgUrl} className='user-content-image'></img>
+        <img src={user.imgUrl} className='user-content-image'></img>
+        <img src={user.imgUrl} className='user-content-image'></img>
+        <img src={user.imgUrl} className='user-content-image'></img>
+        <img src={user.imgUrl} className='user-content-image'></img>
+      </div>
     </section>
   )
-}
-
-
 
 
   /*return (
@@ -47,5 +71,5 @@ export function UserDetails() {
           <pre> {JSON.stringify(user, null, 2)} </pre>
         </div>}
     </section>
-  )
-}*/
+  )*/
+}

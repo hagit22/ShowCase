@@ -1,45 +1,81 @@
-.user-details {
-    display: flex;
-}
-
 .user-details-main {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 5fr 1fr auto;
+    grid-template-rows: 8fr 1fr auto;
 }
 
 .user-details-header {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 2fr;
     grid-template-rows: auto auto;
+    margin-left: 100px;
     img {
         grid-column: 1;
-        grid-row: 1 span 2;
+        grid-row: span 1;
         border-radius: 50%;
+        margin: 30px 70px 0px 50px;
+        width: 150px;
+        height: 150px;
+        //@include separator($side: bottom)
     }
-    @include separator($side: bottom)
+    //@include separator($side: bottom)
 }
 
 .user-header-actions {
+    margin-top: 30px;
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 3fr;
     grid-template-rows: 1fr;
-    gap: 15px;
+    .action-buttons {
+        display: flex;
+        align-self: self-start;
+        button {
+            background-color: $color-button-background;
+            border-radius: 15%;
+            color: black;
+        }
+    }
+    column-gap: 50px;
 }
 
 .user-header-info {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 15px;
-}
-
-.user-details-tabs {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
+    margin-top: -100px;
+    column-gap: 50px;
+    row-gap: 10px;
+    flex-wrap: wrap;
+    font-size: $font-size-normal;
+    font-weight: $font-weight-light;
 }
 
-//user-details-content: 
+.user-details-hr {
+    color: lightgray;
+    width: 100%;
+    height: 1px;
+    margin-top: 50px;
+}
+
+.info-tabs {
+    @include separator($side: top);
+    border-color: black;
+    margin-top: -25px;
+}
+
+.user-details-content {
+    display: flex;
+    flex-wrap:wrap;
+    padding: 20px;
+    margin-left: 60px;
+    width: 120%;
+}
+
+.user-content-image {
+    width: 250px;
+    height: 250px;
+    size: 100px;
+    padding: 10px;
+    border-radius: 10%;
+}
+
+
 

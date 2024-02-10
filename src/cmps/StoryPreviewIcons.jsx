@@ -16,7 +16,7 @@ export function StoryPreviewIcons({ story, onUpdateStory, loggedInUser, onViewDe
     }, [story])
     
     function calcLikedByPos() { 
-        return story.likedBy.map(by => by.username).indexOf(loggedInUser.username)
+        return story.likedBy.map(by => by._id).indexOf(loggedInUser._id)
     }
 
     const onToggleLike = () => {

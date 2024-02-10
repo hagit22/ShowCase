@@ -117,10 +117,11 @@ function chooseRandomUserList(users, maxAmount) {
 }
 
 function generateInitialUsers() {
+    const loggedInUser = _generateLoggedInUser()
     let initialUsers = utilService.loadFromStorage(STORAGE_KEY_USERS)
     if (!initialUsers || !initialUsers.length) {
         initialUsers = [];
-        initialUsers.push(_generateLoggedInUser())
+        initialUsers.push(loggedInUser)
         for (let i = 0; i < 20; i++) 
             initialUsers.push(_generateUser(userService.getLoggedInUser()));
         utilService.saveToStorage(STORAGE_KEY_USERS, initialUsers)
@@ -131,9 +132,11 @@ function generateInitialUsers() {
 function _generateUser() {
     const userId = utilService.makeId(USER_ID_LENGTH)
     const userImgUrl = `https://picsum.photos/seed/${userId}/470/600`
+    const username = utilService.generateRandomUsername()
     return {
         _id: userId,
-        username: utilService.generateRandomUsername(), 
+        username: username, 
+        fullname: utilService.generateRandomFullname(username), 
         imgUrl: userImgUrl,
     }
 }

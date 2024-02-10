@@ -22,7 +22,8 @@ function get(entityType, entityId) {
 
 function getByName(entityType, entityName) {
     return query(entityType).then(entities => {
-        const entity = entities.find(entity => entity.username === entityName)
+        console.log(entities)
+        const entity = entities.find(entity => entity.username.toLowerCase() === entityName.toLowerCase())
         if (!entity) throw new Error(`Get failed, cannot find entity with name: ${entityName} in: ${entityType}`)
         return entity
     })
