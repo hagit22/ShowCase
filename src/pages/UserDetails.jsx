@@ -38,13 +38,13 @@ export function UserDetails() {
             <button>View archive</button>
           </div>
         </div>
-        <hr className='user-details-hr'/>
+        <hr className='user-header-hr'/>
         <div className='user-header-info'>
           <span>post(s)</span>
           <span>followers</span>
-          <span>following</span>
+          <span className="following">following</span>
           <span> {user.fullname}</span>
-          <hr className="user-details-hr"/>
+          <hr className='user-header-hr'/>
           <span className='info-tabs'>POSTS</span>
           <span className='info-tabs'>SAVED</span>
           <span className='info-tabs'>TAGGED</span>
