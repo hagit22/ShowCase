@@ -117,13 +117,15 @@ function chooseRandomUserList(users, maxAmount) {
 }
 
 function generateInitialUsers() {
-    const loggedInUser = _generateLoggedInUser()
-    let initialUsers = utilService.loadFromStorage(STORAGE_KEY_USERS)
-    if (!initialUsers || !initialUsers.length) {
-        initialUsers = [];
-        initialUsers.push(loggedInUser)
-        for (let i = 0; i < 20; i++) 
-            initialUsers.push(_generateUser(userService.getLoggedInUser()));
+    let initialUsers = utilService.loadFromStorage(STORAGE_KEY_USERS) || []
+    if (initialUsers.length === 0) {
+        for (let i = 0; i < 10; i++) 
+            initialUsers.push(_generateUser());
+    }
+    // we always want to make sure we have a loggedInUser- as it is temporary per session
+    const newLoggedInUser = _generateLoggedInUser(initialUsers)
+    if (newLoggedInUser) { // newly created otherwise null
+        initialUsers.push(newLoggedInUser)
         utilService.saveToStorage(STORAGE_KEY_USERS, initialUsers)
     }
     return initialUsers
@@ -141,19 +143,25 @@ function _generateUser() {
     }
 }
 
-function _generateLoggedInUser() {
-    const userId = utilService.makeId(USER_ID_LENGTH)
-    const username = "Instush"
-    const userImgUrl = `https://picsum.photos/seed/${username}1/470/600`
-    const loggedInUser = {
-        _id: userId,
-        username: username,
-        password: "1234",
-        fullname: "Instagram User",
-        imgUrl: userImgUrl
+function _generateLoggedInUser(initialUsers) {
+    const uniqueURLseed = "!!==loggedInUser==!!"
+    const uniqueImgUrl = `https://picsum.photos/seed/${uniqueURLseed}1/470/600` 
+    // we want loggedInUser from session-storage to have the same id within the 'initialUsers' list
+    let loggedInUser = initialUsers.filter(user=>user.imgUrl === uniqueImgUrl)[0] || undefined
+    if (!loggedInUser)  {
+        loggedInUser = {
+            _id: utilService.makeId(USER_ID_LENGTH),
+            imgUrl: uniqueImgUrl,
+            username: "Instush",
+            password: "1234",
+            fullname: "Instagram User"
+        }
+        userService.saveLocalUser(loggedInUser)
+        return loggedInUser
     }
+    // we always want to save in session-storage - as it is temporary per session
     userService.saveLocalUser(loggedInUser) 
-    return loggedInUser 
+    return null // loggedInUser already existed. no need to return it
 }
 
 

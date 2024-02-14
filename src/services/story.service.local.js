@@ -89,7 +89,7 @@ function _generateInitialStories(users) {
     let initialStories = utilService.loadFromStorage(STORAGE_KEY_STORIES)
     if (!initialStories || !initialStories.length) {
         initialStories = [];
-        for (let i = 0; i < 20; i++) 
+        for (let i = 0; i < 30; i++) 
             initialStories.push(_generateStory(users));
         utilService.saveToStorage(STORAGE_KEY_STORIES, initialStories)
     }

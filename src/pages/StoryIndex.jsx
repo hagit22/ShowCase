@@ -57,7 +57,7 @@ export function StoryIndex() {
                 <NavBar onAddStory={onAddStory}/>
             </div>
 
-            {(username) ? <UserDetails/> :
+            {(username) ? <UserDetails stories={stories}/> :
 
             <div className="main-content">
                 {/*<div className="stories-bar">Stories Bar</div>*/}

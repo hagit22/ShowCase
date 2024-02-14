@@ -1,3 +1,4 @@
+import { userService } from './services/user.service.js'
 import { HomePage } from './pages/HomePage.jsx'
 import { AboutUs } from './pages/AboutUs.jsx'
 import { StoryIndex } from './pages/StoryIndex.jsx'
@@ -6,6 +7,9 @@ import { ChatApp } from './pages/Chat.jsx'
 import { AdminApp } from './pages/AdminIndex.jsx'
 import { HouseDoor, Search, Chat, Heart, PlusSquare, Circle } from 'react-bootstrap-icons';
 import { HouseDoorFill, ChatFill, HeartFill, PlusSquareFill, CircleFill } from 'react-bootstrap-icons';
+
+const loggedInUser = userService.getLoggedInUser()
+console.log("user = ",loggedInUser)
 
 const routes = [
     {
@@ -39,7 +43,7 @@ const routes = [
         icons: {empty: PlusSquare, full: PlusSquareFill}
     },
     {
-        path: '/',
+        path: '/'+loggedInUser.username,
         component: <StoryIndex />,
         label: "profile",
         icons: {empty: Circle, full: CircleFill}

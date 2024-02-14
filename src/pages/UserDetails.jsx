@@ -7,7 +7,7 @@ import { store } from '../store/store'
 import { showSuccessMsg } from '../services/event-bus.service'
 import { socketService, SOCKET_EVENT_USER_UPDATED, SOCKET_EMIT_USER_WATCH } from '../services/socket.service'
 
-export function UserDetails() {
+export function UserDetails({stories}) {
 
   const params = useParams()
   const user = useSelector(storeState => storeState.userModule.watchedUser)
@@ -51,11 +51,10 @@ export function UserDetails() {
         </div>
       </div>
       <div className='user-details-content'>
-        <img src={user.imgUrl} className='user-content-image'></img>
-        <img src={user.imgUrl} className='user-content-image'></img>
-        <img src={user.imgUrl} className='user-content-image'></img>
-        <img src={user.imgUrl} className='user-content-image'></img>
-        <img src={user.imgUrl} className='user-content-image'></img>
+        {/*<img src={user.imgUrl} className='user-content-image'></img>*/}
+        {stories.filter(story => story.by._id == user._id).map(story => 
+          <img src={story.imgUrl} className='user-content-image' key={story.imgUrl}></img>
+        )}
       </div>
     </section>
   )
