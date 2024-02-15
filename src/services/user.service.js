@@ -123,8 +123,8 @@ function generateInitialUsers() {
             initialUsers.push(_generateUser());
     }
     // we always want to make sure we have a loggedInUser- as it is temporary per session
-    const newLoggedInUser = _generateLoggedInUser(initialUsers)
-    if (newLoggedInUser) { // newly created otherwise null
+    const newLoggedInUser = _generateSessionLoggedInUser(initialUsers)
+    if (newLoggedInUser) { // newly created 
         initialUsers.push(newLoggedInUser)
         utilService.saveToStorage(STORAGE_KEY_USERS, initialUsers)
     }
@@ -143,7 +143,7 @@ function _generateUser() {
     }
 }
 
-function _generateLoggedInUser(initialUsers) {
+function _generateSessionLoggedInUser(initialUsers) {
     const uniqueURLseed = "!!==loggedInUser==!!"
     const uniqueImgUrl = `https://picsum.photos/seed/${uniqueURLseed}1/470/600` 
     // we want loggedInUser from session-storage to have the same id within the 'initialUsers' list

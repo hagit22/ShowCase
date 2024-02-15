@@ -61,9 +61,13 @@
 }
 
 .info-tabs {
-    @include separator($side: top);
-    border-color: black;
     margin-top: -35px;
+    @include separator($side: top);
+    cursor: pointer;
+}
+.chosen-tab {
+    border-color: black;
+    border-width: 1.4px;
 }
 
 .user-details-content {

@@ -13,19 +13,31 @@ function query(entityType, delay = 500) {
 }
 
 function get(entityType, entityId) {
-    return query(entityType).then(entities => {
-        const entity = entities.find(entity => entity._id === entityId)
-        if (!entity) throw new Error(`Get failed, cannot find entity with id: ${entityId} in: ${entityType}`)
-        return entity
-    })
+    try {
+        return query(entityType).then(entities => {
+            const entity = entities.find(entity => entity._id === entityId)
+            if (!entity) throw new Error(`Get failed, cannot find entity with id: ${entityId} in: ${entityType}`)
+            return entity
+        })
+    }
+    catch (err) {
+        console.log("user.service exception - :",err)
+        return null
+    }
 }
 
 function getByName(entityType, entityName) {
-    return query(entityType).then(entities => {
-        const entity = entities.find(entity => entity.username.toLowerCase() === entityName.toLowerCase())
-        if (!entity) throw new Error(`Get failed, cannot find entity with name: ${entityName} in: ${entityType}`)
-        return entity
-    })
+    try {
+        return query(entityType).then(entities => {
+            const entity = entities.find(entity => entity.username.toLowerCase() === entityName.toLowerCase())
+            if (!entity) throw new Error(`Get failed, cannot find entity with name: ${entityName} in: ${entityType}`)
+            return entity
+        })
+    }
+    catch (err) {
+        console.log("user.service exception - :",err)
+        return null
+    }
 }
 
 function post(entityType, newEntity) {
@@ -39,23 +51,35 @@ function post(entityType, newEntity) {
 }
 
 function put(entityType, updatedEntity) {
-    updatedEntity = JSON.parse(JSON.stringify(updatedEntity))    
-    return query(entityType).then(entities => {
-        const idx = entities.findIndex(entity => entity._id === updatedEntity._id)
-        if (idx < 0) throw new Error(`Update failed, cannot find entity with id: ${updatedEntity._id} in: ${entityType}`)
-        entities.splice(idx, 1, updatedEntity)
-        _save(entityType, entities)
-        return updatedEntity
-    })
+    try {
+        updatedEntity = JSON.parse(JSON.stringify(updatedEntity))    
+        return query(entityType).then(entities => {
+            const idx = entities.findIndex(entity => entity._id === updatedEntity._id)
+            if (idx < 0) throw new Error(`Update failed, cannot find entity with id: ${updatedEntity._id} in: ${entityType}`)
+            entities.splice(idx, 1, updatedEntity)
+            _save(entityType, entities)
+            return updatedEntity
+        })
+    }
+    catch (err) {
+        console.log("user.service exception - :",err)
+        return null
+    }
 }
 
-function remove(entityType, entityId) {
-    return query(entityType).then(entities => {
+async function remove(entityType, entityId) {
+    try {
+        const entities = await query(entityType)
         const idx = entities.findIndex(entity => entity._id === entityId)
-        if (idx < 0) throw new Error(`Remove failed, cannot find entity with id: ${entityId} in: ${entityType}`)
+        if (idx < 0)
+            throw new Error(`Remove failed, cannot find entity with id: ${entityId} in: ${entityType}`)
         entities.splice(idx, 1)
         _save(entityType, entities)
-    })
+    }
+    catch (err) {
+        console.log("user.service exception - :",err)
+        return null
+    }
 }
 
 // Private functions

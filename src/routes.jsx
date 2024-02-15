@@ -9,7 +9,6 @@ import { HouseDoor, Search, Chat, Heart, PlusSquare, Circle } from 'react-bootst
 import { HouseDoorFill, ChatFill, HeartFill, PlusSquareFill, CircleFill } from 'react-bootstrap-icons';
 
 const loggedInUser = userService.getLoggedInUser()
-console.log("user = ",loggedInUser)
 
 const routes = [
     {
