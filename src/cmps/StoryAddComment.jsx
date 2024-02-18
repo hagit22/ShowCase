@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useRef } from "react"
 
-export function StoryAddComment({ story, onUpdateStory, loggedInUser, origin }) {
+export function StoryAddComment({ story, onUpdateStory, currentUser, origin }) {
 
     const commentPostRef = useRef(null);
     const commentTextRef = useRef(null);
@@ -19,7 +19,7 @@ export function StoryAddComment({ story, onUpdateStory, loggedInUser, origin }) 
         console.log("onPostComment ", commentTextRef.current)
         let comments = story.comments;
         comments.push( {
-            by: loggedInUser,
+            by: currentUser,
             txt: commentTextRef.current.value,
             likedBy: [],
             createdAt: Date.now()

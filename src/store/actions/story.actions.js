@@ -38,7 +38,7 @@ async function addStory(story) {
 async function updateStory(story) {
     try {
         const savedStory = await storyService.save(story)
-        console.log('Updated Story:', story)
+        //console.log('Updated Story:', story)
         store.dispatch(_getActionUpdateStory(savedStory))
         return savedStory
     } catch (err) {

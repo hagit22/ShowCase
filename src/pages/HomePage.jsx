@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { CHANGE_COUNT } from '../store/reducers/user.reducer'
+import { userActionTypes } from '../store/reducers/user.reducer'
 
 
 export function HomePage() {
@@ -9,7 +9,7 @@ export function HomePage() {
 
     function changeCount(diff) {
         console.log('Changing count by:', diff);
-        dispatch({ type: CHANGE_COUNT, diff })
+        dispatch({ type: userActionTypes.CHANGE_COUNT, diff })
     }
 
     return (

@@ -107,7 +107,7 @@ function _generateStory(users) {
         by: userService.chooseRandomUser(users),
         likedBy: userService.chooseRandomUserList(users, users.length*0.75),
         comments: userService.chooseRandomUserList(users, users.length*0.3).map(user => ({
-            id: utilService.makeId(ID_LENGTH), 
+            _id: utilService.makeId(ID_LENGTH), 
             by: user, 
             txt: utilService.makeLorem(10), 
             likedBy: userService.chooseRandomUserList(users, users.length*0.5),

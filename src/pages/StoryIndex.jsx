@@ -29,7 +29,7 @@ export function StoryIndex() {
     async function onUpdateStory(story) {
         try {
             const savedStory = await storyActions.updateStory(story)
-            console.log("onUpdateStory: ",savedStory)
+            //console.log("onUpdateStory: ",savedStory)
         } catch (err) {
             showErrorMsg('Cannot update story')
         }        

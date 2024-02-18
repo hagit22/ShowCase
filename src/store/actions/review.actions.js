@@ -1,7 +1,7 @@
 import { reviewService } from '../../services/review.service'
 import { store } from '../../store/store.js'
 import { ADD_REVIEW, REMOVE_REVIEW, SET_REVIEWS } from '../reducers/review.reducer'
-import { SET_SCORE, SET_WATCHED_USER } from '../reducers/user.reducer'
+import { userActionTypes } from '../reducers/user.reducer'
 
 // Action Creators
 export function getActionRemoveReview(reviewId) {
@@ -17,7 +17,7 @@ export function getActionSetWatchedUser(user) {
 export async function loadReviews() {
   try {
     const reviews = await reviewService.query()
-    store.dispatch({ type: SET_REVIEWS, reviews })
+    store.dispatch({ type: userActionTypes.SET_REVIEWS, reviews })
 
   } catch (err) {
     console.log('ReviewActions: err in loadReviews', err)
@@ -30,7 +30,7 @@ export async function addReview(review) {
     const addedReview = await reviewService.add(review)
     store.dispatch(getActionAddReview(addedReview))
     const { score } = addedReview.byUser
-    store.dispatch({ type: SET_SCORE, score })
+    store.dispatch({ type: userActionTypes.SET_SCORE, score })
   } catch (err) {
     console.log('ReviewActions: err in addReview', err)
     throw err

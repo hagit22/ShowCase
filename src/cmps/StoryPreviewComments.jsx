@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { StoryAddComment } from './StoryAddComment.jsx'
 
-export function StoryPreviewComments({ story, onUpdateStory, onViewDetails, loggedInUser }) {
+export function StoryPreviewComments({ story, onUpdateStory, onViewDetails, currentUser }) {
 
     const { comments } = story;
     return (
@@ -11,7 +11,7 @@ export function StoryPreviewComments({ story, onUpdateStory, onViewDetails, logg
                     View {comments.length == 1 ? '' : `all ${comments.length}`} comment{comments.length > 1 ? 's' : ''}
                 </a>
             }
-            <StoryAddComment story={story} onUpdateStory={onUpdateStory} loggedInUser={loggedInUser}/>
+            <StoryAddComment story={story} onUpdateStory={onUpdateStory} currentUser={currentUser}/>
         </div>
     )
 }

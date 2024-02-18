@@ -2,7 +2,7 @@ import { Link, NavLink } from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import routes from '../routes'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
-import { login, logout, signup } from '../store/actions/user.actions.js'
+import { userActions } from '../store/actions/user.actions.js'
 import { LoginSignup } from './LoginSignup.jsx'
 
 export function AppHeader() {
@@ -10,7 +10,7 @@ export function AppHeader() {
 
     async function onLogin(credentials) {
         try {
-            const user = await login(credentials)
+            const user = await userActions.login(credentials)
             showSuccessMsg(`Welcome: ${user.fullname}`)
         } catch(err) {
             showErrorMsg('Cannot login')
@@ -18,7 +18,7 @@ export function AppHeader() {
     }
     async function onSignup(credentials) {
         try {
-            const user = await signup(credentials)
+            const user = await userActions.signup(credentials)
             showSuccessMsg(`Welcome new user: ${user.fullname}`)
         } catch(err) {
             showErrorMsg('Cannot signup')
@@ -26,7 +26,7 @@ export function AppHeader() {
     }
     async function onLogout() {
         try {
-            await logout()
+            await userActions.logout()
             showSuccessMsg(`Bye now`)
         } catch(err) {
             showErrorMsg('Cannot logout')

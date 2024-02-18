@@ -75,5 +75,15 @@ const user = {
       imgUrl: "http://some-img"
     }
   ],
-  savedStoryIds: ["s104", "s111", "s123"] // even better - use mini-story
+  //savedStoryIds: ["s104", "s111", "s123"] // even better - use mini-story
+  bookmarkedStories: [
+    {
+      _id: "s104", 
+      imgUrl: "http://some-img"
+    },
+    {
+      _id: "s105", 
+      imgUrl: "http://some-img"
+    }
+  ],
 }

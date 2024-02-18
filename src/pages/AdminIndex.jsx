@@ -1,13 +1,13 @@
 import {useEffect} from 'react'
 import {useSelector} from 'react-redux'
-import { loadUsers, removeUser } from '../store/actions/user.actions'
+import { userActions } from '../store/actions/user.actions'
 
 export function AdminApp() {
     const users = useSelector(storeState => storeState.userModule.users)
     const isLoading = useSelector(storeState => storeState.userModule.isLoading)
 
     useEffect(() => {
-        loadUsers()
+        userActions.loadUsers()
     }, [])
 
     return <section className="admin">
@@ -19,7 +19,7 @@ export function AdminApp() {
                     <pre>{JSON.stringify(user, null, 2)}</pre>
                     <button
                         onClick={() => {
-                            removeUser(user._id)
+                            userActions.removeUser(user._id)
                         }}
                     >
                         Remove {user.username}

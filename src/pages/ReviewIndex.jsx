@@ -5,7 +5,7 @@ import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { socketService, SOCKET_EVENT_REVIEW_ADDED } from '../services/socket.service'
 
 import { loadReviews, addReview, removeReview, getActionAddReview } from '../store/actions/review.actions'
-import { loadUsers } from '../store/actions/user.actions'
+import { userActions } from '../store/actions/user.actions'
 
 export function ReviewIndex() {
 
@@ -19,7 +19,7 @@ export function ReviewIndex() {
 
   useEffect(() => {
     loadReviews()
-    loadUsers()
+    userActions.loadUsers()
 
     socketService.on(SOCKET_EVENT_REVIEW_ADDED, (review) => {
       console.log('GOT from socket', review)

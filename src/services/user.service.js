@@ -48,9 +48,7 @@ function remove(userId) {
     // return httpService.delete(`user/${userId}`)
 }
 
-async function update({ _id, score }) {
-    const user = await storageService.get(STORAGE_KEY_USERS, _id)
-    user.score = score
+async function update(user) {
     await storageService.put(STORAGE_KEY_USERS, user)
 
     // const user = await httpService.put(`user/${_id}`, {_id, score})
@@ -93,7 +91,9 @@ function saveLocalUser(user) {
         username: user.username, 
         password: user.password, 
         fullname: user.fullname, 
-        imgUrl: user.imgUrl }
+        imgUrl: user.imgUrl,
+        bookmarkedStories: user.bookmarkedStories
+    }
     sessionStorage.setItem(STORAGE_KEY_LOGGED_IN_USER, JSON.stringify(user))
     return user
 }

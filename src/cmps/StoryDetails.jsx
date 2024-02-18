@@ -7,7 +7,7 @@ import { StoryPreviewIcons } from './StoryPreviewIcons'
 import { StoryPreviewLikedBy } from './StoryPreviewLikedBy.jsx';
 import { StoryAddComment } from './StoryAddComment.jsx';
 
-export function StoryDetails({story, onUpdateStory, loggedInUser}) {
+export function StoryDetails({story, onUpdateStory, onUpdateUser, currentUser}) {
 
     const modalStories = useSelector(storeState => storeState.storyModule.stories)
     const modalStory = modalStories.filter(storyItem => storyItem._id === story._id)[0]
@@ -31,19 +31,19 @@ export function StoryDetails({story, onUpdateStory, loggedInUser}) {
                         <div className="details-modal-entries">
                             <StoryDetailsSingleEntry entry={modalStory} extraInfo={false}/>
                             {comments.map( comment => 
-                                <div key={comment.id} >
-                                    <StoryDetailsSingleEntry entry={comment} extraInfo={true}/>
+                                <div>
+                                    <StoryDetailsSingleEntry key={comment._id} entry={comment} extraInfo={true}/>
                                 </div>
                             )} 
                         </div>
                     </div>
                     <div className="story-preview details-modal-info">
-                        <StoryPreviewIcons story={modalStory} onUpdateStory={onUpdateStory} loggedInUser={loggedInUser}
-                            onViewDetails={null} origin={"Details"}/>
+                        <StoryPreviewIcons story={modalStory} onUpdateStory={onUpdateStory} onUpdateUser={onUpdateUser} 
+                            currentUser={currentUser} onViewDetails={null} origin={"Details"}/>
                         <StoryPreviewLikedBy likedBy={likedBy}/>
                         <span>{utilService.getPassedTimeString(createdAt)}</span>
                         <StoryAddComment story={modalStory} onUpdateStory={onUpdateStory} 
-                            loggedInUser={loggedInUser} origin={"Details"}/>
+                            currentUser={currentUser} origin={"Details"}/>
                     </div>
                 </div>
                 </div>

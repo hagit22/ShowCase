@@ -1,49 +1,35 @@
 /* eslint-disable react/prop-types */
-import { useState, useEffect } from "react"
-import { Heart } from 'react-bootstrap-icons';
-import { HeartFill } from 'react-bootstrap-icons';
-import { Chat } from 'react-bootstrap-icons';
-import { Send } from 'react-bootstrap-icons';
-import { Bookmark } from 'react-bootstrap-icons';
+import { TogglableIcon } from "./TogglableIcon.jsx";
+import { Heart, HeartFill, Chat, Send, Bookmark, BookmarkFill } from 'react-bootstrap-icons';
 
 
-export function StoryPreviewIcons({ story, onUpdateStory, loggedInUser, onViewDetails, origin }) {
+export function StoryPreviewIcons({ story, onUpdateStory, onUpdateUser, currentUser, onViewDetails, origin }) {
 
-    const [likedByPosition, setLikedByPosition] = useState(calcLikedByPos())
-
-    useEffect(() => {
-        setLikedByPosition(calcLikedByPos())
-    }, [story])
-    
-    function calcLikedByPos() { 
-        return story.likedBy.map(by => by._id).indexOf(loggedInUser._id)
+    const onUpdateBookmarkedStories = (updatedBookmarkedStories) => {
+        onUpdateUser({...currentUser, bookmarkedStories: updatedBookmarkedStories})
     }
 
-    const onToggleLike = () => {
-        const likedByList = [...story.likedBy]
-        if (likedByPosition <= -1) 
-            likedByList.push(loggedInUser)
-        else 
-            likedByList.splice(likedByPosition, 1)
-        onUpdateStory({...story, likedBy: likedByList})
+    const onUpdateLikedBy = (updatedLikedBy) => {
+        onUpdateStory({...story, likedBy: updatedLikedBy})
     }
 
     return (
         <div className="story-preview-icons">
             <div>
-                {likedByPosition < 0 ?
-                    <Heart 
-                        className={origin == "Details" ? "single-icon-details" : "single-icon-preview"} 
-                        onClick={onToggleLike}/> :
-                    <HeartFill 
-                        className={origin == "Details" ? "single-icon-details like" : "single-icon-preview like"} 
-                        onClick={onToggleLike}/>}
+                <TogglableIcon EmptyIcon={Heart} FullIcon={HeartFill} origin={origin} fillColor="red" 
+                    entityArray={story.likedBy} searchedEntity={currentUser} keyProperty="_id" 
+                    onUpdateArray={onUpdateLikedBy}/>
                 <Chat className={origin == "Details" ? "single-icon-details" : "single-icon-preview"}
                     onClick={onViewDetails}/>
                 <Send className={origin == "Details" ? "single-icon-details" : "single-icon-preview"}/>
             </div>
             <div>
-                <Bookmark className={origin == "Details" ? "single-icon-details" : "single-icon-preview"}/>
+                {/*<Bookmark className={origin == "Details" ? "single-icon-details" : "single-icon-preview"}
+                    onClick={onBookmarkStory}/>*/}
+                <TogglableIcon EmptyIcon={Bookmark} FullIcon={BookmarkFill} origin={origin}
+                    entityArray={currentUser.bookmarkedStories || []} 
+                    searchedEntity={{_id: story._id, imgUrl: story.imgUrl}} keyProperty="_id" 
+                    onUpdateArray={onUpdateBookmarkedStories}/>
             </div>
         </div>
     )

@@ -3,7 +3,7 @@ import { userService } from '../../services/user.service.js'
 import { store } from '../../store/store.js'
 import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service.js'
 import { ADD_CAR, ADD_TO_CART, CLEAR_CART, REMOVE_CAR, REMOVE_FROM_CART, SET_CARS, UNDO_REMOVE_CAR, UPDATE_CAR } from '../reducers/car.reducer.js'
-import { SET_SCORE } from '../../store/reducers/user.reducer.js'
+import { userActionTypes } from '../../store/reducers/user.reducer.js'
 
 // Action Creators:
 export function getActionRemoveCar(carId) {
@@ -93,7 +93,7 @@ export function removeFromCart(carId) {
 export async function checkout(total) {
     try {
         const score = await userService.changeScore(-total)
-        store.dispatch({ type: SET_SCORE, score })
+        store.dispatch({ type: userActionTypes.SET_SCORE, score })
         store.dispatch({ type: CLEAR_CART })
         return score
     } catch (err) {
