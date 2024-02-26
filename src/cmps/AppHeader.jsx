@@ -6,7 +6,7 @@ import { userActions } from '../store/actions/user.actions.js'
 import { LoginSignup } from './LoginSignup.jsx'
 
 export function AppHeader() {
-    const user = useSelector(storeState => storeState.userModule.user)
+    const user = useSelector(storeState => storeState.userModule.currentUser)
 
     async function onLogin(credentials) {
         try {

@@ -1,23 +1,20 @@
 /* eslint-disable react/prop-types */
-import { useState, useEffect } from "react"
 
-export function TogglableIcon({ EmptyIcon, FullIcon, origin, fillColor="black", entityArray, searchedEntity, keyProperty, onUpdateArray }) {
+export function TogglableIcon({ EmptyIcon, FullIcon, origin, fillColor="black", 
+                                parentEntity, arrayName, searchedItem, keyProperty, onUpdateArray }) {
 
-    const [updatedArray, setUpdatedArray] = useState([...entityArray])
+    const onToggle = () => {
 
-    useEffect(() => {
-        onUpdateArray(updatedArray)
-    }, [updatedArray.length])
+        if (calcPosition() < 0) // SearchedItem not found in array, need to add it to array
+            onUpdateArray({...parentEntity, [arrayName]: [...parentEntity[arrayName], searchedItem]})
 
-    function calcPosition() { 
-        return updatedArray.map(entity => entity[keyProperty]).indexOf(searchedEntity[keyProperty])
+        else // SearchedItem found in array, need to remove it from array
+            onUpdateArray({...parentEntity, [arrayName]: 
+                parentEntity[arrayName].filter(item => item[keyProperty] != searchedItem[keyProperty])})
     }
 
-    const onToggle= () => { 
-        if (calcPosition() < 0) 
-            setUpdatedArray(prev => [...prev, searchedEntity])
-        else 
-            setUpdatedArray(prev => prev.filter(entity => entity[keyProperty] != searchedEntity[keyProperty]))
+    const calcPosition = () => { 
+        return parentEntity[arrayName].map(item => item[keyProperty]).indexOf(searchedItem[keyProperty])
     }
 
     return (

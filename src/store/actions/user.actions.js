@@ -12,8 +12,9 @@ export const userActions = {
     login,
     signup,
     logout,
-    loadUser,
-    updateUser
+    loadCurrentUser,
+    updateCurrentUser,
+    loadAnyUser
 }
 
 
@@ -21,7 +22,7 @@ async function loadUsers() {
     try {
         store.dispatch({ type: LOADING_START })
         const users = await userService.getUsers()
-        store.dispatch({ type: userActionTypes.SET_USERS, users })
+        store.dispatch({ type: userActionTypes.SET_USERS, userList: users })
     } catch (err) {
         console.log('UserActions: err in loadUsers', err)
     } finally {
@@ -41,10 +42,7 @@ async function removeUser(userId) {
 async function login(credentials) {
     try {
         const user = await userService.login(credentials)
-        store.dispatch({
-            type: userActionTypes.SET_USER,
-            user
-        })
+        store.dispatch({ type: userActionTypes.SET_CURRENT_USER, currentUser: user })
         socketService.login(user)
         return user
     } catch (err) {
@@ -56,10 +54,7 @@ async function login(credentials) {
 async function signup(credentials) {
     try {
         const user = await userService.signup(credentials)
-        store.dispatch({
-            type: userActionTypes.SET_USER,
-            user
-        })
+        store.dispatch({ type: userActionTypes.SET_CURRENT_USER, currentUser: user })
         socketService.login(user)
         return user
     } catch (err) {
@@ -71,10 +66,7 @@ async function signup(credentials) {
 async function logout() {
     try {
         await userService.logout()
-        store.dispatch({
-            type: userActionTypes.SET_USER,
-            user: null
-        })
+        store.dispatch({ type: userActionTypes.SET_CURRENT_USER, currentUser: null })
         socketService.logout()
     } catch (err) {
         console.log('Cannot logout', err)
@@ -82,23 +74,37 @@ async function logout() {
     }
 }
 
-async function loadUser(username) {
+async function loadCurrentUser() {
     try {
-        const user = await userService.getByUsername(username);
-        store.dispatch({ type: userActionTypes.SET_WATCHED_USER, user })
+        const loadedUser = await userService.getLoggedInUser()
+        store.dispatch({ type: userActionTypes.SET_CURRENT_USER, currentUser: loadedUser })
+        return loadedUser
     } catch (err) {
-        showErrorMsg('Cannot load user')
-        console.log('Cannot load user', err)
+        console.log('Cannot save user', err)
+        throw err
     }
 }
 
-async function updateUser(updatedUser) {
+async function updateCurrentUser(updatedUser) {
     try {
         const savedUser = await userService.update(updatedUser)
-        store.dispatch({ type: userActionTypes.SET_USER, savedUser })
+        store.dispatch({ type: userActionTypes.SET_CURRENT_USER, currentUser: savedUser })
         return savedUser
     } catch (err) {
         console.log('Cannot save user', err)
         throw err
     }
 }
+
+async function loadAnyUser(username) {
+    try {
+        const user = await userService.getByUsername(username);
+        store.dispatch({ type: userActionTypes.SET_ANY_USER, anyUser: user })
+    } catch (err) {
+        showErrorMsg('Cannot load user')
+        console.log('Cannot load user', err)
+    }
+}
+
+
+

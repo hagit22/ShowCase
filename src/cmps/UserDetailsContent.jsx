@@ -13,16 +13,24 @@ export function UserDetailsContent({userStories}) {
     async function onUpdateStory(story) {
         try {
             const savedStory = await storyActions.updateStory(story)
-            console.log("onUpdateStory: ",savedStory)
         } catch (err) {
             showErrorMsg('Cannot update story')
+        }        
+    }
+
+    async function onUpdateUser(updatedUser) {
+        try {
+            const savedUser = await userActions.updateCurrentUser(updatedUser)
+        } 
+        catch (err) {
+            showErrorMsg('Cannot update user')
         }        
     }
 
     const onViewDetails = (story) => {
         onToggleModal({
             cmp: StoryDetails,
-            props: { story, onUpdateStory, loggedInUser: loggedInUser.current }
+            props: { story, onUpdateStory, onUpdateUser }
         })  
     }
         

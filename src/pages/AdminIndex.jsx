@@ -3,8 +3,8 @@ import {useSelector} from 'react-redux'
 import { userActions } from '../store/actions/user.actions'
 
 export function AdminApp() {
-    const users = useSelector(storeState => storeState.userModule.users)
-    const isLoading = useSelector(storeState => storeState.userModule.isLoading)
+    const users = useSelector(storeState => storeState.userModule.userList)
+    const isLoading = useSelector(storeState => storeState.systemModule.isLoading)
 
     useEffect(() => {
         userActions.loadUsers()

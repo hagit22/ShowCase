@@ -9,8 +9,8 @@ import { userActions } from '../store/actions/user.actions'
 
 export function ReviewIndex() {
 
-  const users = useSelector(storeState => storeState.userModule.users)
-  const loggedInUser = useSelector(storeState => storeState.userModule.user)
+  const users = useSelector(storeState => storeState.userModule.userList)
+  const loggedInUser = useSelector(storeState => storeState.userModule.currentUser)
   const reviews = useSelector(storeState => storeState.reviewModule.reviews)
 
   const [reviewToEdit, setReviewToEdit] = useState({ txt: '', aboutUserId: '' })

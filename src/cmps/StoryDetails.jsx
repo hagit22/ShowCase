@@ -7,10 +7,11 @@ import { StoryPreviewIcons } from './StoryPreviewIcons'
 import { StoryPreviewLikedBy } from './StoryPreviewLikedBy.jsx';
 import { StoryAddComment } from './StoryAddComment.jsx';
 
-export function StoryDetails({story, onUpdateStory, onUpdateUser, currentUser}) {
+export function StoryDetails({story, onUpdateStory, onUpdateUser}) {
 
     const modalStories = useSelector(storeState => storeState.storyModule.stories)
-    const modalStory = modalStories.filter(storyItem => storyItem._id === story._id)[0]
+    const modalStory = modalStories.filter(storyItem => storyItem._id === story._id)[0]    
+    const currentUser = useSelector(storeState => storeState.userModule.currentUser)
 
     const { imgUrl, createdAt, by, likedBy, comments } = modalStory;
     return (
@@ -31,8 +32,8 @@ export function StoryDetails({story, onUpdateStory, onUpdateUser, currentUser}) 
                         <div className="details-modal-entries">
                             <StoryDetailsSingleEntry entry={modalStory} extraInfo={false}/>
                             {comments.map( comment => 
-                                <div>
-                                    <StoryDetailsSingleEntry key={comment._id} entry={comment} extraInfo={true}/>
+                                <div key={comment._id} >
+                                    <StoryDetailsSingleEntry entry={comment} extraInfo={true}/>
                                 </div>
                             )} 
                         </div>
@@ -42,8 +43,7 @@ export function StoryDetails({story, onUpdateStory, onUpdateUser, currentUser}) 
                             currentUser={currentUser} onViewDetails={null} origin={"Details"}/>
                         <StoryPreviewLikedBy likedBy={likedBy}/>
                         <span>{utilService.getPassedTimeString(createdAt)}</span>
-                        <StoryAddComment story={modalStory} onUpdateStory={onUpdateStory} 
-                            currentUser={currentUser} origin={"Details"}/>
+                        <StoryAddComment story={modalStory} onUpdateStory={onUpdateStory} origin={"Details"}/>
                     </div>
                 </div>
                 </div>

@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from "react-router"
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
-import { userService } from '../services/user.service.js'
+import { userActions } from '../store/actions/user.actions.js'
 import { storyActions } from '../store/actions/story.actions.js'
 import { NavBar } from '../cmps/NavBar.jsx'
 import { StoryList } from '../cmps/StoryList.jsx'
@@ -10,12 +10,17 @@ import { UserDetails } from './UserDetails.jsx'
 
 export function StoryIndex() {
 
+    const currentUser = useSelector(storeState => storeState.userModule.currentUser)
     const stories = useSelector(storeState => storeState.storyModule.stories)
     const username = useParams().username
 
     useEffect(() => {
+        userActions.loadCurrentUser()
+    }, [])
+
+    useEffect(() => {
         storyActions.loadStories()
-    }, [stories])
+    }, [])
 
     async function onAddStory(story) {
         try {
@@ -35,20 +40,13 @@ export function StoryIndex() {
         }        
     }
 
-    async function onRemoveStory(storyId) {
+    async function onUpdateUser(updatedUser) {
         try {
-            await storyActions.removeStory(storyId)
-            showSuccessMsg('Story removed')            
-        } catch (err) {
-            showErrorMsg('Cannot remove story')
-        }
-    }
-
-    function shouldShowActionBtns(story) {
-        const user = userService.getLoggedInUser()
-        if (!user) return false
-        if (user.isAdmin) return true
-        return story.owner?._id === user._id
+            const savedUser = await userActions.updateCurrentUser(updatedUser)
+        } 
+        catch (err) {
+            showErrorMsg('Cannot update user')
+        }        
     }
 
     return (
@@ -62,7 +60,7 @@ export function StoryIndex() {
             <div className="main-content">
                 {/*<div className="stories-bar">Stories Bar</div>*/}
                 <div className="feed">
-                    <StoryList stories={stories} onUpdateStory={onUpdateStory}/>
+                    <StoryList stories={stories} onUpdateStory={onUpdateStory} currentUser={currentUser} onUpdateUser={onUpdateUser}/>
                 </div>
             </div>}
             {/*<div className="users-bar"></div>*/}
@@ -71,27 +69,3 @@ export function StoryIndex() {
         </div>
     )
 }
-
-
-          {/*<div>
-            <main>
-                <button onClick={onAddStory}>Add Story ⛐</button>
-                <ul className="story-list">
-                    {stories.map(story =>
-                        <li className="story-preview" key={story._id}>
-                            <h4>{story.vendor}</h4>
-                            <h1>⛐</h1>
-                            <p>Price: <span>${story.price.toLocaleString()}</span></p>
-                            <p>Owner: <span>{story.owner && story.owner.fullname}</span></p>
-                            {shouldShowActionBtns(story) && <div>
-                                <button onClick={() => { onRemoveStory(story._id) }}>x</button>
-                                <button onClick={() => { onUpdateStory(story) }}>Edit</button>
-                            </div>}
-
-                            <button onClick={() => { onAddStoryMsg(story) }}>Add story msg</button>
-                            <button className="buy" onClick={}>Add story</button>
-                        </li>)
-                    }
-                </ul>
-            </main>
-        </div>*/}

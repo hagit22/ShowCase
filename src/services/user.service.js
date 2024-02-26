@@ -140,6 +140,7 @@ function _generateUser() {
         username: username, 
         fullname: utilService.generateRandomFullname(username), 
         imgUrl: userImgUrl,
+        bookmarkedStories: []
     }
 }
 
@@ -151,10 +152,11 @@ function _generateSessionLoggedInUser(initialUsers) {
     if (!loggedInUser)  {
         loggedInUser = {
             _id: utilService.makeId(USER_ID_LENGTH),
-            imgUrl: uniqueImgUrl,
             username: "Instush",
             password: "1234",
-            fullname: "Instagram User"
+            fullname: "Instagram User",
+            imgUrl: uniqueImgUrl,
+            bookmarkedStories: []
         }
         userService.saveLocalUser(loggedInUser)
         return loggedInUser

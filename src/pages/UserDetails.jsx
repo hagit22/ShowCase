@@ -11,13 +11,13 @@ import { InstagramError } from '../cmps/InstagramError'
 export function UserDetails({stories}) {
 
   const params = useParams()
-  const user = useSelector(storeState => storeState.userModule.watchedUser)
+  const user = useSelector(storeState => storeState.userModule.anyUser)
 
   const [contentImages, setContentImages] = useState([])
   const [currentTab, setCurrentTab] = useState("posts")
   
   useEffect(() => {
-    userActions.loadUser(params.username)
+    userActions.loadAnyUser(params.username)
     socketService.emit(SOCKET_EMIT_USER_WATCH, params.username)
     socketService.on(SOCKET_EVENT_USER_UPDATED, onUserUpdate)
     return () => {
@@ -26,18 +26,19 @@ export function UserDetails({stories}) {
   }, [params.username])
 
   useEffect(() => {
-    console.log(user)
+    if (!user)
+      return
     if (currentTab == "posts") {
       setContentImages(stories.filter(story => story.by._id == user._id))
     }
     else if (currentTab == "saved")
-      setContentImages(user.bookmarkedStories)
-  }, [currentTab])
+      setContentImages(user.bookmarkedStories || [])
+  }, [user, currentTab])
   
 
   function onUserUpdate(user) {
     showSuccessMsg(`This user ${user.username} just got updated from socket`)
-    store.dispatch({ type: 'SET_WATCHED_USER', user })
+    store.dispatch({ type: 'SET_ANY_USER', anyUser: user })
   }
 
   function onClickTab({target}) {
@@ -75,17 +76,4 @@ export function UserDetails({stories}) {
       </div>
     </section>
   )
-
-
-  /*return (
-    <section className="user-details">
-      <h1>User Details</h1>
-      {user && 
-        <div>
-          <h3>{user.username}</h3>
-          <img src={user.imgUrl} style={{ width: '100px' }} />
-          <pre> {JSON.stringify(user, null, 2)} </pre>
-        </div>}
-    </section>
-  )*/
 }

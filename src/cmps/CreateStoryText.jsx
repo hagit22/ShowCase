@@ -28,7 +28,7 @@ export function CreateStoryText({imageUrl, onAddStory}) {
 
     const onShareStory = () => {    
         const caption = storyCaption.current.value;
-        const story = storyService.createNewStory(imageUrl, caption)
+        const story = storyService.generateNewStory(imageUrl, caption)
         onAddStory(story)
         onToggleModal()
     }

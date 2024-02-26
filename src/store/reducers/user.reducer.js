@@ -4,19 +4,18 @@ export const userActionTypes = {
     INCREMENT: 'INCREMENT',
     DECREMENT: 'DECREMENT',
     CHANGE_COUNT: 'CHANGE_COUNT',
-    SET_USER: 'SET_USER',
-    SET_WATCHED_USER: 'SET_WATCHED_USER',
-    REMOVE_USER: 'REMOVE_USER',
-    SET_USERS: 'SET_USERS',
     SET_SCORE: 'SET_SCORE',
-    UPDATE_USER: 'UPDATE_USER'
+    SET_USERS: 'SET_USERS',
+    REMOVE_USER: 'REMOVE_USER',
+    SET_CURRENT_USER: 'SET_CURRENT_USER',
+    SET_ANY_USER: 'SET_ANY_USER',
 }
 
 const initialState = {
     count: 10,
-    user: userService.getLoggedInUser(),
-    users: [],
-    watchedUser : null
+    userList: [],
+    currentUser: userService.getLoggedInUser(),
+    anyUser : null
 }
 
 export function userReducer(state = initialState, action) {
@@ -31,23 +30,20 @@ export function userReducer(state = initialState, action) {
         case userActionTypes.CHANGE_COUNT:
             newState = { ...state, count: state.count + action.diff }
             break
-        case userActionTypes.SET_USER:
-            newState = { ...state, user: action.user }
-            break
-        case userActionTypes.SET_WATCHED_USER:
-            newState = { ...state, watchedUser: action.user }
-            break
-        case userActionTypes.REMOVE_USER:
-            newState = {
-                ...state,
-                users: state.users.filter(user => user._id !== action.userId)
-            }
-            break
-        case userActionTypes.SET_USERS:
-            newState = { ...state, users: action.users }
-            break
         case userActionTypes.SET_SCORE:
             newState = { ...state, user: { ...state.user, score: action.score } }
+            break
+        case userActionTypes.SET_USERS:
+            newState = { ...state, userList: action.userList }
+            break
+        case userActionTypes.REMOVE_USER:
+            newState = { ...state, userList: state.user.filter(user => user._id !== action.userId) }
+            break
+        case userActionTypes.SET_CURRENT_USER:
+            newState = { ...state, currentUser: action.currentUser }
+            break
+        case userActionTypes.SET_ANY_USER:
+            newState = { ...state, anyUser: action.anyUser }
             break
         default:
     }
