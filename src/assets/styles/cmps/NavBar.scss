@@ -1,8 +1,3 @@
-.nav-bar {
-    @include separator(right);
-    width: 250px;
-}
-
 .nav-bar-content {
     position: fixed;
     display:  flex;

@@ -1,0 +1,29 @@
+.users-bar-content {
+    display: flex;
+    flex-direction: column;
+    margin-top: 65px;
+  }
+
+.users-bar-list {
+    //margin-top: 3px;
+    //margin-left: -15px;
+}
+
+.users-bar-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 80px;
+    padding: 12px;
+    margin: 1px 0px;
+    @include profile-img($margin: 12px);
+}
+
+.users-bar-follow {
+    font-size: $font-size-small;
+    font-weight: $font-weight-normal;
+    color: $color-blue-text;
+}
+
+
+

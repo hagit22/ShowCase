@@ -7,7 +7,7 @@ import { LOADING_DONE, LOADING_START } from "../reducers/system.reducer.js";
 import { userActionTypes } from "../reducers/user.reducer.js";
 
 export const userActions = {
-    loadUsers,
+    loadUserList,
     removeUser,
     login,
     signup,
@@ -18,13 +18,13 @@ export const userActions = {
 }
 
 
-async function loadUsers() {
+async function loadUserList() {
     try {
         store.dispatch({ type: LOADING_START })
         const users = await userService.getUsers()
-        store.dispatch({ type: userActionTypes.SET_USERS, userList: users })
+        store.dispatch({ type: userActionTypes.SET_USER_LIST, userList: users })
     } catch (err) {
-        console.log('UserActions: err in loadUsers', err)
+        console.log('UserActions: err in loadUserList', err)
     } finally {
         store.dispatch({ type: LOADING_DONE })
     }

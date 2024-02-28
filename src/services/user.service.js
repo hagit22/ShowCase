@@ -4,7 +4,8 @@ import { utilService } from './util.service.js'
 
 const STORAGE_KEY_LOGGED_IN_USER = 'loggedInUser'
 const STORAGE_KEY_USERS = 'users_db'
-const USER_ID_LENGTH = 6;
+const USER_ID_LENGTH = 6
+const NUM_DISPLAY_USERS = 5
 
 
 export const userService = {
@@ -21,7 +22,8 @@ export const userService = {
     changeImage,
     chooseRandomUser,
     chooseRandomUserList,
-    generateInitialUsers
+    generateInitialUsers,
+    getNumDisplayUsers
 }
 
 window.userService = userService
@@ -164,6 +166,10 @@ function _generateSessionLoggedInUser(initialUsers) {
     // we always want to save in session-storage - as it is temporary per session
     userService.saveLocalUser(loggedInUser) 
     return null // loggedInUser already existed. no need to return it
+}
+
+function getNumDisplayUsers() {
+    return NUM_DISPLAY_USERS
 }
 
 

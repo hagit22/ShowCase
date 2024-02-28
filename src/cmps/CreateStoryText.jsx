@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useRef } from "react";
+import { useSelector } from 'react-redux'
 import { useNavigate } from "react-router";
-import { userService } from "../services/user.service.js";
 import { storyService } from "../services/story.service.local.js";
 import { ProfileTitle } from './ProfileTitle';
 import { ArrowLeft } from 'react-bootstrap-icons';
@@ -9,6 +9,7 @@ import { onToggleModal } from "../store/actions/app.actions.js";
 
 export function CreateStoryText({imageUrl, onAddStory}) {
      
+    const currentUser = useSelector(storeState => storeState.userModule.currentUser)
     const storyCaption = useRef()
     const navigate = useNavigate()
 
@@ -48,7 +49,7 @@ export function CreateStoryText({imageUrl, onAddStory}) {
                             <img src={imageUrl}></img>
                         </div>
                         <div className="content-form">
-                            <ProfileTitle profile={userService.getLoggedInUser()}/>
+                            <ProfileTitle profile={currentUser}/>
                             <form>
                                 <textarea ref={storyCaption} rows="12" placeholder="Write a caption..."/>
                             </form>

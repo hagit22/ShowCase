@@ -1,4 +1,5 @@
 import { LoremIpsum } from "lorem-ipsum";
+import { userService } from "./user.service";
 
 export const utilService = {
     makeId,
@@ -17,7 +18,8 @@ export const utilService = {
     dateTimeLongDisplay,
     getPassedTimeString,
     alignTexts,
-    capitalizeWord
+    capitalizeWord,
+    getUniqueRandomElements
 }
 
 function makeId(length = 6) {
@@ -165,6 +167,17 @@ function capitalizeWord(word) {
     return word.charAt(0).toUpperCase() + word.slice(1);
 }
 
+function getUniqueRandomElements(array, numElements, uniqueProperty=null, exclude=[]) {
+    let elementsSet = new Set()
+    numElements = Math.min(numElements, array.length)
+    while (elementsSet.size < numElements) {
+        const rand = Math.floor(Math.random() * array.length)
+        if (exclude.includes(array[rand][uniqueProperty]))
+            continue
+        uniqueProperty ? elementsSet.add(array[rand][uniqueProperty]) : elementsSet.add(array[rand])
+    }
+    return Array.from(elementsSet)
+ }
 
 
 

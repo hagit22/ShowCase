@@ -8,8 +8,6 @@ import { StoryDetails } from './StoryDetails.jsx'
 
 export function UserDetailsContent({userStories}) {
 
-    const loggedInUser = useRef(userService.getLoggedInUser())
-
     async function onUpdateStory(story) {
         try {
             const savedStory = await storyActions.updateStory(story)

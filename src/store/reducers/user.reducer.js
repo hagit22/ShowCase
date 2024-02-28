@@ -5,7 +5,7 @@ export const userActionTypes = {
     DECREMENT: 'DECREMENT',
     CHANGE_COUNT: 'CHANGE_COUNT',
     SET_SCORE: 'SET_SCORE',
-    SET_USERS: 'SET_USERS',
+    SET_USER_LIST: 'SET_USER_LIST',
     REMOVE_USER: 'REMOVE_USER',
     SET_CURRENT_USER: 'SET_CURRENT_USER',
     SET_ANY_USER: 'SET_ANY_USER',
@@ -33,7 +33,7 @@ export function userReducer(state = initialState, action) {
         case userActionTypes.SET_SCORE:
             newState = { ...state, user: { ...state.user, score: action.score } }
             break
-        case userActionTypes.SET_USERS:
+        case userActionTypes.SET_USER_LIST:
             newState = { ...state, userList: action.userList }
             break
         case userActionTypes.REMOVE_USER:
