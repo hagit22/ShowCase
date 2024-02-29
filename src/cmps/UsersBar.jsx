@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { utilService } from '../services/util.service'
 import { userService } from '../services/user.service'
+import { ProfileTitle } from './ProfileTitle';
 import { UsersBarItem } from './UsersBarItem'
 
 
@@ -25,6 +26,13 @@ export function UsersBar({userList, currentUser, numDisplayUsers}) {
     return (
         <section className="users-bar">
             <div className="users-bar-content">
+                <div className="users-bar-item-profile">
+                    <ProfileTitle profile={currentUser}/>
+                </div>
+                <div className="users-bar-item users-bar-text">
+                    <span>Suggested for you</span>
+                    <div>See All</div>
+                </div>
                 <div className="users-bar-list"> 
                     {displayUsers.length>0 && displayUsers.map((dispUser) =>  
                         <div key={dispUser._id}> 

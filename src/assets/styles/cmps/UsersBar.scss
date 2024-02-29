@@ -1,8 +1,9 @@
 .users-bar-content {
     display: flex;
     flex-direction: column;
-    margin-top: 65px;
-  }
+    font-family: inherit;
+    margin-top: 30px;
+}
 
 .users-bar-list {
     //margin-top: 3px;
@@ -11,19 +12,30 @@
 
 .users-bar-item {
     display: flex;
-    align-items: center;
+    align-items: last baseline;
     justify-content: space-between;
     gap: 80px;
-    padding: 12px;
-    margin: 1px 0px;
-    @include profile-img($margin: 12px);
+    //padding: 12px;
+    //margin: 1px 0px;
+}
+
+.users-bar-item-profile {
+    @include profile-img($size: 42px, $margin: 7px);
+}
+
+.users-bar-text {
+    font-size: $font-size-small;
+    font-weight: $font-weight-normal;
+    margin-top: 20px;
+    span {
+        color: $color-light-text;
+        font-size: $font-size-normal;
+        //font-family: Segoe UI Semibold;
+        white-space-collapse: preserve-breaks;
+    }
 }
 
 .users-bar-follow {
-    font-size: $font-size-small;
-    font-weight: $font-weight-normal;
     color: $color-blue-text;
+    justify-self: flex-end;
 }
-
-
-
