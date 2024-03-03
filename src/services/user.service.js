@@ -22,9 +22,15 @@ export const userService = {
     update,
     changeImage,
     followUser,
+    unFollowUser,
     chooseRandomUserList,
     chooseRandomUser,
     generateInitialUsers
+}
+
+export const followLabels = {
+    FOLLOW: "Follow",
+    FOLLOWING: "Following"
 }
 
 window.userService = userService
@@ -85,12 +91,20 @@ async function changeImage(imgUrl) {
     return user.imgUrl
 }
 
-async function followUser(users, miniUserToFollow, loggedInUser) {
-    loggedInUser.following.push(miniUserToFollow)
+async function followUser(userToFollow) {
+    const loggedInUser = getLoggedInUser()
+    loggedInUser.following.push(_getMiniUser(userToFollow))
     await update(loggedInUser)
-    let followedUser = users.filter(followed => followed._id == miniUserToFollow._id)[0] // get full-user from mini user
-    followedUser.followers.push(getMiniLoggedInUser())
-    await update(followedUser)
+    userToFollow.followers.push(_getMiniUser(loggedInUser))
+    await update(userToFollow)
+}
+
+async function unFollowUser(userToUnFollow) {
+    let loggedInUser = getLoggedInUser()
+    loggedInUser.following = loggedInUser.following.filter(user => user._id !== userToUnFollow._id)
+    await update(loggedInUser)
+    userToUnFollow.followers = userToUnFollow.followers.filter(user => user._id !== loggedInUser._id)
+    await update(userToUnFollow)
 }
 
 function getLoggedInUser() {

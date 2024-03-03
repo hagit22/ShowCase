@@ -31,11 +31,21 @@
         color: $color-light-text;
         font-size: $font-size-normal;
         //font-family: Segoe UI Semibold;
-        white-space-collapse: preserve-breaks;
+        //white-space-collapse: preserve-breaks;
     }
 }
 
-.users-bar-follow {
-    color: $color-blue-text;
+.users-bar-label {  
     justify-self: flex-end;
+    cursor: pointer;
 }
+
+.follow {
+    color: $color-blue-text;
+}
+
+.following {
+    color: inherit;
+}
+
+

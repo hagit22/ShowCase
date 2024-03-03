@@ -8,7 +8,7 @@ export const userActionTypes = {
     SET_USER_LIST: 'SET_USER_LIST',
     REMOVE_USER: 'REMOVE_USER',
     SET_CURRENT_USER: 'SET_CURRENT_USER',
-    SET_ANY_USER: 'SET_ANY_USER',
+    SET_CHOSEN_USER: 'SET_CHOSEN_USER',
 }
 
 const initialState = {
@@ -42,7 +42,7 @@ export function userReducer(state = initialState, action) {
         case userActionTypes.SET_CURRENT_USER:
             newState = { ...state, currentUser: action.currentUser }
             break
-        case userActionTypes.SET_ANY_USER:
+        case userActionTypes.SET_CHOSEN_USER:
             newState = { ...state, chosenUser: action.chosenUser }
             break
         default:

@@ -14,7 +14,9 @@ export const userActions = {
     logout,
     loadCurrentUser,
     updateCurrentUser,
-    loadChosenUser
+    loadChosenUser,
+    followUser,
+    unFollowUser
 }
 
 
@@ -99,12 +101,36 @@ async function updateCurrentUser(updatedUser) {
 async function loadChosenUser(username) {
     try {
         const user = await userService.getByUsername(username);
-        store.dispatch({ type: userActionTypes.SET_ANY_USER, chosenUser: user })
+        store.dispatch({ type: userActionTypes.SET_CHOSEN_USER, chosenUser: user })
     } catch (err) {
         showErrorMsg('Cannot load user')
         console.log('Cannot load user', err)
     }
 }
+
+async function followUser(userToFollow) {
+    try {
+        await userService.followUser(userToFollow)
+        loadCurrentUser()
+        loadChosenUser(userToFollow.username)
+    } catch (err) {
+        console.log('Cannot save user', err)
+        throw err
+    }
+}
+
+async function unFollowUser(userToUnFollow) {
+    try {
+        await userService.unFollowUser(userToUnFollow)
+        loadCurrentUser()
+        loadChosenUser(userToUnFollow.username)
+    } catch (err) {
+        console.log('Cannot save user', err)
+        throw err
+    }
+}
+
+
 
 
 

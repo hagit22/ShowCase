@@ -20,9 +20,6 @@ export function UsersBar({userList, currentUser, numDisplayUsers}) {
         setDisplayUsers([...displayUserObjects])
     }
 
-    function onClickItem({target}) {
-    }
-
     return ( !userList || userList.length == 0 ? '' :
         <section className="users-bar">
             <div className="users-bar-content">
@@ -37,7 +34,7 @@ export function UsersBar({userList, currentUser, numDisplayUsers}) {
                     {displayUsers.length>0 && displayUsers.map((dispUser) =>  
                         <div key={dispUser._id}> 
                             <a>
-                                <UsersBarItem user={dispUser} onClickItem={onClickItem} />
+                                <UsersBarItem user={dispUser} currentUser = {currentUser} />
                             </a>
                         </div>
                     )}
