@@ -19,7 +19,8 @@ export const utilService = {
     getPassedTimeString,
     alignTexts,
     capitalizeWord,
-    getUniqueRandomElements
+    getUniqueRandomElements,
+    chooseRandomItemFromList
 }
 
 function makeId(length = 6) {
@@ -172,12 +173,20 @@ function getUniqueRandomElements(array, numElements, uniqueProperty=null, exclud
     numElements = Math.min(numElements, array.length)
     while (elementsSet.size < numElements) {
         const rand = Math.floor(Math.random() * array.length)
-        if (exclude.includes(array[rand][uniqueProperty]))
+        if (uniqueProperty && exclude.includes(array[rand][uniqueProperty]))
             continue
         uniqueProperty ? elementsSet.add(array[rand][uniqueProperty]) : elementsSet.add(array[rand])
     }
     return Array.from(elementsSet)
  }
+
+ function chooseRandomItemFromList(list) {
+    if (!list || list.length == 0)
+        return null
+    return list[Math.floor(Math.random() * list.length)];
+}
+
+
 
 
 

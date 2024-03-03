@@ -2,7 +2,7 @@
 import { StoryPreview } from "./StoryPreview";
 
 export function StoryList({ stories, onUpdateStory, currentUser, onUpdateUser }) {
-    return (
+    return ( !stories || stories.length == 0 ? '' :
         <ul className="story-list">
             {stories.map(story =>
                 <li key={story._id}>

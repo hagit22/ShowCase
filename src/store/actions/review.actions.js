@@ -11,7 +11,7 @@ export function getActionAddReview(review) {
   return { type: ADD_REVIEW, review }
 }
 export function getActionSetWatchedUser(user) {
-  return { type: SET_ANY_USER, anyUser: user }
+  return { type: SET_ANY_USER, watchedUser: user }
 }
 
 export async function loadReviews() {

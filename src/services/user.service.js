@@ -13,17 +13,18 @@ export const userService = {
     logout,
     signup,
     getLoggedInUser,
-    saveLocalUser,
+    getMiniLoggedInUser,
+    getNumDisplayUsers,
     getUsers,
     getById,
     getByUsername,
     remove,
     update,
     changeImage,
-    chooseRandomUser,
+    followUser,
     chooseRandomUserList,
-    generateInitialUsers,
-    getNumDisplayUsers
+    chooseRandomUser,
+    generateInitialUsers
 }
 
 window.userService = userService
@@ -52,11 +53,8 @@ function remove(userId) {
 
 async function update(user) {
     await storageService.put(STORAGE_KEY_USERS, user)
-
-    // const user = await httpService.put(`user/${_id}`, {_id, score})
-
-    // When admin updates other user's details, do not update loggedInUser
-    if (getLoggedInUser()._id === user._id) saveLocalUser(user)
+    if (getLoggedInUser() && getLoggedInUser()._id === user._id) 
+        _saveLocalUser(user)
     return user
 }
 
@@ -64,14 +62,14 @@ async function login(userCred) {
     const users = await storageService.query(STORAGE_KEY_USERS)
     const user = users.find(user => user.username === userCred.username)
     // const user = await httpService.post('auth/login', userCred)
-    if (user) return saveLocalUser(user)
+    if (user) return _saveLocalUser(user)
 }
 
 async function signup(userCred) {
     if (!userCred.imgUrl) userCred.imgUrl = 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
     const user = await storageService.post(STORAGE_KEY_USERS, userCred)
     // const user = await httpService.post('auth/signup', userCred)
-    return saveLocalUser(user)
+    return _saveLocalUser(user)
 }
 
 async function logout() {
@@ -87,25 +85,24 @@ async function changeImage(imgUrl) {
     return user.imgUrl
 }
 
-function saveLocalUser(user) {
-    user = { 
-        _id: user._id, 
-        username: user.username, 
-        password: user.password, 
-        fullname: user.fullname, 
-        imgUrl: user.imgUrl,
-        bookmarkedStories: user.bookmarkedStories
-    }
-    sessionStorage.setItem(STORAGE_KEY_LOGGED_IN_USER, JSON.stringify(user))
-    return user
+async function followUser(users, miniUserToFollow, loggedInUser) {
+    loggedInUser.following.push(miniUserToFollow)
+    await update(loggedInUser)
+    let followedUser = users.filter(followed => followed._id == miniUserToFollow._id)[0] // get full-user from mini user
+    followedUser.followers.push(getMiniLoggedInUser())
+    await update(followedUser)
 }
 
 function getLoggedInUser() {
     return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGED_IN_USER))
 }
 
-function chooseRandomUser(users) {
-    return users[Math.floor(Math.random() * users.length)];
+function getMiniLoggedInUser() {
+    return _getMiniUser(getLoggedInUser())
+}
+
+function getNumDisplayUsers() {
+    return NUM_DISPLAY_USERS
 }
 
 function chooseRandomUserList(users, maxAmount) {
@@ -116,6 +113,12 @@ function chooseRandomUserList(users, maxAmount) {
         chosenUsers.push(chooseRandomUser(users))
     }
     return Array.from(new Set(chosenUsers)); // make unique using Set (then convert back to Array so it can convert to json)
+}
+
+function chooseRandomUser(users, excludeId='') {
+    if (excludeId)
+        users = users.filter(user => user._id != excludeId)
+    return _getMiniUser(utilService.chooseRandomItemFromList(users));
 }
 
 function generateInitialUsers() {
@@ -142,7 +145,9 @@ function _generateUser() {
         username: username, 
         fullname: utilService.generateRandomFullname(username), 
         imgUrl: userImgUrl,
-        bookmarkedStories: []
+        bookmarkedStories: [],
+        following: [],
+        followers: []
     }
 }
 
@@ -156,20 +161,40 @@ function _generateSessionLoggedInUser(initialUsers) {
             _id: utilService.makeId(USER_ID_LENGTH),
             username: "Instush",
             password: "1234",
-            fullname: "Instagram User",
+            fullname: "My Name:)", //"Instagram User",
             imgUrl: uniqueImgUrl,
-            bookmarkedStories: []
+            bookmarkedStories: [],
+            following: [],
+            followers: []
         }
-        userService.saveLocalUser(loggedInUser)
+        _saveLocalUser(loggedInUser)
         return loggedInUser
     }
     // we always want to save in session-storage - as it is temporary per session
-    userService.saveLocalUser(loggedInUser) 
+    _saveLocalUser(loggedInUser) 
     return null // loggedInUser already existed. no need to return it
 }
 
-function getNumDisplayUsers() {
-    return NUM_DISPLAY_USERS
+function _saveLocalUser(user) {
+    user = { 
+        _id: user._id, 
+        username: user.username, 
+        password: user.password, 
+        fullname: user.fullname, 
+        imgUrl: user.imgUrl,
+        bookmarkedStories: [...user.bookmarkedStories],
+        following: [...user.following],
+        followers: [...user.followers]
+    }
+    sessionStorage.setItem(STORAGE_KEY_LOGGED_IN_USER, JSON.stringify(user))
+    return user
+}
+
+function _getMiniUser(user) {
+    if (!user)
+        return null
+    const { _id, username, imgUrl } = user
+    return({ _id, username, imgUrl })
 }
 
 

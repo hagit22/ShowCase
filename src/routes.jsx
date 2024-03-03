@@ -9,6 +9,8 @@ import { HouseDoor, Search, Chat, Heart, PlusSquare, Circle } from 'react-bootst
 import { HouseDoorFill, ChatFill, HeartFill, PlusSquareFill, CircleFill } from 'react-bootstrap-icons';
 
 const loggedInUser = userService.getLoggedInUser()
+const loggedInUserName = !loggedInUser ? '' : loggedInUser.username || ''
+const imgUrl = !loggedInUser ? '' : loggedInUser.imgUrl || ''
 
 const routes = [
     {
@@ -42,10 +44,10 @@ const routes = [
         icons: {empty: PlusSquare, full: PlusSquareFill}
     },
     {
-        path: '/'+loggedInUser.username,
+        path: '/'+loggedInUserName,
         component: <StoryIndex />,
         label: "profile",
-        icons: {empty: Circle, full: CircleFill, image: loggedInUser.imgUrl},
+        icons: {empty: Circle, full: CircleFill, image: imgUrl},
     }
 ]
 

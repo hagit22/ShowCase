@@ -15,7 +15,7 @@ const initialState = {
     count: 10,
     userList: [],
     currentUser: userService.getLoggedInUser(),
-    anyUser : null
+    chosenUser : null
 }
 
 export function userReducer(state = initialState, action) {
@@ -43,7 +43,7 @@ export function userReducer(state = initialState, action) {
             newState = { ...state, currentUser: action.currentUser }
             break
         case userActionTypes.SET_ANY_USER:
-            newState = { ...state, anyUser: action.anyUser }
+            newState = { ...state, chosenUser: action.chosenUser }
             break
         default:
     }

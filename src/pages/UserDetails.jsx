@@ -1,28 +1,23 @@
 import { useState, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
+import { storyActions } from '../store/actions/story.actions'
 import { userActions } from '../store/actions/user.actions'
-import { store } from '../store/store'
-import { showSuccessMsg } from '../services/event-bus.service'
-import { socketService, SOCKET_EVENT_USER_UPDATED, SOCKET_EMIT_USER_WATCH } from '../services/socket.service'
 import { UserDetailsContent } from '../cmps/UserDetailsContent'
-import { InstagramError } from '../cmps/InstagramError'
+//import { InstagramError } from '../cmps/InstagramError'
 
-export function UserDetails({stories}) {
+export function UserDetails() {
 
   const params = useParams()
-  const user = useSelector(storeState => storeState.userModule.anyUser)
+  const stories = useSelector(storeState => storeState.storyModule.stories)
+  const user = useSelector(storeState => storeState.userModule.chosenUser)
 
   const [contentImages, setContentImages] = useState([])
   const [currentTab, setCurrentTab] = useState("posts")
   
   useEffect(() => {
-    userActions.loadAnyUser(params.username)
-    socketService.emit(SOCKET_EMIT_USER_WATCH, params.username)
-    socketService.on(SOCKET_EVENT_USER_UPDATED, onUserUpdate)
-    return () => {
-      socketService.off(SOCKET_EVENT_USER_UPDATED, onUserUpdate)
-    }
+    storyActions.loadStories()
+    userActions.loadChosenUser(params.username)
   }, [params.username])
 
   useEffect(() => {
@@ -36,17 +31,12 @@ export function UserDetails({stories}) {
   }, [user, currentTab])
   
 
-  function onUserUpdate(user) {
-    showSuccessMsg(`This user ${user.username} just got updated from socket`)
-    store.dispatch({ type: 'SET_ANY_USER', anyUser: user })
-  }
-
   function onClickTab({target}) {
     setCurrentTab(target.id)
   }
 
 
-  return ( !user ? <InstagramError/> :
+  return ( !user ? '' : //!user ? <InstagramError/> :
     <section className="user-details">
       <div className='user-details-header'>
         <img src={user.imgUrl}></img>
@@ -70,8 +60,6 @@ export function UserDetails({stories}) {
         </div>
       </div>
       <div className='user-details-content'>
-        {/*<img src={user.imgUrl} className='user-content-image'></img>*/}
-          {/*<UserDetailsContent userStories={stories.filter(story => story.by._id == user._id)}/>*/}
           <UserDetailsContent userStories={contentImages} />
       </div>
     </section>

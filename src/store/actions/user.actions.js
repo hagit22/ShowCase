@@ -14,7 +14,7 @@ export const userActions = {
     logout,
     loadCurrentUser,
     updateCurrentUser,
-    loadAnyUser
+    loadChosenUser
 }
 
 
@@ -96,10 +96,10 @@ async function updateCurrentUser(updatedUser) {
     }
 }
 
-async function loadAnyUser(username) {
+async function loadChosenUser(username) {
     try {
         const user = await userService.getByUsername(username);
-        store.dispatch({ type: userActionTypes.SET_ANY_USER, anyUser: user })
+        store.dispatch({ type: userActionTypes.SET_ANY_USER, chosenUser: user })
     } catch (err) {
         showErrorMsg('Cannot load user')
         console.log('Cannot load user', err)

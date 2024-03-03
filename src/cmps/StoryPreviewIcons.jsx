@@ -18,7 +18,7 @@ export function StoryPreviewIcons({ story, onUpdateStory, onUpdateUser, currentU
             <div>
                 <TogglableIcon EmptyIcon={Bookmark} FullIcon={BookmarkFill} origin={origin}
                     parentEntity={currentUser} arrayName={"bookmarkedStories"} 
-                    searchedItem={{_id: story._id, imgUrl: story.imgUrl}} keyProperty="_id" onUpdateArray={onUpdateUser}/>
+                    searchedItem={story} keyProperty="_id" onUpdateArray={onUpdateUser}/>
             </div>
         </div>
     )

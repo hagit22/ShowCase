@@ -5,7 +5,6 @@ import { AppHeader } from './cmps/AppHeader'
 import { AppFooter } from './cmps/AppFooter'
 import { DynamicModal } from './cmps/DynamicModal';
 import { StoryIndex } from './pages/StoryIndex'
-import { UserDetails } from './pages/UserDetails'
 
 export function RootCmp() {
 
