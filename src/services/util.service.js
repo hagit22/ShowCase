@@ -170,7 +170,7 @@ function capitalizeWord(word) {
 
 function getUniqueRandomElements(array, numElements, uniqueProperty=null, exclude=[]) {
     let elementsSet = new Set()
-    numElements = Math.min(numElements, array.length)
+    numElements = Math.min(numElements, array.length - exclude.length)
     while (elementsSet.size < numElements) {
         const rand = Math.floor(Math.random() * array.length)
         if (uniqueProperty && exclude.includes(array[rand][uniqueProperty]))

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import routes from '../routes'
 import { utilService } from '../services/util.service'
@@ -8,9 +8,14 @@ import { CreateStoryImage } from './CreateStoryImage'
 import { NavBarItem } from './NavBarItem'
 
 
-export function NavBar({onAddStory}) {
+export function NavBar({onAddStory, selectionIsDefault, selectionIsUser}) {
 
-    const [currentNavOption, setCurrentNavOption] = useState(routes[0].label)
+    const [currentNavOption, setCurrentNavOption] = useState('')
+
+    useEffect(() => {
+        const currentSelection = selectionIsDefault ? routes[0].label : selectionIsUser ? routes[routes.length-1].label : ""
+        setCurrentNavOption(currentSelection)
+    }, [selectionIsDefault, selectionIsUser])
 
     function onClickItem({target}) {
         let { id } = target;

@@ -24,18 +24,21 @@
 .user-header-actions {
     margin-top: 30px;
     display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: 1fr 5fr;
     grid-template-rows: 1fr;
+    column-gap: 20px;
     .action-buttons {
         display: flex;
         align-self: self-start;
         button {
             background-color: $color-button-background;
-            border-radius: 15%;
+            border-radius: 12%;
             color: black;
+            font-weight: $font-weight-medium;
+            font-size: $font-size-normal;
+            padding: 7px 14px;
         }
     }
-    column-gap: 50px;
 }
 
 .user-header-info {
@@ -44,13 +47,25 @@
     margin-bottom: -43px;
     column-gap: 50px;
     row-gap: 10px;
+    column-gap: 40px;
     flex-wrap: wrap;
     font-size: $font-size-normal;
     font-weight: $font-weight-light;
+    margin-right: -60px;
     .following {
         margin-right: 100px;
     }
-    margin-right: -60px;
+    span {
+        span {
+            font-weight: $font-weight-medium
+        }
+    }
+    .fullname {
+        margin-top: -15px;
+        margin-bottom: 18px;
+        font-weight: $font-weight-medium;
+        font-size: $font-size-small;
+    }
 }
 
 .user-header-hr {

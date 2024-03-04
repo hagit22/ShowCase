@@ -5,6 +5,7 @@ import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { userService } from '../services/user.service'
 import { userActions } from '../store/actions/user.actions.js'
 import { storyActions } from '../store/actions/story.actions.js'
+import routes from '../routes'
 import { NavBar } from '../cmps/NavBar.jsx'
 import { StoryList } from '../cmps/StoryList.jsx'
 import { UsersBar } from '../cmps/UsersBar.jsx'
@@ -53,10 +54,12 @@ export function StoryIndex() {
         }        
     }
 
+        
     return (
         <div className="app">
             <div className="nav-bar">
-                <NavBar onAddStory={onAddStory}/>
+                <NavBar onAddStory={onAddStory} 
+                    selectionIsDefault={!username} selectionIsUser={username && username == currentUser.username} />
             </div>
 
             {(username) ? <UserDetails/> :

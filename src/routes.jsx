@@ -6,7 +6,7 @@ import { ReviewIndex } from './pages/ReviewIndex.jsx'
 import { ChatApp } from './pages/Chat.jsx'
 import { AdminApp } from './pages/AdminIndex.jsx'
 import { HouseDoor, Search, Chat, Heart, PlusSquare, Circle } from 'react-bootstrap-icons';
-import { HouseDoorFill, ChatFill, HeartFill, PlusSquareFill, CircleFill } from 'react-bootstrap-icons';
+import { HouseDoorFill, SearchHeartFill, ChatFill, HeartFill, PlusSquareFill, CircleFill } from 'react-bootstrap-icons';
 
 const loggedInUser = userService.getLoggedInUser()
 const loggedInUserName = !loggedInUser ? '' : loggedInUser.username || ''
@@ -23,7 +23,7 @@ const routes = [
         path: '/',
         component: <StoryIndex />,
         label: "search",
-        icons: {empty: Search, full: Search}
+        icons: {empty: Search, full: SearchHeartFill}
     },
     {
         path: '/',
@@ -41,7 +41,8 @@ const routes = [
         path: '/',
         component: null,
         label: "create",
-        icons: {empty: PlusSquare, full: PlusSquareFill}
+        //icons: {empty: PlusSquare, full: PlusSquareFill}
+        icons: {empty: PlusSquare, full: PlusSquare} // according to Instagram navigation (no fill for 'create')
     },
     {
         path: '/'+loggedInUserName,

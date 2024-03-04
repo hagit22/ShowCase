@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom'
 import { followLabels } from "../services/user.service";
 import { userActions } from '../store/actions/user.actions';
 import { ProfileTitle } from './ProfileTitle';
@@ -31,7 +31,9 @@ export function UsersBarItem({user, currentUser}) {
 
     return (
         <section id={user._id} className="users-bar-item users-bar-item-profile">
-            <ProfileTitle profile={user}></ProfileTitle>
+            <NavLink to={`/${user.username}`}>
+                <ProfileTitle profile={user}></ProfileTitle>
+            </NavLink>
             <div className="users-bar-text">
                 <div className={`users-bar-label ${followLabel === followLabels.FOLLOWING ? "following" : "follow"}`}
                     onClick={onToggleFollow}>{followLabel}

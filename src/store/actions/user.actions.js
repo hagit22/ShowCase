@@ -105,6 +105,7 @@ async function loadChosenUser(username) {
     } catch (err) {
         showErrorMsg('Cannot load user')
         console.log('Cannot load user', err)
+        store.dispatch({ type: userActionTypes.SET_CHOSEN_USER, chosenUser: null })
     }
 }
 

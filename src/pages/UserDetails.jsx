@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import { storyActions } from '../store/actions/story.actions'
 import { userActions } from '../store/actions/user.actions'
 import { UserDetailsContent } from '../cmps/UserDetailsContent'
-//import { InstagramError } from '../cmps/InstagramError'
+import { InstagramError } from '../cmps/InstagramError'
 
 export function UserDetails() {
 
@@ -14,6 +14,7 @@ export function UserDetails() {
 
   const [contentImages, setContentImages] = useState([])
   const [currentTab, setCurrentTab] = useState("posts")
+  const [numPosts, setNumPosts] = useState()
   
   useEffect(() => {
     storyActions.loadStories()
@@ -29,14 +30,18 @@ export function UserDetails() {
     else if (currentTab == "saved")
       setContentImages(user.bookmarkedStories || [])
   }, [user, currentTab])
-  
 
-  function onClickTab({target}) {
+  useEffect(() => {
+    setNumPosts(stories?.filter(story=>story.by._id===user?._id).length)
+  }, [stories])
+
+
+  const onClickTab = ({target}) => {
     setCurrentTab(target.id)
   }
 
 
-  return ( !user ? '' : //!user ? <InstagramError/> :
+  return ( !user ? <InstagramError/> :
     <section className="user-details">
       <div className='user-details-header'>
         <img src={user.imgUrl}></img>
@@ -49,10 +54,10 @@ export function UserDetails() {
         </div>
         <hr className='user-header-hr'/>
         <div className='user-header-info'>
-          <span>post(s)</span>
-          <span>followers</span>
-          <span className="following">following</span>
-          <span> {user.fullname}</span>
+          <span><span>{numPosts}</span> {numPosts == 1 ? "post" : "posts"}</span>
+          <span><span>{user.followers.length}</span> {user.followers.length == 1 ? "follower" : "followers"}</span>
+          <span className="following"><span>{user.following.length}</span> following</span>
+          <span className="fullname">{user.fullname}</span>
           <hr className='user-header-hr'/>
           <span className={`info-tabs ${currentTab=="posts" ? "chosen-tab" : ''}`} onClick={onClickTab} id="posts">POSTS</span>
           <span className={`info-tabs ${currentTab=="saved" ? "chosen-tab" : ''}`} onClick={onClickTab} id="saved">SAVED</span>

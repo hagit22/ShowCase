@@ -1,11 +1,10 @@
 // Colors
+$color-button-background: rgb(239,239,239); //#EFEFEF;
 $color-separator: rgb(219, 219, 219);
 $color-light-text: rgb(115, 115, 115);
-$color-button-background: #EFEFEF;
-$color-dot: #737373;
 $color-default: black;
 $color-like: #FF3040;
-$color-button: #0095F6;
+$color-blue-button: #0095F6;
 $color-blue-text: #3BAEF8;
 
 
@@ -19,6 +18,7 @@ $font-size-large-caption: 20px;
 
 $font-weight-very-light: 200;
 $font-weight-light: 400;
+$font-weight-medium: 540;
 $font-weight-normal: 600;
 $font-weight-bold: 800;
 
@@ -30,6 +30,7 @@ $mobile-breakpoint: 460px;
 $narrow-breakpoint: 720px;
 $normal-breakpoint: 960px;
 
+
 // Old Colors
 $clr1: #ce2e6c;
 $clr2: #4f3a65;
@@ -38,3 +39,9 @@ $clr4: #95adbe;
 $clr5: #dff0ea;
 $clr6: #fff;
 $clr7: #222;
+
+
+:export {
+    lightText: $color-light-text;
+} 
+

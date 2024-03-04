@@ -7,8 +7,12 @@ export function NavBarItem({text, icons, itemId, onClickItem, currentSelection})
         <section id={itemId} className="nav-bar-item" onClick={onClickItem}>
             <div id={itemId} >
                 { icons.image ? 
-                    <img src={icons.image} style={{width: "30px", height: "30px", borderRadius: "50%"}} id={itemId}/> :
-                    <icons.empty size="24" id={itemId}/>
+                    <img src={icons.image} id={itemId} className={itemId === currentSelection ? "current-selection" : ''}/> :
+                    <> 
+                        {itemId === currentSelection ?
+                            <icons.full size="24" id={itemId}/> :
+                            <icons.empty size="24" id={itemId}/>}   
+                    </>
                 }
             </div>
             <div id={itemId}>

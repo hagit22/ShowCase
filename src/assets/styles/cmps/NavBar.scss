@@ -27,6 +27,20 @@
     gap: 20px;
     padding: 12px;
     margin: 1px 0px;
+    img {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+    }
+    .current-selection {
+        border: 2.1px solid black;
+        width: 35px;
+        height: 35px;
+    }    
+}
+
+.nav-bar-item:hover {
+    background-color: $color-button-background;
 }
 
 
