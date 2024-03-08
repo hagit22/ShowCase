@@ -1,4 +1,5 @@
-import { userService } from '../../../src/services/user.service.js'
+import { sessionStorageService } from "../../services/session-storage.service.js";
+import { userService } from '../../services/user.service.js'
 
 export const userActionTypes = {
     INCREMENT: 'INCREMENT',
@@ -14,7 +15,7 @@ export const userActionTypes = {
 const initialState = {
     count: 10,
     userList: [],
-    currentUser: userService.getLoggedInUser(),
+    currentUser: sessionStorageService.getLoggedInUser(),
     chosenUser : null
 }
 

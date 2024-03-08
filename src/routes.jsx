@@ -1,4 +1,4 @@
-import { userService } from './services/user.service.js'
+import { sessionStorageService } from './services/session-storage.service.js'
 import { HomePage } from './pages/HomePage.jsx'
 import { AboutUs } from './pages/AboutUs.jsx'
 import { StoryIndex } from './pages/StoryIndex.jsx'
@@ -8,7 +8,7 @@ import { AdminApp } from './pages/AdminIndex.jsx'
 import { HouseDoor, Search, Chat, Heart, PlusSquare, Circle } from 'react-bootstrap-icons';
 import { HouseDoorFill, SearchHeartFill, ChatFill, HeartFill, PlusSquareFill, CircleFill } from 'react-bootstrap-icons';
 
-const loggedInUser = userService.getLoggedInUser()
+const loggedInUser = sessionStorageService.getLoggedInUser()
 const loggedInUserName = !loggedInUser ? '' : loggedInUser.username || ''
 const imgUrl = !loggedInUser ? '' : loggedInUser.imgUrl || ''
 

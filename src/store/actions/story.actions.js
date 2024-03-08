@@ -1,5 +1,5 @@
 import { store } from '../store.js'
-import { storyService } from '../../services/story.service.local.js'
+import { storyService } from '../../services/story.service.js'
 import { storyActionTypes } from '../reducers/story.reducer.js'
 import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service.js'
 
@@ -13,7 +13,7 @@ export const storyActions = {
 
 async function loadStories() {
     try {
-        const stories = await storyService.query()
+        const stories = await storyService.getStories()
         //console.log('Stories from DB:', stories)
         store.dispatch(_getActionSetStories(stories))
     } catch (err) {
@@ -26,7 +26,7 @@ async function loadStories() {
 async function addStory(story) {
     try {
         const savedStory = await storyService.save(story)
-        console.log('Added Story', savedStory)
+        //console.log('Added Story', savedStory)
         store.dispatch(_getActionAddStory(savedStory))
         return savedStory
     } catch (err) {

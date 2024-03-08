@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from "react-router"
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
-import { userService } from '../services/user.service'
+import { userService } from '../services/user.service.js'
 import { userActions } from '../store/actions/user.actions.js'
 import { storyActions } from '../store/actions/story.actions.js'
 import routes from '../routes'
@@ -23,8 +23,11 @@ export function StoryIndex() {
 
     useEffect(() => {
         userActions.loadUserList()
+        //console.log(userList)
         userActions.loadCurrentUser()
+        //console.log(currentUser)
         storyActions.loadStories()
+        //console.log(stories)
     }, [])
 
     async function onAddStory(story) {

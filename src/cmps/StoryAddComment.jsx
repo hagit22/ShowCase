@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useRef } from "react"
-import { storyService } from '../services/story.service.local.js'
+import { storyService } from '../services/story.service.js'
 
 export function StoryAddComment({ story, onUpdateStory, origin }) {
 
@@ -18,7 +18,7 @@ export function StoryAddComment({ story, onUpdateStory, origin }) {
     
     const onPostComment = () => {
         let comments = story.comments;
-        comments.push(storyService.generateNewComment(commentTextRef.current.value))
+        comments.push(storyService.createNewComment(commentTextRef.current.value))
         commentTextRef.current.value = "";
         commentTextRef.current.height = 0;
         if (origin == "Details")

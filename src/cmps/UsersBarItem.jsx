@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
-import { followLabels } from "../services/user.service";
+import { userService } from "../services/user.service";
 import { userActions } from '../store/actions/user.actions';
 import { ProfileTitle } from './ProfileTitle';
 
@@ -15,11 +15,11 @@ export function UsersBarItem({user, currentUser}) {
 
     const getFollowLabelValue = () => {
         return currentUser.following.filter(userItem => 
-            userItem._id === user._id).length > 0 ? followLabels.FOLLOWING : followLabels.FOLLOW
+            userItem._id === user._id).length > 0 ? userService.getFollowLabels().FOLLOWING : userService.getFollowLabels().FOLLOW
     }
 
     const onToggleFollow = () => {
-        if (followLabel === followLabels.FOLLOW)
+        if (followLabel === userService.getFollowLabels().FOLLOW)
             userActions.followUser(user)
         else
             userActions.unFollowUser(user)
@@ -35,7 +35,7 @@ export function UsersBarItem({user, currentUser}) {
                 <ProfileTitle profile={user}></ProfileTitle>
             </NavLink>
             <div className="users-bar-text">
-                <div className={`users-bar-label ${followLabel === followLabels.FOLLOWING ? "following" : "follow"}`}
+                <div className={`users-bar-label ${followLabel === userService.getFollowLabels().FOLLOWING ? "following" : "follow"}`}
                     onClick={onToggleFollow}>{followLabel}
                 </div>
             </div>

@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import { useRef } from "react"
-import { userService } from "../services/user.service.js"
 import { showErrorMsg } from '../services/event-bus.service.js'
 import { onToggleModal } from "../store/actions/app.actions.js"
 import { storyActions } from '../store/actions/story.actions.js'

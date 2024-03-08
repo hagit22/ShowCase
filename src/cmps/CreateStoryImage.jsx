@@ -11,7 +11,6 @@ export function CreateStoryImage({onAddStory}) {
     const onSelectImage = async (event) => {
         try {
             const { secure_url : imageUrl } = await uploadImage(event)
-            console.log("CreateStoryImage: url= ",imageUrl)
             onToggleModal({ cmp: CreateStoryText, props: {imageUrl, onAddStory} })
         }
         catch(error) {

@@ -5,7 +5,7 @@ import { utilService } from '../services/util.service'
 import { userService } from '../services/user.service'
 import { ProfileTitle } from './ProfileTitle'
 import { UsersBarItem } from './UsersBarItem'
-import variables from '../../src/assets/styles/setup/_variables.scss'
+//import variables from '../../src/assets/styles/setup/_variables.scss'
 
 export function UsersBar({userList, currentUser, numDisplayUsers}) {
 
@@ -13,7 +13,7 @@ export function UsersBar({userList, currentUser, numDisplayUsers}) {
     const elSeeAll = useRef(null)
 
     useEffect(() => {
-        updateDisplayUsers(numDisplayUsers)
+        //updateDisplayUsers(numDisplayUsers)
     }, [userList])
 
     async function updateDisplayUsers(maxUsers) {

@@ -1,5 +1,4 @@
 import { LoremIpsum } from "lorem-ipsum";
-import { userService } from "./user.service";
 
 export const utilService = {
     makeId,

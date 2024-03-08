@@ -43,7 +43,7 @@ async function save(car) {
         savedCar = await storageService.put(STORAGE_KEY, car)
     } else {
         // Later, owner is set by the backend
-        car.owner = userService.getLoggedinUser()
+        car.owner = userService.getLoggedInUser()
         savedCar = await storageService.post(STORAGE_KEY, car)
     }
     return savedCar
@@ -56,7 +56,7 @@ async function addCarMsg(carId, txt) {
 
     const msg = {
         id: utilService.makeId(),
-        by: userService.getLoggedinUser(),
+        by: userService.getLoggedInUser(),
         txt
     }
     car.msgs.push(msg)

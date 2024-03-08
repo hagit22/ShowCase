@@ -1,3 +1,4 @@
+import { sessionStorageService } from "../../services/session-storage.service.js";
 import { userService } from "../../services/user.service.js";
 import { socketService } from "../../services/socket.service.js";
 import { store } from '../../store/store.js'
@@ -78,7 +79,7 @@ async function logout() {
 
 async function loadCurrentUser() {
     try {
-        const loadedUser = await userService.getLoggedInUser()
+        const loadedUser = await sessionStorageService.getLoggedInUser()
         store.dispatch({ type: userActionTypes.SET_CURRENT_USER, currentUser: loadedUser })
         return loadedUser
     } catch (err) {
@@ -89,7 +90,7 @@ async function loadCurrentUser() {
 
 async function updateCurrentUser(updatedUser) {
     try {
-        const savedUser = await userService.update(updatedUser)
+        const savedUser = await userService.save(updatedUser)
         store.dispatch({ type: userActionTypes.SET_CURRENT_USER, currentUser: savedUser })
         return savedUser
     } catch (err) {

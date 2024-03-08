@@ -27,7 +27,7 @@ async function add({txt, aboutUserId}) {
 
   const reviewToAdd = {
     txt,
-    byUser: userService.getLoggedinUser(),
+    byUser: userService.getLoggedInUser(),
     aboutUser: {
       _id: aboutUser._id,
       fullname: aboutUser.fullname,

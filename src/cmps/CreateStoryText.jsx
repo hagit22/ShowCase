@@ -2,7 +2,7 @@
 import { useRef } from "react";
 import { useSelector } from 'react-redux'
 import { useNavigate } from "react-router";
-import { storyService } from "../services/story.service.local.js";
+import { storyService } from "../services/story.service.js";
 import { ProfileTitle } from './ProfileTitle';
 import { ArrowLeft } from 'react-bootstrap-icons';
 import { onToggleModal } from "../store/actions/app.actions.js";
@@ -29,7 +29,7 @@ export function CreateStoryText({imageUrl, onAddStory}) {
 
     const onShareStory = () => {    
         const caption = storyCaption.current.value;
-        const story = storyService.generateNewStory(imageUrl, caption)
+        const story = storyService.createNewStory(imageUrl, caption)
         onAddStory(story)
         onToggleModal()
     }
