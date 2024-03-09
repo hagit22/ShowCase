@@ -67,10 +67,10 @@ function createDummySocketService() {
       this.setup()
     },
     login() {
-      console.log('Dummy socket service here, login - got it')
+      console.log('Socket: Login')
     },
     logout() {
-      console.log('Dummy socket service here, logout - got it')
+      console.log('Socket: Logout')
     },
     on(eventName, cb) {
       listenersMap[eventName] = [...(listenersMap[eventName]) || [], cb]

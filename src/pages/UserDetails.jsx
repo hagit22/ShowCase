@@ -17,8 +17,8 @@ export function UserDetails() {
   const [numPosts, setNumPosts] = useState()
   
   useEffect(() => {
-    storyActions.loadStories()
     userActions.loadChosenUser(params.username)
+    storyActions.loadStories()
   }, [params.username])
 
   useEffect(() => {

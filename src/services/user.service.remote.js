@@ -1,4 +1,5 @@
 import Axios from 'axios'
+import { sessionStorageService } from './session-storage.service.js'
 import BASE_URL from './route-base.js'
 
 export const userServiceRemote = {
@@ -23,6 +24,7 @@ const BASE_URL_AUTH = BASE_URL + 'auth/'
 async function getUsers() {
     try {
         var { data: users } = await axios.get(BASE_URL_USER)
+        console.log("user service getUsers: ",users)
         return users
     }
     catch (err) {
@@ -31,24 +33,26 @@ async function getUsers() {
 }
 
 async function getById(userId) {
-    const url = BASE_URL_USER + userId
+    const url = BASE_URL_USER + "u/" + userId
     var { data: user } = await axios.get(url)   
     return user
 }
 
 async function getByUsername(username) {
     const url = BASE_URL_USER + username
-    var { data: user } = await axios.get(url)   
+    var { data: user } = await axios.get(url) 
+    console.log("user service getByUsername: ",user)  
     return user
 }
 
 async function remove(userId) {
-    const url = BASE_URL_USER + userId
+    const url = BASE_URL_USER + "u/" + userId
     var { data: res } = await axios.delete(url)
     return res
 }
 
 async function save(user) {
+    console.log("user service save-1: ",user)
     const method = user._id ? 'put' : 'post'
     const url = BASE_URL_USER 
     const { data: savedUser } = await axios[method](url, user)

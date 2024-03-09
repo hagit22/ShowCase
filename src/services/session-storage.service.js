@@ -11,12 +11,7 @@ function saveLocalUser(user) {
     user = { 
         _id: user._id, 
         username: user.username, 
-        password: user.password, 
-        fullname: user.fullname, 
-        imgUrl: user.imgUrl,
-        bookmarkedStories: [...user.bookmarkedStories],
-        following: [...user.following],
-        followers: [...user.followers]
+        imgUrl: user.imgUrl || "https://www.gravatar.com/avatar/?d=identicon",
     }
     sessionStorage.setItem(STORAGE_KEY_LOGGED_IN_USER, JSON.stringify(user))
     return user

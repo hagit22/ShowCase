@@ -79,9 +79,9 @@ async function logout() {
 
 async function loadCurrentUser() {
     try {
-        const loadedUser = await sessionStorageService.getLoggedInUser()
+        const loggedInUser = await sessionStorageService.getLoggedInUser()
+        const loadedUser = await userService.getByUsername(loggedInUser.username);
         store.dispatch({ type: userActionTypes.SET_CURRENT_USER, currentUser: loadedUser })
-        return loadedUser
     } catch (err) {
         console.log('Cannot save user', err)
         throw err
@@ -102,6 +102,7 @@ async function updateCurrentUser(updatedUser) {
 async function loadChosenUser(username) {
     try {
         const user = await userService.getByUsername(username);
+        console.log("loadChosenUser: ",user)
         store.dispatch({ type: userActionTypes.SET_CHOSEN_USER, chosenUser: user })
     } catch (err) {
         showErrorMsg('Cannot load user')

@@ -5,8 +5,12 @@ import { HashRouter as Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import { store } from './store/store'
+import { genDataService } from './services/gen-data.service'
 import { RootCmp } from './RootCmp'
 import './assets/styles/main.scss'
+
+
+await genDataService.generateInitialData()
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(

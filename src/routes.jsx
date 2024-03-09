@@ -48,7 +48,7 @@ const routes = [
         path: '/'+loggedInUserName,
         component: <StoryIndex />,
         label: "profile",
-        icons: {empty: Circle, full: CircleFill, image: imgUrl},
+        icons: {empty: Circle, full: Circle, image: imgUrl},
     }
 ]
 

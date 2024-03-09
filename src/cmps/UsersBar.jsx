@@ -13,7 +13,7 @@ export function UsersBar({userList, currentUser, numDisplayUsers}) {
     const elSeeAll = useRef(null)
 
     useEffect(() => {
-        //updateDisplayUsers(numDisplayUsers)
+        updateDisplayUsers(numDisplayUsers)
     }, [userList])
 
     async function updateDisplayUsers(maxUsers) {
@@ -35,20 +35,20 @@ export function UsersBar({userList, currentUser, numDisplayUsers}) {
         //elSeeAll.current.addEventListener('click', ()=>{})
     }
 
-    return ( !userList || userList.length == 0 ? '' :
+    return ( !userList || userList.length == 0 || !currentUser ? '' :
         <section className="users-bar">
             <div className="users-bar-content">
                 <div className="users-bar-item-profile">
-                    <NavLink to={`/${currentUser.username}`}>
-                        <ProfileTitle profile={currentUser}/>
-                    </NavLink>
+                        <NavLink to={`/${currentUser.username}`}>
+                            <ProfileTitle profile={currentUser}/>
+                        </NavLink>
                 </div>
                 <div className="users-bar-item users-bar-text">
                     <span>Suggested for you</span>
                     <a ref={elSeeAll} onClick={onShowAll}>See All</a>
                 </div>
                 <div className="users-bar-list"> 
-                    {displayUsers.length > 0 && displayUsers.map((dispUser) =>  
+                    {displayUsers && displayUsers.length > 0 && displayUsers.map((dispUser) =>  
                         <div key={dispUser._id}> 
                             <UsersBarItem user={dispUser} currentUser = {currentUser} />
                         </div>
