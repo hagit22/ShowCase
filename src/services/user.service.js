@@ -6,8 +6,7 @@ export const userService = {
     getById: userServiceRemote.getById,
     getByUsername: userServiceRemote.getByUsername,
     remove: userServiceRemote.remove,
-    save,
-    //save: userServiceLocal.save,
+    save: userServiceRemote.save,
 
     signup: userServiceRemote.signup,
     login: userServiceRemote.login,
@@ -29,10 +28,6 @@ const followLabels = {
     FOLLOWING: "Following"
 }
 
-async function save(user) {
-    return await userServiceRemote.save(user)
-}
-
 function getMiniUser(user) {
     if (!user)
         return null
@@ -49,19 +44,21 @@ function getNumDisplayUsers() {
 }
 
 async function followUser(userToFollow) {
-    const loggedInUser = sessionStorageService.getLoggedInUser()
+    const miniUser = sessionStorageService.getLoggedInUser()
+    let loggedInUser = await userServiceRemote.getByUsername(miniUser.username);
     loggedInUser.following.push(getMiniUser(userToFollow))
-    await save(loggedInUser)
+    await userServiceRemote.save(loggedInUser)
     userToFollow.followers.push(getMiniUser(loggedInUser))
-    await save(userToFollow)
+    await userServiceRemote.save(userToFollow)
 }
 
 async function unFollowUser(userToUnFollow) {
-    let loggedInUser = sessionStorageService.getLoggedInUser()
+    const miniUser = sessionStorageService.getLoggedInUser()
+    let loggedInUser = await userServiceRemote.getByUsername(miniUser.username);
     loggedInUser.following = loggedInUser.following.filter(user => user._id !== userToUnFollow._id)
-    await save(loggedInUser)
+    await userServiceRemote.save(loggedInUser)
     userToUnFollow.followers = userToUnFollow.followers.filter(user => user._id !== loggedInUser._id)
-    await save(userToUnFollow)
+    await userServiceRemote.save(userToUnFollow)
 }
 
 function getFollowLabels() {
@@ -69,11 +66,12 @@ function getFollowLabels() {
 }
 
 async function changeImage(imgUrl) {
-    const user = sessionStorageService.getLoggedInUser()
+    const miniUser = sessionStorageService.getLoggedInUser()
+    let loggedInUser = await userServiceRemote.getByUsername(miniUser.username);
     if (!user) throw new Error('Not loggedIn')
-    user.imgUrl = imgUrl
-    await save(user)
-    return user.imgUrl
+    loggedInUser.imgUrl = imgUrl
+    await userServiceRemote.save(loggedInUser)
+    return loggedInUser.imgUrl
 }
 
 

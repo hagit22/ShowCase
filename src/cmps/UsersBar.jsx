@@ -2,7 +2,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { NavLink } from 'react-router-dom'
 import { utilService } from '../services/util.service'
-import { userService } from '../services/user.service'
 import { ProfileTitle } from './ProfileTitle'
 import { UsersBarItem } from './UsersBarItem'
 //import variables from '../../src/assets/styles/setup/_variables.scss'
@@ -19,7 +18,8 @@ export function UsersBar({userList, currentUser, numDisplayUsers}) {
     async function updateDisplayUsers(maxUsers) {
         if (!currentUser || !userList || userList.length <= 0) return
         const displayUserIds = utilService.getUniqueRandomElements(userList, maxUsers, "_id", [currentUser._id])
-        const displayUserObjects = await Promise.all(displayUserIds.map(userId => userService.getById(userId)))
+        const displayUserObjects = !userList ? [] : 
+            displayUserIds.map(userId => userList.filter(userItem => userItem._id === userId)[0])
         setDisplayUsers([...displayUserObjects])
     }
 

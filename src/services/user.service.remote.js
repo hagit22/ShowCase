@@ -34,15 +34,17 @@ async function getUsers() {
 
 async function getById(userId) {
     const url = BASE_URL_USER + "u/" + userId
-    var { data: user } = await axios.get(url)   
-    return user
+    var { data: user } = await axios.get(url)
+    //return user
+    return _getUserWithDefaults(user)
 }
 
 async function getByUsername(username) {
     const url = BASE_URL_USER + username
     var { data: user } = await axios.get(url) 
     console.log("user service getByUsername: ",user)  
-    return user
+    //return user
+    return _getUserWithDefaults(user)
 }
 
 async function remove(userId) {
@@ -79,6 +81,19 @@ async function login(credentials) {
 async function logout() {
     await axios.post(BASE_URL_AUTH + 'logout')
     sessionStorageService.removeLocalUser()
+}
+
+function _getUserWithDefaults(user) {
+    const userWithDefaults = { 
+        _id: user._id, 
+        username: user.username, 
+        imgUrl: user.imgUrl || "https://www.gravatar.com/avatar/?d=identicon",
+        fullname: user.fullname,
+        following: user.following || [],
+        followers: user.followers || [],
+        bookmarkedStories: user.bookmarkedStories || []
+    }
+    return userWithDefaults
 }
 
 

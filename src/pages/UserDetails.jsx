@@ -57,7 +57,7 @@ export function UserDetails() {
           <span><span>{numPosts}</span> {numPosts == 1 ? "post" : "posts"}</span>
           <span><span>{user.followers.length}</span> {user.followers.length == 1 ? "follower" : "followers"}</span>
           <span className="following"><span>{user.following.length}</span> following</span>
-          <span className="fullname">{user.fullname}</span>
+          <span className={`fullname ${!user.fullname ? ' keep-height' : ''}`}>{user.fullname || 'empty'}</span>
           <hr className='user-header-hr'/>
           <span className={`info-tabs ${currentTab=="posts" ? "chosen-tab" : ''}`} onClick={onClickTab} id="posts">POSTS</span>
           <span className={`info-tabs ${currentTab=="saved" ? "chosen-tab" : ''}`} onClick={onClickTab} id="saved">SAVED</span>

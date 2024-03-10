@@ -14,7 +14,7 @@ export function TogglableIcon({ EmptyIcon, FullIcon, origin, fillColor="black",
     }
 
     const calcPosition = () => { 
-        return !parentEntity || !searchedItem ? -1 :
+        return !parentEntity || !searchedItem || !parentEntity[arrayName] || parentEntity[arrayName] == 0 ? -1 :
             parentEntity[arrayName].map(item => item[keyProperty]).indexOf(searchedItem[keyProperty])
     }
 

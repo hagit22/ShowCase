@@ -10,8 +10,8 @@ import { userActionTypes } from "../reducers/user.reducer.js";
 export const userActions = {
     loadUserList,
     removeUser,
-    login,
     signup,
+    login,
     logout,
     loadCurrentUser,
     updateCurrentUser,
@@ -42,26 +42,28 @@ async function removeUser(userId) {
     }
 }
 
-async function login(credentials) {
+async function signup(credentials) {
     try {
-        const user = await userService.login(credentials)
-        store.dispatch({ type: userActionTypes.SET_CURRENT_USER, currentUser: user })
+        const user = await userService.signup(credentials)
+        const loggedInUser = await loadCurrentUser()
+        //store.dispatch({ type: userActionTypes.SET_CURRENT_USER, currentUser: user })
         socketService.login(user)
-        return user
+        return loggedInUser
     } catch (err) {
-        console.log('Cannot login', err)
+        console.log('Cannot signup', err)
         throw err
     }
 }
 
-async function signup(credentials) {
+async function login(credentials) {
     try {
-        const user = await userService.signup(credentials)
-        store.dispatch({ type: userActionTypes.SET_CURRENT_USER, currentUser: user })
+        const user = await userService.login(credentials)
+        const loggedInUser = await loadCurrentUser()
+        //store.dispatch({ type: userActionTypes.SET_CURRENT_USER, currentUser: user })
         socketService.login(user)
-        return user
+        return loggedInUser
     } catch (err) {
-        console.log('Cannot signup', err)
+        console.log('Cannot login', err)
         throw err
     }
 }
@@ -79,9 +81,10 @@ async function logout() {
 
 async function loadCurrentUser() {
     try {
-        const loggedInUser = await sessionStorageService.getLoggedInUser()
-        const loadedUser = await userService.getByUsername(loggedInUser.username);
-        store.dispatch({ type: userActionTypes.SET_CURRENT_USER, currentUser: loadedUser })
+        const miniUser = sessionStorageService.getLoggedInUser()
+        const loggedInUser = await userService.getByUsername(miniUser.username);
+        store.dispatch({ type: userActionTypes.SET_CURRENT_USER, currentUser: loggedInUser })
+        return loggedInUser
     } catch (err) {
         console.log('Cannot save user', err)
         throw err
@@ -91,8 +94,9 @@ async function loadCurrentUser() {
 async function updateCurrentUser(updatedUser) {
     try {
         const savedUser = await userService.save(updatedUser)
+        console.log("updateCurrentUser -",savedUser)
         store.dispatch({ type: userActionTypes.SET_CURRENT_USER, currentUser: savedUser })
-        return savedUser
+        //return savedUser
     } catch (err) {
         console.log('Cannot save user', err)
         throw err

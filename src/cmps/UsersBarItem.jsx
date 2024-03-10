@@ -14,15 +14,16 @@ export function UsersBarItem({user, currentUser}) {
     }, [currentUser])
 
     const getFollowLabelValue = () => {
-        return currentUser.following.filter(userItem => 
-            userItem._id === user._id).length > 0 ? userService.getFollowLabels().FOLLOWING : userService.getFollowLabels().FOLLOW
+        return !currentUser.following || currentUser.following == 0 ? userService.getFollowLabels().FOLLOW :
+            currentUser.following.filter(userItem => userItem._id === user._id).length > 0 ? 
+                userService.getFollowLabels().FOLLOWING : userService.getFollowLabels().FOLLOW
     }
 
-    const onToggleFollow = () => {
+    const onToggleFollow = async () => {
         if (followLabel === userService.getFollowLabels().FOLLOW)
-            userActions.followUser(user)
+            await userActions.followUser(user)
         else
-            userActions.unFollowUser(user)
+            await userActions.unFollowUser(user)
 
         // Using PREV, like in the following first line, didn't work! (The second line did work) ??? :
         //setFollowLabel(prev => prev === followLabels.FOLLOW ? followLabels.FOLLOWING : followLabels.FOLLOW)

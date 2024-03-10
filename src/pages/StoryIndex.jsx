@@ -48,9 +48,11 @@ export function StoryIndex() {
         }        
     }
 
-    async function onUpdateUser(updatedUser) {
+    function onUpdateUser(updatedUser) {
         try {
-            const savedUser = await userActions.updateCurrentUser(updatedUser)
+            userActions.updateCurrentUser(updatedUser)
+            console.log("onUpdateUser: saved -",updatedUser)
+            console.log("onUpdateUser: current -",currentUser)
         } 
         catch (err) {
             showErrorMsg('Cannot update user')

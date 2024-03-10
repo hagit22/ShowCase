@@ -9,26 +9,25 @@ export const genDataService = {
 }
 
 const ID_LENGTH = 6; 
-const STORAGE_KEY_STORIES = 'stories_db'
-const STORAGE_KEY_USERS = 'users_db'
+//const STORAGE_KEY_STORIES = 'stories_db'
+//const STORAGE_KEY_USERS = 'users_db'
 
 
-/* For mongo-db-server (as opposed to local-storage), we will make sure not to generate ID for: story, user and logged-in user,
-    and also not to generate createdAt for story. Next we will comment-in the functions that download the generated data, 
-    and we will import the downloaded files into the Mongo-DB through compass. (originally, data was saved to local-storage).
-    * The loggedInUser + password will enter the Mongo due to 'signup'
-    * Make sure to remove the loggedInUser from the downloaded json file, before importing it into Mongo! 
-    * Comment in for generating bookmarks for loggedInUser */
+/* For mongo-db-server (as opposed to local-storage), we make sure not to generate ID for: story, user and logged-in user,
+    Next we import the downloaded files into the Mongo-DB through compass. (originally, data was saved to local-storage).
+    The loggedInUser + password will enter the Mongo due to 'signup' */
 
 async function generateInitialData() {
     await login()
+    return
     const users = await _generateInitialUsers()
     console.log("generate users: ",users)
+    
     const stories = await _generateInitialStories(users)    
     console.log("generate stories: ",stories)
     
-    //const loggedInUser = await _generateInitialBookmarks(stories)
-    //console.log("generate bookmarks: ",loggedInUser)
+    const loggedInUser = await _generateInitialBookmarks(stories)
+    console.log("generate bookmarks: ",loggedInUser)
     return users
 }
 
@@ -37,12 +36,10 @@ async function generateInitialData() {
 async function _generateInitialUsers() {
     //let initialUsers = utilService.loadFromStorage(STORAGE_KEY_USERS) || []
     let initialUsers = await userService.getUsers()
-    if (!initialUsers || initialUsers.length === 0) {
-        signup()
-        initialUsers = []
+    if (!initialUsers || initialUsers.length <= 1) {
         const loggedInUser = await signup()
         console.log("logged-in user: ",loggedInUser)
-        initialUsers.push(loggedInUser)
+        initialUsers = []
         for (let i = 0; i < 10; i++) 
             initialUsers.push(_generateUser());
         _saveJsonFile(initialUsers, "users-data")
@@ -116,17 +113,18 @@ function _chooseRandomUser(users, excludeId='') {
 // Story Data
 
 async function _generateInitialStories(users) {
+    if (!users || users.length == 0)
+        return []
     //let initialStories = utilService.loadFromStorage(STORAGE_KEY_STORIES)
     let initialStories = await storyService.getStories()
-    if (!initialStories || !initialStories.length) {
-        initialStories = [];
-        for (let i = 0; i < 30; i++) 
-            initialStories.push(_generateStory(users));
-        initialStories.push(_generateStory(users, userService.getMiniLoggedInUser())); // loggedInUser should have at least 1 post
-        console.log("_generateInitialStories: ", initialStories)
-        //utilService.saveToStorage(STORAGE_KEY_STORIES, initialStories)
-        _saveJsonFile(initialStories, "stories-data")
-    }
+    if (initialStories && initialStories.length > 0) 
+        return initialStories
+    initialStories = [];
+    for (let i = 0; i < 30; i++) 
+        initialStories.push(_generateStory(users));
+    initialStories.push(_generateStory(users, userService.getMiniLoggedInUser())); // loggedInUser should have at least 1 post
+    //utilService.saveToStorage(STORAGE_KEY_STORIES, initialStories)
+    _saveJsonFile(initialStories, "stories-data")
     return initialStories
 }
 
@@ -138,7 +136,7 @@ function _generateStory(users, forcedUser) {
         //_id: utilService.makeId(ID_LENGTH),
         txt: utilService.makeLorem(20), //utilService.generateText(),
         imgUrl: randUrl, 
-        //createdAt: randDate, 
+        createdAt: randDate, 
         by: forcedUser || _chooseRandomUser(users),
         likedBy: _chooseRandomUserList(users, users.length*0.75),
         comments: _chooseRandomUserList(users, users.length*0.3).map(miniUser => ({
@@ -152,9 +150,12 @@ function _generateStory(users, forcedUser) {
 }
 
 async function _generateInitialBookmarks(stories) {
-    const loggedInUser = sessionStorageService.getLoggedInUser()
+    const miniUser = sessionStorageService.getLoggedInUser()
+    let loggedInUser = await userService.getByUsername(miniUser.username);
     if (!loggedInUser)
         return
+    if (!stories || stories.length == 0)
+        return loggedInUser
     loggedInUser.bookmarkedStories = [..._chooseRandomStoryList(stories, 3)]
     console.log("generate initial bookmarks: ",loggedInUser)
     const savedUser = await userService.save(loggedInUser)
@@ -188,12 +189,42 @@ function _getMiniStory(story) {
 
 
 async function signup() {
-    return await userActions.signup({"username": "Instush", "password": "1234", "fullname": "Hagit Y.", 
-        "imgUrl": "https://picsum.photos/seed/!!==loggedInUser==!!1/470/600"})
+    try {
+        return await userActions.signup({"username": "Instush", "password": "1234", "fullname": "Hagit Y.", 
+            "imgUrl": "https://picsum.photos/seed/!!==loggedInUser==!!1/470/600"})
+    }
+    catch(err) {
+        console.log("Signup error: ",err)
+    }
+}
+
+async function testSignup() {
+    try {
+        return await userActions.signup({"username": "test", "password": "abcd", "fullname": "Thats Me", 
+            "imgUrl": "https://picsum.photos/seed/test/470/600"})
+    }
+    catch(err) {
+        console.log("Signup error: ",err)
+    }
 }
 
 async function login() {
-    await userActions.login({"username": "Instush", "password": "1234"})        
+    try {
+        await userActions.login({"username": "Instush", "password": "1234"})        
+        //await userActions.login({"username": "test", "password": "abcd"})        
+    }
+    catch(err) {
+        console.log("Login error: ",err)
+    }
+}
+
+async function logout() {
+    try {
+        await userActions.logout()        
+    }
+    catch(err) {
+        console.log("Logout error: ",err)
+    }
 }
 
 
