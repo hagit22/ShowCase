@@ -15,7 +15,7 @@ export function NavBarItem({text, icons, itemId, onClickItem, currentSelection})
                     </>
                 }
             </div>
-            <div id={itemId}>
+            <div className="nav-bar-text" id={itemId}>
                 {text}
             </div>     
         </section> 

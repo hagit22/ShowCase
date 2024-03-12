@@ -21,10 +21,14 @@ export function TogglableIcon({ EmptyIcon, FullIcon, origin, fillColor="black",
     return (
         <>
             {calcPosition() < 0 ?
-                <EmptyIcon 
-                    className={origin == "Details" ? "single-icon-details" : "single-icon-preview"} onClick={onToggle}/> :
-                <FullIcon style={{color: fillColor}}
-                    className={origin == "Details" ? "single-icon-details" : "single-icon-preview"} onClick={onToggle}/>}
+                <span 
+                    className={origin == "Details" ? "single-icon-details" : "single-icon-preview"} onClick={onToggle}>
+                        <EmptyIcon/>
+                </span> :
+                <span style={{color: fillColor}}
+                    className={origin == "Details" ? "single-icon-details" : "single-icon-preview"} onClick={onToggle}>
+                        <FullIcon/>
+                </span>}
         </>
     )
 }

@@ -10,7 +10,7 @@ import { RootCmp } from './RootCmp'
 import './assets/styles/main.scss'
 
 
-await genDataService.generateInitialData()
+//await genDataService.generateInitialData()
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(

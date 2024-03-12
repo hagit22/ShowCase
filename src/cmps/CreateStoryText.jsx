@@ -4,8 +4,8 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from "react-router";
 import { storyService } from "../services/story.service.js";
 import { ProfileTitle } from './ProfileTitle';
-import { ArrowLeft } from 'react-bootstrap-icons';
 import { onToggleModal } from "../store/actions/app.actions.js";
+import { SVG_ArrowBack } from "../services/svg.service.jsx";
 
 export function CreateStoryText({imageUrl, onAddStory}) {
      
@@ -39,8 +39,10 @@ export function CreateStoryText({imageUrl, onAddStory}) {
             <div className="create-story-text">
                 <div className="new-story-share">
                     <div className="title">
-                        <ArrowLeft className="icon-style" onClick={onClickArrowBack} 
-                            onMouseDown={onMouseDownArrowBack} onMouseUp={onMouseUpArrowBack}/>
+                        <div className="icon-style" onClick={onClickArrowBack} 
+                            onMouseDown={onMouseDownArrowBack} onMouseUp={onMouseUpArrowBack}>
+                                <SVG_ArrowBack/>
+                        </div>
                         <span>Create new post</span>
                         <a onClick={onShareStory}>Share</a>
                     </div>

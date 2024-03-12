@@ -8,10 +8,20 @@
 }
 
 .nav-bar-logo {
-    margin-bottom: 19px;
-    margin-top: 6px;
+    display: inline;
     width: 103px;
     height: 29px;
+    margin-bottom: 19px;
+    margin-top: 6px;
+    //padding: 8px 12px 20px 12px;
+}
+
+.nav-bar-logo-mini {
+    display: none;
+    width: 25px;
+    height: 25px;
+    margin-bottom: 19px;
+    margin-top: 6px;
     /*padding: 8px 12px 20px 12px;*/
 }
 
@@ -42,5 +52,70 @@
 .nav-bar-item:hover {
     background-color: $color-button-background;
 }
+
+
+
+@media screen and (max-width: 1100px) {
+    .users-bar {
+        display: none;
+    }
+    .nav-bar-list {
+        //min-width: 65px;
+        width: 50px;
+    }
+    .nav-bar-logo {
+        display: none;
+    }
+    .nav-bar-logo-mini {
+        display: inline;
+    }
+    .nav-bar-text {
+        display: none;
+    }
+    .app {
+        grid-template-columns: 1fr 10fr;
+    }
+}
+
+
+/*@media screen and (max-width: 600px) { // 768px
+    .nav-bar {
+        border: none;
+    }
+    .nav-bar-logo {
+        display: inline;
+        position: fixed;
+        top: 0;
+        height: 60px;                           // dor
+    }
+    .nav-bar-logo-mini {
+        display: none;
+    }
+    .search-bar {
+        display: inline;
+    }
+    .nav-bar-list {
+        position: fixed;
+        bottom: 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+        width: 90vh;
+        height: 50px;                           // dor
+    }
+    .app {
+        //grid-template-columns: 1fr 1000fr;    // dor
+        grid-template-columns: 1fr;             // dor
+        grid-template-rows: auto 1fr auto;      // dor
+    }
+    .main-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .story-list {
+        @include separator(top);
+        //overflow: auto
+    }
+}*/
 
 

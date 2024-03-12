@@ -42,7 +42,7 @@ export function UserDetails() {
 
 
   return ( !user ? <InstagramError/> :
-    <section className="user-details">
+    <section>
       <div className='user-details-header'>
         <img src={user.imgUrl}></img>
         <div className='user-header-actions'>
@@ -56,7 +56,8 @@ export function UserDetails() {
         <div className='user-header-info'>
           <span><span>{numPosts}</span> {numPosts == 1 ? "post" : "posts"}</span>
           <span><span>{user.followers.length}</span> {user.followers.length == 1 ? "follower" : "followers"}</span>
-          <span className="following"><span>{user.following.length}</span> following</span>
+          <span><span>{user.following.length}</span> following</span>
+          {/*<div class="break"></div>*/}
           <span className={`fullname ${!user.fullname ? ' keep-height' : ''}`}>{user.fullname || 'empty'}</span>
           <hr className='user-header-hr'/>
           <span className={`info-tabs ${currentTab=="posts" ? "chosen-tab" : ''}`} onClick={onClickTab} id="posts">POSTS</span>

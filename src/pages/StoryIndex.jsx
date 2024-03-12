@@ -61,7 +61,7 @@ export function StoryIndex() {
 
         
     return (
-        <div className="app">
+        <div className={username ? 'user-details' : 'app'}>
             <div className="nav-bar">
                 <NavBar onAddStory={onAddStory} 
                     selectionIsDefault={!username} selectionIsUser={username && username == currentUser.username} />
