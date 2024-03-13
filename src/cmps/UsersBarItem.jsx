@@ -33,11 +33,11 @@ export function UsersBarItem({user, currentUser}) {
     return (
         <section id={user._id} className="users-bar-item users-bar-item-profile">
             <NavLink to={`/${user.username}`}>
-                <ProfileTitle profile={user}></ProfileTitle>
+                <ProfileTitle profile={user} caption={user === currentUser ? user.fullname : "Suggested for you"}/>
             </NavLink>
             <div className="users-bar-text">
                 <div className={`users-bar-label ${followLabel === userService.getFollowLabels().FOLLOWING ? "following" : "follow"}`}
-                    onClick={onToggleFollow}>{followLabel}
+                    onClick={onToggleFollow}>{user === currentUser ? "Switch" : followLabel}
                 </div>
             </div>
         </section> 

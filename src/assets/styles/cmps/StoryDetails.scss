@@ -1,4 +1,5 @@
 .story-details-modal {
+    font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     background: #fff;
     border-radius: 4px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -91,13 +92,7 @@
 .details-modal-info {
     padding: 5px 20px 0px 10px; 
     height: 2px;
-    .story-preview-icons {
-        margin-bottom: -5px;
-    }
-    .preview-info-likes {
-        height: 16px;
-    }
-    span {
+    .details-passed-time {
         font-weight: $font-weight-very-light;
         padding-bottom: 10px;
         @include separator($side: bottom);
@@ -108,12 +103,20 @@
     @include single-icon(24px);
 }
 
+.details-info-likes {
+    font-weight: $font-weight-normal;
+    height: 16px;
+    margin-top: 5px;
+}
+
 .details-add-comment {
+    font-family: inherit; 
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-top: 10px;
     form {
+        font-family: inherit;
         margin-left: 5px;
         width: 85%;
     }
@@ -139,6 +142,7 @@
         opacity: 25%;
     }
     svg {
+        font-family: inherit;
         margin-bottom: -2px;
     }
 }

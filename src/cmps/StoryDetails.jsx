@@ -41,8 +41,8 @@ export function StoryDetails({story, onUpdateStory, onUpdateUser}) {
                     <div className="story-preview details-modal-info">
                         <StoryPreviewIcons story={modalStory} onUpdateStory={onUpdateStory} onUpdateUser={onUpdateUser} 
                             currentUser={currentUser} onViewDetails={null} origin={"Details"}/>
-                        <StoryPreviewLikedBy likedBy={likedBy}/>
-                        <span>{utilService.getPassedTimeString(createdAt)}</span>
+                        <StoryPreviewLikedBy likedBy={likedBy} origin={"Details"}/>
+                        <span className='details-passed-time'>{utilService.getPassedTimeString(createdAt)}</span>
                         <StoryAddComment story={modalStory} onUpdateStory={onUpdateStory} origin={"Details"}/>
                     </div>
                 </div>

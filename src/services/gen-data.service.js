@@ -5,7 +5,8 @@ import { userActions } from '../store/actions/user.actions.js';
 import { storyService } from './story.service.js';
 
 export const genDataService = {
-    generateInitialData
+    generateInitialData,
+    login
 }
 
 const ID_LENGTH = 6; 
@@ -18,7 +19,8 @@ const ID_LENGTH = 6;
     The loggedInUser + password will enter the Mongo due to 'signup' */
 
 async function generateInitialData() {
-    await login()
+    //await logout()
+    //await login()
     return
     const users = await _generateInitialUsers()
     console.log("generate users: ",users)

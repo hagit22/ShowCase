@@ -6,3 +6,27 @@
     // font-family: montserrat;
     // src: url(../../fonts/Montserrat/Montserrat-Regular.ttf);
 }
+
+@font-face {
+    font-family: "Segoe UI";
+    src: local("Segoe-UI"), url("./fonts/Segoe/Segoe UI.ttf") format("truetype");
+    font-weight: $font-weight-light;
+}
+
+@font-face {
+    font-family: "Segoe UI";
+    src: local("Segoe-UI"), url("./fonts/Segoe/Segoe UI.ttf") format("truetype");
+    font-weight: $font-weight-very-light;
+}
+
+@font-face {
+    font-family: "Segoe UI Semibold";
+    src: local("Segoe-UI-Semibold"), url("./fonts/Segoe/Segoe UI Semibold.ttf") format("truetype");
+    font-weight: $font-weight-normal;
+}
+
+@font-face {
+    font-family: "Segoe UI Semibold";
+    src: local("Segoe-UI-Semibold"), url("./fonts/Segoe/Segoe UI Semibold.ttf") format("truetype");
+    font-weight: $font-weight-medium;
+}

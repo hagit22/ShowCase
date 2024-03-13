@@ -1,73 +1,88 @@
 .nav-bar-content {
     position: fixed;
-    display:  flex;
+    display: flex;
     flex-direction: column;
     align-items: stretch;
     justify-content: flex-start;
-    padding: 25px 12px 16px 12px;
+    //padding: 25px 12px 16px 12px;
+    padding: 20px 0px 16px 0px;
 }
 
 .nav-bar-logo {
-    display: inline;
+    display: block;
     width: 103px;
     height: 29px;
     margin-bottom: 19px;
-    margin-top: 6px;
+    margin-top: 5px;
+    padding-left: 12px;
     //padding: 8px 12px 20px 12px;
+    //padding: 25px 12px 16px 12px;
 }
 
 .nav-bar-logo-mini {
     display: none;
-    width: 25px;
-    height: 25px;
-    margin-bottom: 19px;
-    margin-top: 6px;
-    /*padding: 8px 12px 20px 12px;*/
+    width: 24px;
+    height: 24px;
+    margin: 12px;
+    margin-top: -4px;
+    margin-bottom: 24px;
 }
 
 .nav-bar-list {
-    margin-top: 3px;
-    margin-left: -15px;
+    margin-top: 8px;
+    //margin-left: -4px;
 }
 
 .nav-bar-item {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: flex-start;
-    gap: 20px;
     padding: 12px;
-    margin: 1px 0px;
+    margin: 4px 0px;
+    font-size: $font-size-normal;
+    font-weight: $font-weight-light;
+    line-height: $line-height-normal;
     img {
-        width: 30px;
-        height: 30px;
+        width: 24px;
+        height: 24px;
         border-radius: 50%;
     }
-    .current-selection {
-        border: 2.1px solid black;
-        width: 35px;
-        height: 35px;
-    }    
 }
+
+.nav-bar-text {
+    display: inline;
+    padding-left: 16px;
+    white-space: pre;
+}
+
+.current-selection {
+    //width: 35px;
+    //height: 35px;
+    font-weight: $font-weight-selected;
+    img {
+        border: 2.1px solid black;
+    }
+}    
 
 .nav-bar-item:hover {
     background-color: $color-button-background;
+    border-radius: 8%;
 }
 
 
 
 @media screen and (max-width: 1100px) {
+    .nav-bar {
+        width: 60px;
+      }      
     .users-bar {
         display: none;
-    }
-    .nav-bar-list {
-        //min-width: 65px;
-        width: 50px;
     }
     .nav-bar-logo {
         display: none;
     }
     .nav-bar-logo-mini {
-        display: inline;
+        display: block;
     }
     .nav-bar-text {
         display: none;

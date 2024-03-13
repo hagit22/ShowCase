@@ -38,11 +38,12 @@ export function UsersBar({userList, currentUser, numDisplayUsers}) {
     return ( !userList || userList.length == 0 || !currentUser ? '' :
         <section className="users-bar-section">
             <div className="users-bar-content">
-                <div className="users-bar-item-profile">
+                {/*<div className="users-bar-item-profile">
                         <NavLink to={`/${currentUser.username}`}>
                             <ProfileTitle profile={currentUser}/>
                         </NavLink>
-                </div>
+                </div>*/}
+                <UsersBarItem user={currentUser} currentUser = {currentUser} />
                 <div className="users-bar-item users-bar-text">
                     <span>Suggested for you</span>
                     <a ref={elSeeAll} onClick={onShowAll}>See All</a>

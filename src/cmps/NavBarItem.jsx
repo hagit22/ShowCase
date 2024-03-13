@@ -4,14 +4,15 @@ export function NavBarItem({text, icons, itemId, onClickItem, currentSelection})
 
     // id is defined for all tags, so that where-ever user presses, it will choose the current label as the chosen option
     return (
-        <section id={itemId} className="nav-bar-item" onClick={onClickItem}>
-            <div id={itemId} >
+        <section id={itemId} className={`nav-bar-item ${itemId === currentSelection ? "current-selection" : ''}`}
+                onClick={onClickItem}>
+            <div id={itemId}>
                 { icons.image ? 
-                    <img src={icons.image} id={itemId} className={itemId === currentSelection ? "current-selection" : ''}/> :
+                    <img src={icons.image} id={itemId} /> :
                     <> 
                         {itemId === currentSelection ?
-                            <icons.full size="24" id={itemId}/> :
-                            <icons.empty size="24" id={itemId}/>}   
+                            <icons.full id={itemId}/> :
+                            <icons.empty id={itemId}/>}   
                     </>
                 }
             </div>

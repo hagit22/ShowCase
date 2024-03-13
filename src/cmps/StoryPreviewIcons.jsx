@@ -6,7 +6,7 @@ import { SVG_Like, SVG_LikeFill, SVG_Comments, SVG_Share, SVG_Bookmark, SVG_Book
 export function StoryPreviewIcons({ story, onUpdateStory, onUpdateUser, currentUser, onViewDetails, origin }) {
 
     return (
-        <div className="story-preview-icons">
+        <div className="story-preview-icons story-details-icons">
             <div>
                 <span>
                     <TogglableIcon EmptyIcon={SVG_Like} FullIcon={SVG_LikeFill} origin={origin} fillColor="red" 

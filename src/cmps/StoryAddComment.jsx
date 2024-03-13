@@ -50,7 +50,7 @@ export function StoryAddComment({ story, onUpdateStory, origin }) {
                 {origin == "Details" ? '' :
                     <SVG_EmojiDetails/>
                 }
-        </div>
+            </div>
         </div>
     )
 }

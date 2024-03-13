@@ -19,7 +19,7 @@ export function StoryPreview({ story, onUpdateStory, currentUser, onUpdateUser }
         
     const { txt, imgUrl, createdAt, by, likedBy } = story;
     return (
-        <article className="story-preview">
+        <article className="story-preview story-preview-only">
             <ProfileTitle profile={by}>
                 <div className="dot-container">
                     <div className="dot">.</div>

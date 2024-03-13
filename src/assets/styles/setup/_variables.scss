@@ -16,13 +16,22 @@ $font-size-normal: 14px;
 $font-size-large: 16px;
 $font-size-large-caption: 20px;
 
-$font-weight-very-light: 200;
+$font-weight-very-light: 200; // StoryDetails
 $font-weight-light: 400;
-$font-weight-medium: 540;
+$font-weight-medium: 540; // StoryDetails
 $font-weight-normal: 600;
-$font-weight-bold: 800;
+$font-weight-selected: 700; // NavBar
+//$font-weight-bold: 800;
 
+$line-height-medium: 16px;
 $line-height-normal: 18px;
+
+
+// Font Family
+$segoe: 'Segoe UI', 'Open Sans', Helvetica, sans-serif;
+$segoe-semibold: 'Segoe UI Semibold', 'Open Sans', Helvetica, sans-serif;
+$segoe-bold: 'Segoe UI Bold', 'Open Sans', Helvetica, sans-serif;
+$segoe-light: 'Segoe UI Light', 'Open Sans', Helvetica, sans-serif;
 
 
 // Breakpoints

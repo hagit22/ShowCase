@@ -19,14 +19,14 @@ body, html {
   display: flex;
   flex-direction: column;
   align-items: center;
-  //margin: 0px 160px;
+  justify-content: center;
 }
 
 .nav-bar {
   grid-column: 1 / 2;
   grid-row: 1 / span 2;
   @include separator(right);
-  //width: 250px;
+  width: 220px;
 }
 
 .users-bar {

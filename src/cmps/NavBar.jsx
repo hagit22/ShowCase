@@ -27,7 +27,7 @@ export function NavBar({onAddStory, selectionIsDefault, selectionIsUser}) {
     }
 
     // align and capitalize nav labels
-    const navTexts = utilService.alignTexts(routes.map(route => utilService.capitalizeWord(route.label)))
+    const navTexts = utilService.alignTexts(routes.map(route => utilService.capitalizeWord(route.label)), 10)
 
     return (
         <section className="nav-bar-section">

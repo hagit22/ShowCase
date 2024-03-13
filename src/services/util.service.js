@@ -158,8 +158,9 @@ function getPassedTimeString(timestamp) {
     return days > 0 ? `${days}d` : hours > 0 ? `${hours}h` : `${minutes}m`
 }
 
-function alignTexts (textArray) {
-    const maxLength = Math.max(...(textArray.map(item => item.length)));
+function alignTexts (textArray, extraChars) {
+    let maxLength = Math.max(...(textArray.map(item => item.length)));
+    maxLength += extraChars;
     return textArray.map(item => item.padEnd(maxLength,' '));
 }
 
