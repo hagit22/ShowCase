@@ -5,8 +5,9 @@
 }*/
 
 .user-details {
+    font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     display: grid;
-    grid-template-columns: 2fr 7fr 3fr;
+    grid-template-columns: 3fr 7fr 3fr;
     grid-template-rows: 1fr auto;
     width: 100vw;
 }
@@ -15,12 +16,12 @@
     display: grid;
     grid-template-columns: 1fr 2fr;
     grid-template-rows: auto auto;
-    margin-left: 100px;
+    margin-left: 80px;
     img {
         grid-column: 1;
         grid-row: span 1;
         border-radius: 50%;
-        margin: 30px 70px 0px 50px;
+        margin: 20px 100px 0px 10px;
         width: 150px;
         height: 150px;
         //@include separator($side: bottom)
@@ -29,21 +30,25 @@
 }
 
 .user-header-actions {
-    margin-top: 30px;
+    margin-top: 20px;
     display: grid;
     grid-template-columns: 1fr 5fr;
     grid-template-rows: 1fr;
-    column-gap: 20px;
+    column-gap: 10px;
+    span {
+        margin-top: 5px;
+    }
     .action-buttons {
         display: flex;
         align-self: self-start;
         button {
             background-color: $color-button-background;
-            border-radius: 12%;
+            border-radius: 13%;
             color: black;
-            font-weight: $font-weight-medium;
+            font-weight: $font-weight-light;
             font-size: $font-size-normal;
-            padding: 7px 14px;
+            padding: 0px 16px;
+            height: 32px;
             white-space  : nowrap;
             overflow     : hidden;
             text-overflow: ellipsis
@@ -55,7 +60,7 @@
     display: flex;
     margin-top: -100px;
     margin-bottom: -43px;
-    column-gap: 50px;
+    //column-gap: 50px;
     row-gap: 10px;
     column-gap: 40px;
     flex-wrap: wrap;
@@ -64,7 +69,7 @@
     font-weight: $font-weight-light;
     //margin-right: -60px;
     .following {
-        //margin-right: 100px;
+        //margin-right: 100px; // **
     }
     span {
         span {
@@ -76,7 +81,7 @@
         margin-bottom: 18px;
         font-weight: $font-weight-medium;
         font-size: $font-size-small;
-        width: 100%;
+        width: 100%; // **
     }
     /*.break {
         flex-basis: 100%;
@@ -91,36 +96,92 @@
 .user-header-hr {
     color: $color-separator;
     width: 100%;
-    height: 1px;
-    margin-top: 50px;
+    height: 0px;
+    margin-top: 180px;
+    margin-left: -22px;
 }
 
-.info-tabs {
-    margin-top: -35px;
+.profile-content-tab {
     @include separator($side: top);
+    //display: inline;
+    margin-top: -35px;
+    padding-top: 10px;
+    //height: 52px;
     cursor: pointer;
+    color: $color-light-text;
+    fill: $color-light-text;
+    font-size: $font-size-small;
+    font-weight: $font-weight-normal;
+    line-height: $line-height-normal;
+    letter-spacing: 1px;
+    /*align-items: center;
+    justify-content: stretch;
+    margin-right: 60px;
+    margin-top: -1px;
+    height: 52px;
+    margin-left: 60px;*/
 }
+.content-tab-text {
+    margin-left: 6px;
+}
+/*.content-tab-icon {
+}*/
 .chosen-tab {
-    border-color: black;
+    color: $color-default;
+    border-color: $color-default;
     border-width: 1.4px;
+    fill: none;
 }
 
 .user-details-content {
+    margin-top: 20px;
     display: flex;
     flex-wrap: wrap;
     padding: 20px;
-    margin-left: 60px;
     width: 120%;
 }
 
 .user-content-image {
-    max-width: 250px;
-    max-height: 250px;
-    //size: 100px;
+    //size: 100px; V1
+    //max-width: 250px; V2
+    //max-height: 250px; V2
+    //max-height: 250px; 
+    //width: 100%;
+    height: auto;
+    max-width: 30%;  
+    //width: 30%;  
     padding: 10px;
     border-radius: 10%;
     cursor: pointer;
 }
+
+
+@media screen and (max-width: 1100px) {
+    .user-details {
+        grid-template-columns: 1fr auto;
+    }
+    /*.user-header-actions {
+        column-gap: 0;
+    }
+    .user-header-info {
+        column-gap: 3px;
+    }
+    .user-header-info {
+        .fullname {
+            width: auto;
+        }
+    }
+    .user-header-actions {
+        .action-buttons {
+            button {
+                white-space: normal;
+                overflow: normal;
+                text-overflow: unset;
+            }
+        }
+    }*/
+}
+
 
 
 
