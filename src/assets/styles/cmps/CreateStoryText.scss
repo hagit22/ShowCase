@@ -43,6 +43,9 @@
             align-items: flex-start;
             justify-content: flex-start;
             textarea {
+                font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                font-size: $font-size-large;
+                font-weight: $font-weight-very-light;    
                 border: none;
                 outline: none;
                 resize: none;

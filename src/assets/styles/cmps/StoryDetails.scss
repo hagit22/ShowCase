@@ -1,5 +1,4 @@
 .story-details-modal {
-    font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     background: #fff;
     border-radius: 4px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -90,7 +89,6 @@
 }
 
 .details-modal-info {
-    font-family: Segoe UI Semibold;
     padding: 5px 20px 0px 10px; 
     height: 2px;
     .details-passed-time {
@@ -111,21 +109,19 @@
 }
 
 .details-add-comment {
-    font-family: inherit; 
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-top: 10px;
     form {
-        font-family: inherit;
         margin-left: 5px;
         width: 85%;
     }
     textarea {
-        font-family: inherit;
-        font-size: inherit;
+        font-family: Inherit;
+        font-size: $font-size-normal;
         color: inherit;
-        width: inherit;
+        width: $font-weight-light;
         border: none;
         margin: 0px;
         outline: none;
@@ -135,7 +131,6 @@
         height: unset !important;
     }
     a {
-        font-family: inherit;
         font-size: inherit;
         color: rgb(0, 149, 246);
         margin-right: 5px;
@@ -143,7 +138,6 @@
         opacity: 25%;
     }
     svg {
-        font-family: inherit;
         margin-bottom: -2px;
     }
 }

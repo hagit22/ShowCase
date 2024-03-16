@@ -9,27 +9,29 @@
 
 @font-face {
     font-family: "Segoe UI";
-    src: local("../../../fonts/Segoe/Segoe-UI"), /*url("../../../fonts/Segoe/Segoe UI.ttf")*/ format("truetype");
+    src: local("../../../fonts/Segoe/Segoe-UI-Plain-verylight"), /*url("../../../fonts/Segoe/Segoe UI.ttf")*/ format("truetype");
     font-weight: $font-weight-very-light;
 }
 
 @font-face {
-    font-family: "Segoe UI Semibold";
-    src: local("../../../fonts/Segoe/Segoe-UI"), /*url("../../../fonts/Segoe/Segoe UI Semibold.ttf")*/ format("truetype");
-    font-weight: $font-weight-medium;
-}
-
-@font-face {
-    font-family: "Segoe UI Semibold";
-    src: local("../../../fonts/Segoe/Segoe-UI"), /*url("../../../fonts/Segoe/Segoe UI Semibold.ttf")*/ format("truetype");
-    font-weight: $font-weight-normal;
+    font-family: "Segoe UI";
+    src: local("../../../fonts/Segoe/Segoe-UI-Plain-light"), /*url("../../../fonts/Segoe/Segoe UI.ttf")*/ format("truetype");
+    font-weight: $font-weight-light;
 }
 
 @font-face {
     font-family: "Segoe UI";
-    src: local("../../../fonts/Segoe/Segoe-UI"), /*url("../../../fonts/Segoe/Segoe UI.ttf")*/ format("truetype");
-    font-weight: $font-weight-light;
+    src: local("../../../fonts/Segoe/Segoe-UI-Semibold-medium"), /*url("../../../fonts/Segoe/Segoe UI Semibold.ttf")*/ format("truetype");
+    font-weight: $font-weight-medium;
 }
+
+@font-face {
+    font-family: "Segoe UI";
+    src: local("../../../fonts/Segoe/Segoe-UI-Semibold-normal"), /*url("../../../fonts/Segoe/Segoe UI Semibold.ttf")*/ format("truetype");
+    font-weight: $font-weight-normal;
+}
+
+
 
 
 

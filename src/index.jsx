@@ -8,8 +8,10 @@ import { store } from './store/store'
 import { genDataService } from './services/gen-data.service'
 import { RootCmp } from './RootCmp'
 import './assets/styles/main.scss'
-import './fonts/Segoe/Segoe-UI.ttf';
-import './fonts/Segoe/Segoe-UI-Semibold.ttf';
+//import './fonts/Segoe/Segoe-UI-Plain-verylight.ttf';
+//import './fonts/Segoe/Segoe-UI-Plain-light.ttf';
+//import './fonts/Segoe/Segoe-UI-Semibold-medium.ttf';
+//import './fonts/Segoe/Segoe-UI-Semibold-normal.ttf';
 
 
 //await genDataService.generateInitialData()
