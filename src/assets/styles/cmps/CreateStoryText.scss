@@ -1,8 +1,8 @@
 .create-story-text {
-    @include modal-layout;
+    @include modal-layout-create;
     width: 55%;
-    padding-bottom: 2px;
     height: 73vh;
+    padding-bottom: 2px;
     overflow: hidden;
 }
 

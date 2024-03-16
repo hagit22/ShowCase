@@ -42,7 +42,7 @@ async function getById(userId) {
 async function getByUsername(username) {
     const url = BASE_URL_USER + username
     var { data: user } = await axios.get(url) 
-    console.log("user service getByUsername: ",user)  
+    //console.log("user service getByUsername: ",user)  
     //return user
     return _getUserWithDefaults(user)
 }

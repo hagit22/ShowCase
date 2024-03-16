@@ -4,11 +4,14 @@ import { NavLink } from 'react-router-dom'
 import { utilService } from '../services/util.service'
 import { ProfileTitle } from './ProfileTitle'
 import { UsersBarItem } from './UsersBarItem'
-//import variables from '../../src/assets/styles/setup/_variables.scss'
+import { SwitchUserModal } from './SwitchUserModal';
+import { DynamicModal2 } from './DynamicModal2'
 
 export function UsersBar({userList, currentUser, numDisplayUsers}) {
 
     const [displayUsers, setDisplayUsers] = useState([])
+    const [showSwitchUserModal, setShowSwitchUserModal] = useState(false)
+
     const elSeeAll = useRef(null)
 
     useEffect(() => {
@@ -35,6 +38,15 @@ export function UsersBar({userList, currentUser, numDisplayUsers}) {
         //elSeeAll.current.addEventListener('click', ()=>{})
     }
 
+    function onSwitchUser() {
+        setShowSwitchUserModal(true)
+    }
+
+    function onDoneSwitchUser() {
+        setShowSwitchUserModal(false)
+    }
+
+
     return ( !userList || userList.length == 0 || !currentUser ? '' :
         <section className="users-bar-section">
             <div className="users-bar-content">
@@ -43,7 +55,7 @@ export function UsersBar({userList, currentUser, numDisplayUsers}) {
                             <ProfileTitle profile={currentUser}/>
                         </NavLink>
                 </div>*/}
-                <UsersBarItem user={currentUser} currentUser = {currentUser} />
+                <UsersBarItem user={currentUser} currentUser={currentUser} onSwitchUser={onSwitchUser} />
                 <div className="users-bar-item users-bar-text">
                     <span>Suggested for you</span>
                     <a ref={elSeeAll} onClick={onShowAll}>See All</a>
@@ -51,11 +63,14 @@ export function UsersBar({userList, currentUser, numDisplayUsers}) {
                 <div className="users-bar-list"> 
                     {displayUsers && displayUsers.length > 0 && displayUsers.map((dispUser) =>  
                         <div key={dispUser._id}> 
-                            <UsersBarItem user={dispUser} currentUser = {currentUser} />
+                            <UsersBarItem user={dispUser} currentUser={currentUser} onSwitchUser={null} />
                         </div>
                     )}
                 </div>
             </div>
+            {/*showSwitchUserModal && <DynamicModal2 cmp={SwitchUserModal*/} 
+            <DynamicModal2 cmp={showSwitchUserModal ? SwitchUserModal : null}
+            props={{users: userList, currentUser, onDoneSwitchUser}} onCloseModal={onDoneSwitchUser}/>
         </section>
     )
 }

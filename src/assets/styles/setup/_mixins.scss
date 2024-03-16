@@ -57,6 +57,8 @@
   }
 }
 
+// App Mixins
+
 @mixin dot ($marginY: 0, $marginX: 0) {
   width: 3px;
   height: 3px;
@@ -81,9 +83,13 @@
 
 @mixin modal-layout {
   background: #fff;
-  border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   overflow-y: auto;
+  border-radius: 12px;
+}
+
+@mixin modal-layout-create {
+  @include modal-layout;
   margin-top: 87px;
 }
 

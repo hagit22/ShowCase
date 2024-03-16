@@ -11,7 +11,6 @@ import { SVG_NavBarHome, SVG_NavBarSearch, SVG_NavBarMessage, SVG_NavBarNotify, 
 import { SVG_NavBarHomeSelect, SVG_NavBarSearchSelect, SVG_NavBarMessageSelect, SVG_NavBarNotifySelect } from './services/svg.service.jsx'
 
 
-await genDataService.login()
 const loggedInUser = sessionStorageService.getLoggedInUser()
 const loggedInUserName = !loggedInUser ? '' : loggedInUser.username || ''
 const imgUrl = !loggedInUser ? '' : loggedInUser.imgUrl || ''

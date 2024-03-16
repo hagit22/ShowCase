@@ -32,8 +32,10 @@ export function NavBar({onAddStory, selectionIsDefault, selectionIsUser}) {
     return (
         <section className="nav-bar-section">
             <div className="nav-bar-content">
-                <SVG_NavBarLogo/>
-                <SVG_NavBarLogoMini/>
+                <NavLink to={'/'}>
+                    <SVG_NavBarLogo/>
+                    <SVG_NavBarLogoMini/>
+                </NavLink>
                 <div className="nav-bar-list"> 
                     {routes.map((route, index) =>  
                         <div key={route.label}> 

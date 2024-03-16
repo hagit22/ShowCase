@@ -6,10 +6,12 @@ export function ProfileContentTab({ id, text, IconEmpty, IconFull, selected, onC
 
     return (
         <div className={`profile-content-tab ${selected===id ? "chosen-tab" : ''}`} onClick={onClickTab} id={id}>
-            { selected === id ?
-                <IconFull className={"content-tab-icon"} id={id}/> :
-                <IconEmpty className={"content-tab-icon"} id={id}/>
-            }
+            <span>
+                { selected === id ?
+                    <IconEmpty/> :
+                    <IconFull/>
+                }
+            </span>
             <span className={"content-tab-text"} id={id}>
                 {text}
             </span>

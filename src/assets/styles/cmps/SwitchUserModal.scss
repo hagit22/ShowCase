@@ -1,0 +1,77 @@
+.switch-user {
+    @include modal-layout;
+    width: 400px;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.switch-user-title {
+    height: 43px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-size: $font-size-large;
+    line-height: $line-height-large;
+    font-weight: $font-weight-normal;
+    padding: 11px 0;
+    @include separator($side: bottom);
+}
+
+.switch-user-list {
+    height: 250px;      // 3.5 user-items  (so that user sees that its scrollable
+    overflow-y: auto;
+    overflow-y: auto;
+}
+
+.switch-user-item {
+    height: 72px;
+    padding: 8px 16px;
+    font-size: $font-size-normal;
+    font-weight: $font-weight-normal;
+    line-height: $line-height-normal;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    img {
+        margin-right: 12px;
+        height: 56px;
+        width: 56px;
+        border-radius: 50%;
+    }
+    .user-details {
+        display: flex;
+        align-items: center;
+    }
+}
+
+.switch-user-checkbox {
+    height: 24px;
+    width: 24px;
+    padding: 5px;
+    background-color: $color-default;
+    border-radius: 50%;
+}
+
+.switch-user-footer {
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-size: $font-size-normal;
+    line-height: $line-height-normal;
+    font-weight: $font-weight-normal;
+    color: $color-blue-button;
+    padding: 1gpx 0;
+    @include separator($side: top);
+}
+
+/*.switch-user-footer:hover {
+    color: $color-default;
+}*/
+
+
+

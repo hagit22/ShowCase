@@ -14,18 +14,18 @@ import { UserDetails } from './UserDetails.jsx'
 export function StoryIndex() {
 
     // store state variables
-    const userList = useSelector(storeState => storeState.userModule.userList)
     const currentUser = useSelector(storeState => storeState.userModule.currentUser)
+    const userList = useSelector(storeState => storeState.userModule.userList)
     const stories = useSelector(storeState => storeState.storyModule.stories)
 
     // params
     const username = useParams().username
 
     useEffect(() => {
-        userActions.loadUserList()
-        //console.log(userList)
         userActions.loadCurrentUser()
         //console.log(currentUser)
+        userActions.loadUserList()
+        //console.log(userList)
         storyActions.loadStories()
         //console.log(stories)
     }, [])

@@ -6,7 +6,6 @@ import { storyService } from './story.service.js';
 
 export const genDataService = {
     generateInitialData,
-    login
 }
 
 const ID_LENGTH = 6; 
@@ -21,14 +20,25 @@ const ID_LENGTH = 6;
 async function generateInitialData() {
     //await logout()
     //await login()
-    return
+
+    //return
+
     const users = await _generateInitialUsers()
     console.log("generate users: ",users)
+
+    //await _addUserPassword(users)
+    //return
+
+    //await _generateInitialFollowingData(users)
+    //return
     
     const stories = await _generateInitialStories(users)    
     console.log("generate stories: ",stories)
+
+    //await _generateInitialBookmarks(users, stories)
+    //return
     
-    const loggedInUser = await _generateInitialBookmarks(stories)
+    const loggedInUser = await _generateCurrentUserBookmarks(stories)
     console.log("generate bookmarks: ",loggedInUser)
     return users
 }
@@ -63,6 +73,7 @@ function _generateUser() {
     return {
         //_id: userId,
         username: username, 
+        password: '1234',
         fullname: utilService.generateRandomFullname(username), 
         imgUrl: userImgUrl,
         bookmarkedStories: [],
@@ -111,6 +122,30 @@ function _chooseRandomUser(users, excludeId='') {
     return userService.getMiniUser(utilService.chooseRandomItemFromList(users));
 }
 
+async function _generateInitialFollowingData(users) {
+    if (!users || users.length == 0)
+        return 
+    users.forEach(async user => {
+        const following = _chooseRandomUserList(users, users.length*0.5) 
+        user.following = [...following]
+        //console.log("generate initial following: ",user)
+        const savedUser = await userService.save(user)
+        console.log("initial following data saved: ",savedUser)
+    })
+}
+
+async function _addUserPassword(users) {
+    if (!users || users.length == 0)
+        return 
+    users.forEach(async user => {
+        user = {...user, "password": "$2b$10$HAcMSob5gm9OmwgjpAGteOwEnNx16SxjFK46ri0VI7UDDpRkMDi76"}
+        //console.log("addUserPassword: ",user)
+        const savedUser = await userService.save(user)
+        console.log("addUserPassword: ",savedUser)
+    })
+}
+
+
 
 // Story Data
 
@@ -141,7 +176,7 @@ function _generateStory(users, forcedUser) {
         createdAt: randDate, 
         by: forcedUser || _chooseRandomUser(users),
         likedBy: _chooseRandomUserList(users, users.length*0.75),
-        comments: _chooseRandomUserList(users, users.length*0.3).map(miniUser => ({
+        comments: _chooseRandomUserList(users, users.length*0.5).map(miniUser => ({
             _id: utilService.makeId(ID_LENGTH), 
             by: miniUser, 
             txt: utilService.makeLorem(10), 
@@ -151,32 +186,55 @@ function _generateStory(users, forcedUser) {
     } 
 }
 
-async function _generateInitialBookmarks(stories) {
+async function _generateCurrentUserBookmarks(stories) {
     const miniUser = sessionStorageService.getLoggedInUser()
     let loggedInUser = await userService.getByUsername(miniUser.username);
     if (!loggedInUser)
         return
     if (!stories || stories.length == 0)
         return loggedInUser
-    loggedInUser.bookmarkedStories = [..._chooseRandomStoryList(stories, 3)]
+    loggedInUser.bookmarkedStories = [..._chooseRandomStoryListExact(stories, 3)]
     console.log("generate initial bookmarks: ",loggedInUser)
     const savedUser = await userService.save(loggedInUser)
     console.log("initial bookmarks saved: ",savedUser)
     return savedUser
 }
 
-function _chooseRandomStoryList(stories, numStoriesToChoose) {
+// Including current user (!)
+async function _generateInitialBookmarks(users, stories) {
+    if (!users || users.length == 0 || !stories || stories.length == 0)
+        return 
+    users.forEach(async user => {
+        const bookmarked = _chooseRandomStoryList(stories, stories.length*0.14) 
+        user.bookmarkedStories = [...bookmarked]
+        //console.log("generate initial bookmarks: ",user)
+        const savedUser = await userService.save(user)
+        console.log("initial following data saved: ",savedUser)
+    })
+}
+
+function _chooseRandomStoryList(stories, maxAmount) {
+    maxAmount = Math.floor(maxAmount)
+    const numChosenStories = Math.floor(Math.random() * maxAmount)
+    const chosenStories = []
+    for (let i=0; i<numChosenStories; i++) {
+        chosenStories.push(_chooseRandomStory(stories))
+    }
+    return Array.from(new Set(chosenStories)); // make unique using Set (then convert back to Array so it can convert to json)
+}
+
+/*function _chooseRandomStoryListExact(stories, numStoriesToChoose) {
     const chosenStories = new Set()
     const totalStories = stories ? stories.length : 0
     for (let i=0; i<totalStories; i++) {
         chosenStories.add(_chooseRandomStory(stories))
-        if (chosenStories.size == numStoriesToChoose) {
-            console.log("bookmarks: ",chosenStories)
+        if (chosenStories.size >= numStoriesToChoose) {
+            //console.log("bookmarks: ",chosenStories)
             break
         }
     }
-    return Array.from(chosenStories)
-}
+    return Array.from(chosenStories)    // make unique using Set (then convert back to Array so it can convert to json)
+}*/
 
 function _chooseRandomStory(stories) {
     return _getMiniStory(utilService.chooseRandomItemFromList(stories));
