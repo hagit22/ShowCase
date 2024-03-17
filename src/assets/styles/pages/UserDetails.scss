@@ -34,7 +34,7 @@
     grid-template-columns: 1fr 5fr;
     grid-template-rows: 1fr;
     column-gap: 10px;
-    span {
+    .username {
         margin-top: 5px;
     }
     .action-buttons {
@@ -42,16 +42,25 @@
         align-self: self-start;
         button {
             background-color: $color-button-background;
-            border-radius: 13%;
+            border-radius: 12%;
             color: black;
-            font-weight: $font-weight-light;
             font-size: $font-size-normal;
+            font-family: inherit;
+            font-weight: $font-weight-medium;
+            line-height: $line-height-normal;
             padding: 0px 16px;
             height: 32px;
             white-space  : nowrap;
             overflow     : hidden;
             text-overflow: ellipsis
         }
+    }
+    .settings {
+        height: 24px;
+        width: 24px;
+        padding: 8px;
+        margin-left: 5px;
+        cursor: pointer;
     }
 }
 
@@ -94,13 +103,14 @@
 
 .user-header-hr {
     color: $color-separator;
-    width: 100%;
+    width: 290%;
     height: 0px;
     margin-top: 180px;
     margin-left: -22px;
+    
 }
 
-.profile-content-tab {
+.user-details-tab {
     @include separator($side: top);
     //display: inline;
     margin-top: -35px;
@@ -113,6 +123,7 @@
     font-weight: $font-weight-normal;
     line-height: $line-height-normal;
     letter-spacing: 1px;
+
     /*align-items: center;
     justify-content: stretch;
     margin-right: 60px;
@@ -120,11 +131,12 @@
     height: 52px;
     margin-left: 60px;*/
 }
-.content-tab-text {
+.tab-text {
     margin-left: 6px;
 }
-/*.content-tab-icon {
-}*/
+.tab-icon {
+    margin: -5px;
+}
 .chosen-tab {
     color: $color-default;
     border-color: $color-default;
@@ -147,10 +159,10 @@
     //max-height: 250px; 
     //width: 100%;
     height: auto;
-    max-width: 30%;  
     //width: 30%;  
+    max-width: 25%; //30%; 
     padding: 10px;
-    border-radius: 10%;
+    border-radius: 12%;
     cursor: pointer;
 }
 
