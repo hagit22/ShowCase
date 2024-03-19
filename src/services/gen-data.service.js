@@ -38,8 +38,12 @@ async function generateInitialData() {
     //await _generateInitialBookmarks(users, stories)
     //return
     
-    const loggedInUser = await _generateCurrentUserBookmarks(stories)
-    console.log("generate bookmarks: ",loggedInUser)
+    //const loggedInUser = await _generateCurrentUserBookmarks(stories)
+    //console.log("generate bookmarks: ",loggedInUser)
+
+    //await _generateInitialNotifications(users, stories)
+    //return
+
     return users
 }
 
@@ -106,33 +110,125 @@ function _generateSessionLoggedInUser(initialUsers) {
     return null // loggedInUser already existed. no need to return it
 }
 
-function _chooseRandomUserList(users, maxAmount) {
+function _chooseRandomUserList(users, maxAmount, excludeId='') {
     maxAmount = Math.floor(maxAmount)
     const numChosenUsers = Math.floor(Math.random() * maxAmount)
     const chosenUsers = []
     for (let i=0; i<numChosenUsers; i++) {
-        chosenUsers.push(_chooseRandomUser(users))
+        chosenUsers.push(_chooseRandomUser(users, excludeId))
     }
     return Array.from(new Set(chosenUsers)); // make unique using Set (then convert back to Array so it can convert to json)
 }
 
 function _chooseRandomUser(users, excludeId='') {
-    /*if (excludeId)
-        users = users.filter(user => user._id != excludeId)*/
+    if (excludeId)
+        users = users.filter(user => user._id != excludeId)
     return userService.getMiniUser(utilService.chooseRandomItemFromList(users));
 }
 
-async function _generateInitialFollowingData(users) {
+/*async function _generateInitialJustFollowing(users) {
     if (!users || users.length == 0)
         return 
     users.forEach(async user => {
         const following = _chooseRandomUserList(users, users.length*0.5) 
         user.following = [...following]
-        //console.log("generate initial following: ",user)
-        const savedUser = await userService.save(user)
-        console.log("initial following data saved: ",savedUser)
+        console.log("generate initial following: ",user)
+        //const savedUser = await userService.save(user)
+        //console.log("initial following data saved: ",savedUser)
+    })
+}*/
+
+async function _generateInitialFollowingData(users) {
+    if (!users || users.length == 0)
+        return 
+    users.forEach(user => {
+        user.following = []
+        user.followers = []
+    })
+    users.forEach(user => {
+        user.following = utilService.makeUnique(_chooseRandomUserList(users, users.length*0.6, user._id), "_id")
+        if (user.following && user.following.length > 0)
+            user.following.forEach(followedUser => {
+                users.filter(u => u._id === followedUser._id)[0].followers.push(userService.getMiniUser(user))
+            })
+    })
+    //users.forEach(user => user.followers = utilService.makeUnique(user.followers))
+    users = users.map(user => ({...user, password: '$2b$10$HAcMSob5gm9OmwgjpAGteOwEnNx16SxjFK46ri0VI7UDDpRkMDi76'}))
+    //console.log("generate initial following: ",users)
+    //users.forEach(async user => await userService.save(user))
+}
+
+async function _generateInitialNotifications(users, stories) {
+    if (!users || users.length === 0 || !stories || stories.length === 0)
+        return 
+    users.forEach(async user => {
+        const notifications = _generateNotificationsPerUser(user, users, stories) 
+
+        //console.log("FOR USER: ", user.username)
+        //console.log("notifications: ", notifications)
+
+        user.password = "$2b$10$HAcMSob5gm9OmwgjpAGteOwEnNx16SxjFK46ri0VI7UDDpRkMDi76"
+        user.notifications = [...notifications]
+        //console.log("generate initial notifications: ",user)
+        //const savedUser = await userService.save(user)
+        //console.log("initial notifications data saved: ",savedUser)
     })
 }
+
+function _generateNotificationsPerUser(currentUser, users, origStories) {
+    let notifications = []
+    const recentStories = origStories.sort((a,b)=>b.createdAt-a.createdAt);
+    users.forEach(user => {
+        if (user._id !== currentUser._id && // its not me
+            currentUser.following.filter(iFollow => iFollow._id === user._id).length === 0) { // i don't already follow
+                if (currentUser.followers.map(follower => follower._id).includes(user._id))
+                    notifications.push({ _id: utilService.makeId(ID_LENGTH), 
+                        txt: `${user.username} started following you`,
+                        about: userService.getMiniUser(user),
+                        createdAt: utilService.generateRandomTimestamp()})
+                else notifications.push({ _id: utilService.makeId(ID_LENGTH),
+                    txt: `${user.username} who you might know is on Instushgram`,
+                    about: userService.getMiniUser(user),
+                    createdAt: utilService.generateRandomTimestamp()})
+            }
+    })
+
+    return notifications
+
+
+    /*const randomUser = utilService.chooseRandomItemFromList(usersIDontFollow.filter(user=> 
+        !notifications || notifications.filter(ntf => ntf._id != user._id)))
+
+    if (randomUser.following.length > 0 && randomUser.following.filter(follow => follow._id === currentUser._id).length > 0)
+        notifications.push({ _id: randomUser._id, txt: 
+            `${randomUser.username} started following you`,
+            createdAt: utilService.generateRandomTimestamp()})
+
+    else if (randomUser.following.length > 0 && randomUser.following.filter(follow => currentUser.following.length > 0 && 
+        currentUser.following.filter (IFollow => IFollow._id === follow._id).length > 0))
+    {
+        const theyFollow = randomUser.following.filter(follow => 
+            currentUser.following.filter (IFollow => IFollow._id === follow._id))[0].username
+
+        notifications.push({ _id: randomUser._id, txt: 
+            `${theyFollow} who you follow, follows ${randomUser.username} start following them`,
+            createdAt: utilService.generateRandomTimestamp()})
+    }
+    else if (currentUser.following.length > 0 && currentUser.following.filter(IFollow => 
+        users.filter(user => user.following.length > 0 && user.following.filter(follow => follow._id === randomUser._id).length > 0))) 
+    {
+        const IFollow = currentUser.following.filter(IFollow => 
+            users.filter(user => user.following.filter(follow => follow._id === randomUser._id).length > 0))[0].username
+        notifications.push({ _id: randomUser._id, txt: 
+            `${randomUser.username} follows ${IFollow} who you follow, start following them`,
+            createdAt: utilService.generateRandomTimestamp()})
+    }
+    else 
+        notifications.push({ _id: randomUser._id, txt: 
+            `${randomUser.username} who you might know is on Instushgram`,
+            createdAt: utilService.generateRandomTimestamp()})*/
+}
+
 
 async function _addUserPassword(users) {
     if (!users || users.length == 0)

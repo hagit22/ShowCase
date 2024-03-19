@@ -1,22 +1,27 @@
-import { useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from "react-router"
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { userService } from '../services/user.service.js'
 import { userActions } from '../store/actions/user.actions.js'
 import { storyActions } from '../store/actions/story.actions.js'
-import routes from '../routes'
 import { NavBar } from '../cmps/NavBar.jsx'
 import { StoryList } from '../cmps/StoryList.jsx'
 import { UsersBar } from '../cmps/UsersBar.jsx'
 import { UserDetails } from './UserDetails.jsx'
+import { NotificationsPane } from '../cmps/NotificationsPane'
 
-export function StoryIndex() {
+export function StoryIndex({navSelection}) {
 
     // store state variables
     const currentUser = useSelector(storeState => storeState.userModule.currentUser)
     const userList = useSelector(storeState => storeState.userModule.userList)
     const stories = useSelector(storeState => storeState.storyModule.stories)
+
+    const [initialNavSelection, setInitialNavSelection] = useState(navSelection)
+    const [showNotificationsPane, setShowNotificationsPane] = useState(false)
+    const notificationsRef = useRef()
+
 
     // params
     const username = useParams().username
@@ -59,27 +64,47 @@ export function StoryIndex() {
         }        
     }
 
+    function onShowNotifications(showNotifications) {
+        setShowNotificationsPane(showNotifications)
+    }
+
+    function onNavSelect(selection) {
+        if (selection !== initialNavSelection)
+            setInitialNavSelection(selection)
+    }
+
+    function onClickAnywhere({target}) {
+        if (setShowNotificationsPane && !notificationsRef.current.contains(target)) {
+            onShowNotifications(false)
+            setInitialNavSelection('')
+        }
+    }
+
         
-    return (
+    return ( !currentUser ? '' :
         <div className={username ? 'user-details' : 'app'}>
             <div className="nav-bar">
-                <NavBar onAddStory={onAddStory} 
-                    selectionIsDefault={!username} selectionIsUser={username && username == currentUser.username} />
+                <NavBar initialSelection={initialNavSelection} onSelect={onNavSelect} onAddStory={onAddStory} onShowNotifications={onShowNotifications}/>
             </div>
 
             {(username) ? <UserDetails/> :
             <>
-                <div className="main-content">
-                    {/*<div className="stories-bar">Stories Bar</div>*/}
-                    <div className="feed">
+                <div className="main-content" onClick={onClickAnywhere}>
+                    <div>
                         <StoryList stories={stories} onUpdateStory={onUpdateStory} 
                             currentUser={currentUser} onUpdateUser={onUpdateUser}/>
                     </div>
                 </div>
-                <div className="users-bar">
+                <div className="users-bar" onClick={onClickAnywhere}>
                     <UsersBar userList={userList} currentUser={currentUser} numDisplayUsers={userService.getNumDisplayUsers()}/>
                 </div>
             </>}
+
+            {/*<div ref={notificationsRef}>
+                {showNotificationsPane && <NotificationsPane currentUser={currentUser}/>}*/}
+            <div ref={notificationsRef}>
+                <NotificationsPane show={showNotificationsPane} currentUser={currentUser}/>
+            </div>
         </div>
     )
 }

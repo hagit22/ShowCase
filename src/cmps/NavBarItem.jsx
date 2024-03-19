@@ -6,9 +6,9 @@ export function NavBarItem({text, icons, itemId, onClickItem, currentSelection})
     return (
         <section id={itemId} className={`nav-bar-item ${itemId === currentSelection ? "current-selection" : ''}`}
                 onClick={onClickItem}>
-            <div id={itemId}>
+            <div id={itemId}> 
                 { icons.image ? 
-                    <img src={icons.image} id={itemId} /> :
+                    <img className="nav-bar-icon" src={icons.image} id={itemId} /> :
                     <> 
                         {itemId === currentSelection ?
                             <icons.full id={itemId}/> :

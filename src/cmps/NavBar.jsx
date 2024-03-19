@@ -1,30 +1,59 @@
 /* eslint-disable react/prop-types */
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { NavLink } from 'react-router-dom'
 import routes from '../routes'
 import { utilService } from '../services/util.service'
 import { onToggleModal } from '../store/actions/app.actions'
-import { CreateStoryImage } from './CreateStoryImage'
 import { NavBarItem } from './NavBarItem'
+import { CreateStoryImage } from './CreateStoryImage'
 import { SVG_NavBarLogo, SVG_NavBarLogoMini } from '../services/svg.service.jsx'
 
 
-export function NavBar({onAddStory, selectionIsDefault, selectionIsUser}) {
+export function NavBar({initialSelection, onSelect, onAddStory, onShowNotifications}) {
 
-    const [currentNavOption, setCurrentNavOption] = useState('')
+    const [currentNavOption, setCurrentNavOption] = useState(initialSelection)
+    const [showNotifications, setShowNotifications] = useState(false)
+    const [showCreate, setShowCreate] = useState(false)
+
 
     useEffect(() => {
-        const currentSelection = selectionIsDefault ? routes[0].label : selectionIsUser ? routes[routes.length-1].label : ""
-        setCurrentNavOption(currentSelection)
-    }, [selectionIsDefault, selectionIsUser])
+        setCurrentNavOption(initialSelection)
+    }, [initialSelection])
+
+    useEffect(() => {
+        onSelect(currentNavOption)
+        if (currentNavOption === '') {
+            // reset previous values to start
+            setShowNotifications(false)
+            setShowCreate(false)
+        }
+    }, [currentNavOption])
+
+    useEffect(() => {
+        onShowNotifications(showNotifications)
+    }, [showNotifications])
+
+    useEffect(() => {
+        if (showCreate)
+            onToggleModal({ cmp: CreateStoryImage, props: { onAddStory } })
+        else
+            onToggleModal()
+    }, [showCreate])
 
     function onClickItem({target}) {
         let { id } = target;
-        setCurrentNavOption(id);
-        if (id == "create") {
-            onToggleModal({ cmp: CreateStoryImage, props: { onAddStory } })
-        }
+        // Besides for home & profile, un-mark option upon consecutive click
+        setCurrentNavOption(prev=> id === 'home' || id === 'profile' ? id : prev===id ? '' : id)
+        if (id === "notifications") 
+            setShowNotifications(prev => prev === true ? false : true)
+        else
+            setShowNotifications(false)
+        if (id === "create")
+            setShowCreate(prev => prev === true ? false : true)
+        else
+            setShowCreate(false)   
     }
+
 
     // align and capitalize nav labels
     const navTexts = utilService.alignTexts(routes.map(route => utilService.capitalizeWord(route.label)), 10)
@@ -39,7 +68,7 @@ export function NavBar({onAddStory, selectionIsDefault, selectionIsUser}) {
                 <div className="nav-bar-list"> 
                     {routes.map((route, index) =>  
                         <div key={route.label}> 
-                            {route.label != "create" ?
+                            {route.label === "home" || route.label === "profile" ?    // routable pages
                                 <NavLink to={route.path}>
                                     <NavBarItem text={navTexts[index]} icons={route.icons} itemId={route.label}
                                         onClickItem={onClickItem} currentSelection={currentNavOption}/> 
@@ -47,7 +76,7 @@ export function NavBar({onAddStory, selectionIsDefault, selectionIsUser}) {
                                 <a>
                                     <NavBarItem text={navTexts[index]} icons={route.icons} itemId={route.label}
                                         onClickItem={onClickItem} currentSelection={currentNavOption}/>
-                                </a>
+                                </a> 
                             }
                         </div>
                     )}

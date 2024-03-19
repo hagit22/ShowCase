@@ -14,6 +14,8 @@ body, html {
 }
 
 .main-content {
+  position: inherit;
+  z-index: 1;
   grid-column: 2 / 3;
   grid-row: 2 / span 1;
   display: flex;
@@ -26,18 +28,13 @@ body, html {
   grid-column: 1 / 2;
   grid-row: 1 / span 2;
   @include separator(right);
-  width: 220px;
+  width: $nav-bar-width-normal;
 }
 
 .users-bar {
   grid-column: 3 / 4;
   grid-row: 1 / span 2;
 }
-
-/*.feed {
-  //flex: 1;
-}*/
-
 
 /*@media screen and (max-width: 768px) {
   .app {

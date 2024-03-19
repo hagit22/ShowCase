@@ -10,6 +10,7 @@ export function UsersBarItem({user, currentUser, onSwitchUser}) {
     const [followLabel, setFollowLabel] = useState('')
 
     useEffect(() => {
+        //console.log("users-bar: ", currentUser)
         setFollowLabel(getFollowLabelValue())
     }, [currentUser])
 

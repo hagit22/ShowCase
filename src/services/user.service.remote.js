@@ -91,7 +91,8 @@ function _getUserWithDefaults(user) {
         fullname: user.fullname,
         following: user.following || [],
         followers: user.followers || [],
-        bookmarkedStories: user.bookmarkedStories || []
+        bookmarkedStories: user.bookmarkedStories || [],
+        notifications: user.notifications || []
     }
     return userWithDefaults
 }

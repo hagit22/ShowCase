@@ -31,7 +31,7 @@ export function UserDetails() {
     }
     else if (currentTab == "saved")
       setContentImages(user.bookmarkedStories || [])
-  }, [user, currentTab])
+}, [user, currentTab])
 
   useEffect(() => {
     setNumPosts(stories?.filter(story=>story.by._id===user?._id).length)

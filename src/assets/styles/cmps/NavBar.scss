@@ -42,11 +42,18 @@
     font-size: $font-size-normal;
     font-weight: $font-weight-light;
     line-height: $line-height-normal;
-    img {
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-    }
+}
+
+.nav-bar-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+}
+
+.nav-bar-icon:active {
+    transform:scale(0.9);
+    opacity: 60%;
+    border:none;
 }
 
 .nav-bar-text {
@@ -56,9 +63,7 @@
 }
 
 .current-selection {
-    //width: 35px;
-    //height: 35px;
-    font-weight: $font-weight-selected;
+    font-weight: $font-weight-title;
     img {
         border: 2.1px solid black;
     }
@@ -73,8 +78,8 @@
 
 @media screen and (max-width: 1100px) {
     .nav-bar {
-        width: 60px;
-      }      
+        width: $nav-bar-width-narrow;
+    }      
     .users-bar {
         display: none;
     }
@@ -89,6 +94,15 @@
     }
     .app {
         grid-template-columns: 1fr 10fr;
+    }
+    .notifications-section {
+        left: $nav-bar-width-narrow;
+    }
+}
+
+@media screen and (max-width: 768px) { 
+    .notifications-section {
+        display: none;
     }
 }
 

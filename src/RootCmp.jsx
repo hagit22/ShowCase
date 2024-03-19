@@ -16,8 +16,8 @@ export function RootCmp() {
             <main>
                 <Routes>
                     {/*{routeElements.map(route => <Route key={route.path} exact={true} element={route.component} path={route.path} />)}*/}
-                    <Route path="/" element={<StoryIndex/>} />
-                    <Route path="/:username" element={<StoryIndex/>} />
+                    <Route path="/" element={<StoryIndex navSelection={"home"}/>} />
+                    <Route path="/:username" element={<StoryIndex navSelection={"profile"}/>} />
                 </Routes>
             </main>
             <DynamicModal />

@@ -5,6 +5,8 @@
 }*/
 
 .user-details {
+    position: relative;
+    z-index: 1;
     display: grid;
     grid-template-columns: 3fr 7fr 3fr;
     grid-template-rows: 1fr auto;
@@ -139,8 +141,8 @@
 }
 .chosen-tab {
     color: $color-default;
-    border-color: $color-default;
-    border-width: 1.4px;
+    //border-color: $color-default;
+    //border-width: 1.4px;
     fill: none;
 }
 

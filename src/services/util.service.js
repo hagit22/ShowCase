@@ -16,10 +16,12 @@ export const utilService = {
     dateTimeShortDisplay,
     dateTimeLongDisplay,
     getPassedTimeString,
+    getPassedTimeGroups,
     alignTexts,
     capitalizeWord,
     getUniqueRandomElements,
-    chooseRandomItemFromList
+    chooseRandomItemFromList,
+    makeUnique
 }
 
 function makeId(length = 6) {
@@ -158,6 +160,22 @@ function getPassedTimeString(timestamp) {
     return days > 0 ? `${days}d` : hours > 0 ? `${hours}h` : `${minutes}m`
 }
 
+function getPassedTimeGroups(itemsList, key) {
+    const newItems = itemsList.filter(item => 
+        !utilService.getPassedTimeString(item[key]).endsWith('d'))
+    const weekItems = itemsList.filter(item => 
+        utilService.getPassedTimeString(item[key]).endsWith('d') &&
+        +(utilService.getPassedTimeString(item[key]).slice(0,-1)) <= 7)
+    const earlierItems = itemsList.filter(item => 
+        utilService.getPassedTimeString(item[key]).endsWith('d') &&
+        +(utilService.getPassedTimeString(item[key]).slice(0,-1)) > 7)
+    return[
+        {name: "New", data: newItems},
+        {name: "This week", data: weekItems},
+        {name: "Earlier", data: earlierItems}]
+}
+
+
 function alignTexts (textArray, extraChars) {
     let maxLength = Math.max(...(textArray.map(item => item.length)));
     maxLength += extraChars;
@@ -184,6 +202,16 @@ function getUniqueRandomElements(array, numElements, uniqueProperty=null, exclud
     if (!list || list.length == 0)
         return null
     return list[Math.floor(Math.random() * list.length)];
+}
+
+function makeUnique(list, key) {
+    //console.log("\nlist = ", list)
+    const idsList = list && list.length > 0 ? Array.from(new Set(list.map(el => el[key]))) : []
+    const uniqueList = idsList && idsList.length > 0 ? idsList.map(id => list.filter(el => el[key] === id)[0]) : []
+    //console.log("unique = ", uniqueList)
+    if (list.length !== uniqueList.length)
+    console.log("DUPLICATES: ",list.length,"-",uniqueList.length)
+    return uniqueList
 }
 
 

@@ -1,11 +1,6 @@
 import { sessionStorageService } from './services/session-storage.service.js'
-import { genDataService } from './services/gen-data.service.js'
-import { HomePage } from './pages/HomePage.jsx'
-import { AboutUs } from './pages/AboutUs.jsx'
 import { StoryIndex } from './pages/StoryIndex.jsx'
-import { ReviewIndex } from './pages/ReviewIndex.jsx'
-import { ChatApp } from './pages/Chat.jsx'
-import { AdminApp } from './pages/AdminIndex.jsx'
+import { NotificationsPane } from './cmps/NotificationsPane.jsx';
 import { Circle } from 'react-bootstrap-icons';
 import { SVG_NavBarHome, SVG_NavBarSearch, SVG_NavBarMessage, SVG_NavBarNotify, SVG_NavBarCreate } from './services/svg.service.jsx'
 import { SVG_NavBarHomeSelect, SVG_NavBarSearchSelect, SVG_NavBarMessageSelect, SVG_NavBarNotifySelect } from './services/svg.service.jsx'
@@ -36,7 +31,7 @@ const routes = [
     },
     {
         path: '/',
-        component: <StoryIndex />,
+        component: <NotificationsPane />,
         label: "notifications",
         icons: {empty: SVG_NavBarNotify, full: SVG_NavBarNotifySelect}
     },
