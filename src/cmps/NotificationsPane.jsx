@@ -33,7 +33,7 @@ export function NotificationsPane({show, currentUser}) {
                 </div>
                 {notificationGroups && notificationGroups.length > 0 && 
                     notificationGroups.map(group => group.data && group.data.length > 0 &&
-                <><div key={group.name} className="notifications-group">
+                <div key={group.name}><div className="notifications-group">
                     <div className="notifications-group-title">
                         {group.name}
                     </div>
@@ -48,7 +48,7 @@ export function NotificationsPane({show, currentUser}) {
                         <button className="item-button" onClick={onClickFollow}>Follow</button>
                     </div>)}
                 </div>
-                <div className="notifications-group-separator"/></>)}
+                <div className="notifications-group-separator"/></div>)}
             </div>
         </section>
     )

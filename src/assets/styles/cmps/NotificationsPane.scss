@@ -5,13 +5,13 @@
     top: 0;
     background-color: white;
     overflow-y: auto;
-    @include separator(right)
 }
 
 .notifications-show {
     width: 397px;
     left: $nav-bar-width-narrow;
     transition: width 400ms;
+    @include separator(right)
 }
 
 .notifications-hide {

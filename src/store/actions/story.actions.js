@@ -1,5 +1,7 @@
 import { store } from '../store.js'
 import { storyService } from '../../services/story.service.js'
+import { utilService } from '../../services/util.service.js'
+import { userActions } from './user.actions.js'
 import { storyActionTypes } from '../reducers/story.reducer.js'
 import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service.js'
 
@@ -11,10 +13,11 @@ export const storyActions = {
 }
 
 
-async function loadStories() {
+async function loadStories(currentUser) {
     try {
-        const stories = await storyService.getStories()
-        //console.log('Stories from DB:', stories)
+        let stories = await storyService.getStories()
+        //stories = utilService.randomShuffleArray(stories)
+        stories = _arrangeByFollowing(stories, currentUser)
         store.dispatch(_getActionSetStories(stories))
     } catch (err) {
         console.log('Cannot load stories', err)
@@ -105,3 +108,20 @@ export function onRemoveStoryOptimistic(storyId) {
             })
         })
 }
+
+function _arrangeByFollowing(stories, currentUser) {
+    if (!currentUser || !currentUser.following || currentUser.following.length === 0)
+        return stories
+    const usersIFollow = currentUser.following.map(follow => follow._id)
+
+    let storiesNotFollowing = [...stories.filter(story => !usersIFollow.includes(story.by._id))]
+    storiesNotFollowing = utilService.randomShuffleArray(storiesNotFollowing)
+
+    let storiesFollowing = [...stories.filter(story => usersIFollow.includes(story.by._id))]
+    storiesFollowing = [...storiesFollowing.sort((a,b) => a.createdAt > b.createdAt ? -1 : 1)]  // latest first
+    
+    stories = [...storiesFollowing.concat([...storiesNotFollowing])]
+    console.log(stories)
+    return stories
+}
+

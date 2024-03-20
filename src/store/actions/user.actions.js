@@ -96,6 +96,7 @@ async function updateCurrentUser(updatedUser) {
         const savedUser = await userService.save(updatedUser)
         console.log("updateCurrentUser -",savedUser)
         store.dispatch({ type: userActionTypes.SET_CURRENT_USER, currentUser: savedUser })
+        await loadCurrentUser()
         //return savedUser
     } catch (err) {
         console.log('Cannot save user', err)

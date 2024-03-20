@@ -21,7 +21,8 @@ export const utilService = {
     capitalizeWord,
     getUniqueRandomElements,
     chooseRandomItemFromList,
-    makeUnique
+    makeUnique,
+    randomShuffleArray
 }
 
 function makeId(length = 6) {
@@ -213,6 +214,15 @@ function makeUnique(list, key) {
     console.log("DUPLICATES: ",list.length,"-",uniqueList.length)
     return uniqueList
 }
+
+function randomShuffleArray(arr) {
+    const newArr = arr.slice()
+    for (let i = newArr.length - 1; i > 0; i--) {
+        const rand = Math.floor(Math.random() * (i + 1));
+        [newArr[i], newArr[rand]] = [newArr[rand], newArr[i]];
+    }
+    return newArr
+};
 
 
 

@@ -27,13 +27,17 @@ export function StoryIndex({navSelection}) {
     const username = useParams().username
 
     useEffect(() => {
-        userActions.loadCurrentUser()
-        //console.log(currentUser)
+        loadAppData()
+    }, [])
+
+    async function loadAppData() {
+        const loadedUser = await userActions.loadCurrentUser()
+        console.log("loadAppData: ",loadedUser)
         userActions.loadUserList()
         //console.log(userList)
-        storyActions.loadStories()
+        storyActions.loadStories(loadedUser)
         //console.log(stories)
-    }, [])
+    }
 
     async function onAddStory(story) {
         try {
@@ -87,7 +91,7 @@ export function StoryIndex({navSelection}) {
                 <NavBar initialSelection={initialNavSelection} onSelect={onNavSelect} onAddStory={onAddStory} onShowNotifications={onShowNotifications}/>
             </div>
 
-            {(username) ? <UserDetails/> :
+            {(username) ? <UserDetails currentUser={currentUser}/> :
             <>
                 <div className="main-content" onClick={onClickAnywhere}>
                     <div>

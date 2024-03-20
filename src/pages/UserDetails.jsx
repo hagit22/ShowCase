@@ -8,7 +8,7 @@ import { UserDetailsContent } from '../cmps/UserDetailsContent'
 import { InstagramError } from '../cmps/InstagramError'
 import { SVG_ProfileTabPosts, SVG_ProfileTabSaved, SVG_ProfileTabTagged, SVG_UserSettings } from '../services/svg.service'
 
-export function UserDetails() {
+export function UserDetails({currentUser}) {
 
   const params = useParams()
   const stories = useSelector(storeState => storeState.storyModule.stories)
@@ -20,7 +20,7 @@ export function UserDetails() {
   
   useEffect(() => {
     userActions.loadChosenUser(params.username)
-    storyActions.loadStories()
+    storyActions.loadStories(currentUser)
   }, [params.username])
 
   useEffect(() => {

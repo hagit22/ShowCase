@@ -41,10 +41,14 @@ export function userReducer(state = initialState, action) {
             newState = { ...state, userList: state.user.filter(user => user._id !== action.userId) }
             break
         case userActionTypes.SET_CURRENT_USER:
-            newState = { ...state, currentUser: action.currentUser }
+            //console.log("initial state - current: ",newState,action.currentUser)
+            newState = { ...state, currentUser: action.currentUser} 
+            //console.log("after state - current: ",newState)
             break
         case userActionTypes.SET_CHOSEN_USER:
+            //console.log("initial state - chosen: ",newState,action.chosenUser)
             newState = { ...state, chosenUser: action.chosenUser }
+            //console.log("after state - chosen: ",newState)
             break
         default:
     }

@@ -18,13 +18,14 @@ const ID_LENGTH = 6;
     The loggedInUser + password will enter the Mongo due to 'signup' */
 
 async function generateInitialData() {
-    //await logout()
     //await login()
+    
+    //await logout()
 
     //return
 
-    const users = await _generateInitialUsers()
-    console.log("generate users: ",users)
+    //const users = await _generateInitialUsers()
+    //console.log("generate users: ",users)
 
     //await _addUserPassword(users)
     //return
@@ -32,8 +33,8 @@ async function generateInitialData() {
     //await _generateInitialFollowingData(users)
     //return
     
-    const stories = await _generateInitialStories(users)    
-    console.log("generate stories: ",stories)
+    //const stories = await _generateInitialStories(users)    
+    //console.log("generate stories: ",stories)
 
     //await _generateInitialBookmarks(users, stories)
     //return
