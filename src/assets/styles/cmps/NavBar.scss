@@ -24,8 +24,28 @@
     width: 24px;
     height: 24px;
     margin: 12px;
-    margin-top: -4px;
-    margin-bottom: 24px;
+    margin-top: 5px; //-4px;
+    margin-bottom: 19px; //24px;
+}
+
+.nav-bar-logo-panel {
+    display: none;
+    width: 103px;
+    height: 29px;
+    margin-bottom: 19px;
+    margin-top: 5px;
+    padding-left: 12px;
+    //padding: 8px 12px 20px 12px;
+    //padding: 25px 12px 16px 12px;
+}
+
+.nav-bar-logo-mini-panel {
+    display: block;
+    width: 24px;
+    height: 24px;
+    margin: 12px;
+    margin-top: 5px; //-4px;
+    margin-bottom: 19px; //24px;
 }
 
 .nav-bar-list {

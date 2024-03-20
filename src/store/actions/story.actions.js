@@ -4,6 +4,7 @@ import { utilService } from '../../services/util.service.js'
 import { userActions } from './user.actions.js'
 import { storyActionTypes } from '../reducers/story.reducer.js'
 import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service.js'
+import { userService } from '../../services/user.service.js'
 
 export const storyActions = {
     loadStories,
@@ -112,7 +113,8 @@ export function onRemoveStoryOptimistic(storyId) {
 function _arrangeByFollowing(stories, currentUser) {
     if (!currentUser || !currentUser.following || currentUser.following.length === 0)
         return stories
-    const usersIFollow = currentUser.following.map(follow => follow._id)
+    let usersIFollow = currentUser.following.map(follow => follow._id)
+    usersIFollow = [...usersIFollow, currentUser._id]
 
     let storiesNotFollowing = [...stories.filter(story => !usersIFollow.includes(story.by._id))]
     storiesNotFollowing = utilService.randomShuffleArray(storiesNotFollowing)

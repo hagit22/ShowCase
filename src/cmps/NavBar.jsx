@@ -6,7 +6,7 @@ import { utilService } from '../services/util.service'
 import { onToggleModal } from '../store/actions/app.actions'
 import { NavBarItem } from './NavBarItem'
 import { CreateStoryImage } from './CreateStoryImage'
-import { SVG_NavBarLogo, SVG_NavBarLogoMini } from '../services/svg.service.jsx'
+import { SVG_NavBarLogo, SVG_NavBarLogoMini, SVG_NavBarLogoPanel, SVG_NavBarLogoMiniPanel } from '../services/svg.service.jsx'
 
 
 export function NavBar({initialSelection, onSelect, onAddStory, onShowNotifications}) {
@@ -62,8 +62,9 @@ export function NavBar({initialSelection, onSelect, onAddStory, onShowNotificati
         <section className="nav-bar-section">
             <div className="nav-bar-content">
                 <NavLink to={'/'}>
-                    <SVG_NavBarLogo/>
-                    <SVG_NavBarLogoMini/>
+                    {currentNavOption === "notifications" ?
+                        <><SVG_NavBarLogoPanel/><SVG_NavBarLogoMiniPanel/></> :
+                        <><SVG_NavBarLogo/><SVG_NavBarLogoMini/></>}
                 </NavLink>
                 <div className="nav-bar-list"> 
                     {routes.map((route, index) =>  

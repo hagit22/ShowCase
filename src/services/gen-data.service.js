@@ -45,7 +45,7 @@ async function generateInitialData() {
     //await _generateInitialNotifications(users, stories)
     //return
 
-    return users
+    //return users
 }
 
 // User Data 

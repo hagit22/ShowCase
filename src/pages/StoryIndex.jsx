@@ -28,7 +28,7 @@ export function StoryIndex({navSelection}) {
 
     useEffect(() => {
         loadAppData()
-    }, [])
+    }, [stories.length])
 
     async function loadAppData() {
         const loadedUser = await userActions.loadCurrentUser()
