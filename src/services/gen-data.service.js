@@ -18,7 +18,9 @@ const ID_LENGTH = 6;
     The loggedInUser + password will enter the Mongo due to 'signup' */
 
 async function generateInitialData() {
-    //await login()
+    /*const loggedInUser = await login()
+    console.log("********** LOGGED IN : ", loggedInUser)
+    console.log("************************************************")*/
     
     //await logout()
 
@@ -44,6 +46,8 @@ async function generateInitialData() {
 
     //await _generateInitialNotifications(users, stories)
     //return
+
+    //await _generateMoreComments(users, stories)
 
     //return users
 }
@@ -147,15 +151,15 @@ async function _generateInitialFollowingData(users) {
         user.followers = []
     })
     users.forEach(user => {
-        user.following = utilService.makeUnique(_chooseRandomUserList(users, users.length*0.6, user._id), "_id")
+        user.following = utilService.makeUnique(_chooseRandomUserList(users, users.length*0.8, user._id), "_id")
         if (user.following && user.following.length > 0)
             user.following.forEach(followedUser => {
                 users.filter(u => u._id === followedUser._id)[0].followers.push(userService.getMiniUser(user))
             })
     })
     //users.forEach(user => user.followers = utilService.makeUnique(user.followers))
-    users = users.map(user => ({...user, password: '$2b$10$HAcMSob5gm9OmwgjpAGteOwEnNx16SxjFK46ri0VI7UDDpRkMDi76'}))
-    //console.log("generate initial following: ",users)
+    //users = users.map(user => ({...user, password: '$2b$10$HAcMSob5gm9OmwgjpAGteOwEnNx16SxjFK46ri0VI7UDDpRkMDi76'}))
+    console.log("generate initial following: ",users)
     //users.forEach(async user => await userService.save(user))
 }
 
@@ -170,7 +174,7 @@ async function _generateInitialNotifications(users, stories) {
 
         user.password = "$2b$10$HAcMSob5gm9OmwgjpAGteOwEnNx16SxjFK46ri0VI7UDDpRkMDi76"
         user.notifications = [...notifications]
-        //console.log("generate initial notifications: ",user)
+        console.log("generate initial notifications: ",user)
         //const savedUser = await userService.save(user)
         //console.log("initial notifications data saved: ",savedUser)
     })
@@ -180,20 +184,28 @@ function _generateNotificationsPerUser(currentUser, users, origStories) {
     let notifications = []
     const recentStories = origStories.sort((a,b)=>b.createdAt-a.createdAt);
     users.forEach(user => {
-        if (user._id !== currentUser._id && // its not me
+
+
+        if ((currentUser.following.filter(iFollow => iFollow._id === user._id).length > 0) /*&& 
+            (origStories.filter(story => story.by._id === user._id) > 0)*/)   // I follow and they have posts
+                notifications.push({ _id: utilService.makeId(ID_LENGTH), 
+                    txt: `posted a thread you might like`,
+                    about: userService.getMiniUser(user),
+                    createdAt: utilService.generateRandomTimestamp()})
+        else if (user._id !== currentUser._id && // its not me
             currentUser.following.filter(iFollow => iFollow._id === user._id).length === 0) { // i don't already follow
                 if (currentUser.followers.map(follower => follower._id).includes(user._id))
                     notifications.push({ _id: utilService.makeId(ID_LENGTH), 
-                        txt: `${user.username} started following you`,
+                        txt: `started following you`,
                         about: userService.getMiniUser(user),
                         createdAt: utilService.generateRandomTimestamp()})
                 else notifications.push({ _id: utilService.makeId(ID_LENGTH),
-                    txt: `${user.username} who you might know is on Instushgram`,
+                    txt: `who you might know is on Instushgram`,
                     about: userService.getMiniUser(user),
                     createdAt: utilService.generateRandomTimestamp()})
-            }
+        }
     })
-
+    //console.log(notifications)
     return notifications
 
 
@@ -283,6 +295,30 @@ function _generateStory(users, forcedUser) {
     } 
 }
 
+async function _generateMoreComments(users, stories) {
+    if (!stories || users.stories == 0)
+        return 
+    const miniUsers = users.map(user => userService.getMiniUser(user))
+    stories.forEach(async story => {
+        const comments = _chooseRandomUserList(miniUsers, miniUsers.length*0.8).map(user => ({
+            _id: utilService.makeId(ID_LENGTH), 
+            by: user, 
+            txt: utilService.makeLorem(10), 
+            likedBy: _chooseRandomUserList(miniUsers, miniUsers.length*0.5),
+            createdAt: utilService.generateRandomTimestampFrom(story.createdAt) // comment only after post was published
+        }))
+        //console.log("STORY: ",story.txt)
+        //console.log("generated more comments: ",comments)
+        const newStory = {...story, comments}
+        console.log("story with comments: ",newStory)
+        //const savedStory = await storyService.save(newStory)
+        //console.log("stories with more comments saved: ",savedStory)
+    })
+    //users.forEach(user => user.followers = utilService.makeUnique(user.followers))
+    //users = users.map(user => ({...user, password: '$2b$10$HAcMSob5gm9OmwgjpAGteOwEnNx16SxjFK46ri0VI7UDDpRkMDi76'}))
+    //users.forEach(async user => await userService.save(user))
+}
+
 async function _generateCurrentUserBookmarks(stories) {
     const miniUser = sessionStorageService.getLoggedInUser()
     let loggedInUser = await userService.getByUsername(miniUser.username);
@@ -367,7 +403,8 @@ async function testSignup() {
 
 async function login() {
     try {
-        await userActions.login({"username": "Instush", "password": "1234"})        
+        const loggedInUser = await userActions.login({"username": "Instush", "password": "1234"})      
+        return loggedInUser  
         //await userActions.login({"username": "test", "password": "abcd"})        
     }
     catch(err) {

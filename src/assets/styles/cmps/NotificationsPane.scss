@@ -78,11 +78,17 @@
         }
     }
     .item-button {
-        background-color: $color-blue-button;
         height: 32px;
         margin-left: 12px;
         padding: 7px 16px;
         border-radius: 8px;
+    }
+    .button-follow {
+        background-color: $color-blue-button;
+    }
+    .button-following {
+        background-color: $color-button-background;
+        color: $color-default;
     }
 }
 

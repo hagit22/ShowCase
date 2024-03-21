@@ -45,7 +45,9 @@ export function NotificationsPane({show, currentUser}) {
                             {notify.txt}
                             <span className="item-passed-time"> {utilService.getPassedTimeString(notify.createdAt)}</span>
                         </span>
-                        <button className="item-button" onClick={onClickFollow}>Follow</button>
+                        {notify.txt.startsWith("posted") ?
+                        <button className="item-button button-following" onClick={onClickFollow}>Following</button> :
+                        <button className="item-button button-follow" onClick={onClickFollow}>Follow</button>}
                     </div>)}
                 </div>
                 <div className="notifications-group-separator"/></div>)}
