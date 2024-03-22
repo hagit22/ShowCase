@@ -36,6 +36,7 @@
         @include separator($side: bottom);
     }
     .details-modal-entries {
+        &::-webkit-scrollbar {display: none;} 
         overflow-y: scroll;
         height: 59vh;
         margin-right: 15px;

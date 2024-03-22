@@ -9,7 +9,7 @@ export function SwitchUserModalItem({user, currentUser, onDoneSwitchUser}) {
 
     async function onSwitchUser(event) {
         try {
-            //await userActions.logout()
+            await userActions.logout()
             await userActions.login({"username": user.username, "password": "1234"}, navigate)
             //setTimeout(()=>{navigate(0),500})   
             window.location.reload(false)     

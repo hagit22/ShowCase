@@ -47,8 +47,8 @@ export function DynamicModal() {
                     </line>
                 </SVG_CloseModal>
             </button>
-            <section className="content">
-                {Cmp && <Cmp {...modalData.props} />}
+            <section>
+                {Cmp && <Cmp className="content" {...modalData.props} />}
             </section>
         </div>
     )

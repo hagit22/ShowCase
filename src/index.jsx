@@ -14,7 +14,7 @@ import './assets/styles/main.scss'
 //import './fonts/Segoe/Segoe-UI-Semibold-normal.ttf';
 
 
-//genDataService.generateInitialData()
+//await genDataService.generateInitialData()
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(

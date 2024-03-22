@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from "react-router"
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
+import { genDataService } from '../services/gen-data.service.js'
 import { userService } from '../services/user.service.js'
 import { userActions } from '../store/actions/user.actions.js'
 import { storyActions } from '../store/actions/story.actions.js'
@@ -31,12 +32,27 @@ export function StoryIndex({navSelection}) {
     }, [stories.length])
 
     async function loadAppData() {
-        const loadedUser = await userActions.loadCurrentUser()
+        const loadedUser = await loadCurrentUser()
         console.log("loadAppData: ",loadedUser)
         userActions.loadUserList()
         //console.log(userList)
         storyActions.loadStories(loadedUser)
         //console.log(stories)
+    }
+
+    async function loadCurrentUser() {
+        try {
+            const loadedUser = await userActions.loadCurrentUser()
+            console.log("loadCurrentUser: ",loadedUser)
+            return loadedUser
+        }
+        catch (err) {
+            console.log("loadCurrentUser ERROR: ",err)
+            const loadedUser = await genDataService.login()
+            console.log("**** Logged In  :",loadedUser)
+            console.log("********************************************")
+            return loadedUser
+        }
     }
 
     async function onAddStory(story) {

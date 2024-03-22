@@ -23,6 +23,7 @@
     height: 250px;      // 3.5 user-items  (so that user sees that its scrollable
     overflow-y: auto;
     overflow-y: auto;
+    &::-webkit-scrollbar {display: none;} 
 }
 
 .switch-user-item {

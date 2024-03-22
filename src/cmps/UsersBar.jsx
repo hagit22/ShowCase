@@ -70,7 +70,7 @@ export function UsersBar({userList, currentUser, numDisplayUsers}) {
             </div>
             {/*showSwitchUserModal && <DynamicModal2 cmp={SwitchUserModal*/} 
             <DynamicModal2 cmp={showSwitchUserModal ? SwitchUserModal : null}
-            props={{users: userList, currentUser, onDoneSwitchUser}} onCloseModal={onDoneSwitchUser}/>
+                modalProps={{users: userList, currentUser, onDoneSwitchUser}} onCloseModal={onDoneSwitchUser}/>
         </section>
     )
 }

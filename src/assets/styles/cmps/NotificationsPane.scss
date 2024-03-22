@@ -10,14 +10,15 @@
 .notifications-show {
     width: 397px;
     left: $nav-bar-width-narrow;
-    transition: width 400ms;
+    transition: width 200ms;
     @include separator(right)
 }
 
 .notifications-hide {
     width: 0;
-    left: $nav-bar-width-normal;
-    transition: width 400ms;
+    left: 0;
+    transition: width 300ms;
+    &::-webkit-scrollbar {display: none;} 
 }
 
 .notifications-content {
@@ -55,6 +56,7 @@
     padding: 8px 0;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     .item-image {
         position: relative;
         //left: 24px;

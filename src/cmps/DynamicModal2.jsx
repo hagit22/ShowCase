@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react"
 import { SVG_CloseModal } from "../services/svg.service.jsx"
 
-export function DynamicModal2({cmp, props, onCloseModal}) {
+export function DynamicModal2({cmp, modalProps, onCloseModal}) {
     //const modalData = useSelector(storeState => storeState.appModule.modalData)
     //const dispatch = useDispatch()
     
@@ -49,8 +49,8 @@ export function DynamicModal2({cmp, props, onCloseModal}) {
                     </line>
                 </SVG_CloseModal>
             </button>
-            <section className="content">
-                {Cmp && <Cmp {...props} />}
+            <section>
+                {Cmp && <Cmp className="content" {...modalProps} />}
             </section>
         </div>
     )

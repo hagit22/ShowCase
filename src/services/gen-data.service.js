@@ -6,6 +6,7 @@ import { storyService } from './story.service.js';
 
 export const genDataService = {
     generateInitialData,
+    login
 }
 
 const ID_LENGTH = 6; 
