@@ -1,12 +1,14 @@
 import { utilService } from './util.service.js'
 import { sessionStorageService } from './session-storage.service.js'
+import { notificationMessages } from './socket.service.js';
 import { userService } from './user.service.js'
 import { userActions } from '../store/actions/user.actions.js';
 import { storyService } from './story.service.js';
 
 export const genDataService = {
     generateInitialData,
-    login
+    login,
+    testSignup
 }
 
 const ID_LENGTH = 6; 
@@ -185,24 +187,22 @@ function _generateNotificationsPerUser(currentUser, users, origStories) {
     let notifications = []
     const recentStories = origStories.sort((a,b)=>b.createdAt-a.createdAt);
     users.forEach(user => {
-
-
         if ((currentUser.following.filter(iFollow => iFollow._id === user._id).length > 0) /*&& 
             (origStories.filter(story => story.by._id === user._id) > 0)*/)   // I follow and they have posts
                 notifications.push({ _id: utilService.makeId(ID_LENGTH), 
-                    txt: `posted a thread you might like`,
-                    about: userService.getMiniUser(user),
+                    txt: notificationMessages.storyByFollowing,
+                    aboutUser: userService.getMiniUser(user),
                     createdAt: utilService.generateRandomTimestamp()})
         else if (user._id !== currentUser._id && // its not me
             currentUser.following.filter(iFollow => iFollow._id === user._id).length === 0) { // i don't already follow
                 if (currentUser.followers.map(follower => follower._id).includes(user._id))
                     notifications.push({ _id: utilService.makeId(ID_LENGTH), 
-                        txt: `started following you`,
-                        about: userService.getMiniUser(user),
+                        txt: notificationMessages.newFollower,
+                        aboutUser: userService.getMiniUser(user),
                         createdAt: utilService.generateRandomTimestamp()})
                 else notifications.push({ _id: utilService.makeId(ID_LENGTH),
-                    txt: `who you might know is on Instushgram`,
-                    about: userService.getMiniUser(user),
+                    txt: notificationMessages.newUser,
+                    aboutUser: userService.getMiniUser(user),
                     createdAt: utilService.generateRandomTimestamp()})
         }
     })
@@ -371,14 +371,7 @@ function _chooseRandomStoryList(stories, maxAmount) {
 }*/
 
 function _chooseRandomStory(stories) {
-    return _getMiniStory(utilService.chooseRandomItemFromList(stories));
-}
-
-function _getMiniStory(story) {
-    if (!story)
-        return null
-    const { _id, imgUrl } = story
-    return({ _id, imgUrl })
+    return storyService.getMiniStory(utilService.chooseRandomItemFromList(stories));
 }
 
 

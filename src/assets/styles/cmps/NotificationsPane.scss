@@ -1,6 +1,6 @@
 .notifications-section {
     position: fixed;
-    z-index: 99;
+    z-index: 10;
     height: 100vh;
     top: 0;
     background-color: white;
@@ -93,6 +93,26 @@
         color: $color-default;
     }
 }
+
+.new-notification-overlay {
+    z-index: 30;
+    position: fixed;
+    left: 39px;
+    top: 284px;
+    visibility: hidden;
+    width: 7px;
+    height: 7px;
+    padding: 3.5px 3.5px;
+    border-radius: 50%;
+    border: white 1.5px solid;
+    background-color: $color-like;
+}
+  
+.new-notification-visible {
+    visibility: visible;
+  }
+  
+  
 
 
 

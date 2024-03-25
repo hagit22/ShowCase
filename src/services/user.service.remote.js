@@ -1,6 +1,6 @@
 import Axios from 'axios'
 import { sessionStorageService } from './session-storage.service.js'
-import BASE_URL from './route-base.js'
+import { BASE_URL } from './route-base.js'
 
 export const userServiceRemote = {
     getUsers,
@@ -54,7 +54,6 @@ async function remove(userId) {
 }
 
 async function save(user) {
-    console.log("user service save-1: ",user)
     const method = user._id ? 'put' : 'post'
     const url = BASE_URL_USER 
     const { data: savedUser } = await axios[method](url, user)

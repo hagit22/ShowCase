@@ -1,6 +1,4 @@
 /* eslint-disable react/prop-types */
-import { useRef } from "react"
-import { showErrorMsg } from '../services/event-bus.service.js'
 import { onToggleModal } from "../store/actions/app.actions.js"
 import { storyActions } from '../store/actions/story.actions.js'
 import { StoryDetails } from './StoryDetails.jsx'
@@ -11,7 +9,7 @@ export function UserDetailsContent({userStories}) {
         try {
             const savedStory = await storyActions.updateStory(story)
         } catch (err) {
-            showErrorMsg('Cannot update story')
+            console.log("onUpdateStory (userDetails) error: ",err)
         }        
     }
 
@@ -20,7 +18,7 @@ export function UserDetailsContent({userStories}) {
             const savedUser = await userActions.updateCurrentUser(updatedUser)
         } 
         catch (err) {
-            showErrorMsg('Cannot update user')
+            console.log("onUpdateUser (userDetails) error: ",err)
         }        
     }
 

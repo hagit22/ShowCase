@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from "react-router"
-import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
+import { socketService } from '../services/socket.service.js'
 import { genDataService } from '../services/gen-data.service.js'
 import { userService } from '../services/user.service.js'
 import { userActions } from '../store/actions/user.actions.js'
@@ -21,6 +21,7 @@ export function StoryIndex({navSelection}) {
 
     const [initialNavSelection, setInitialNavSelection] = useState(navSelection)
     const [showNotificationsPane, setShowNotificationsPane] = useState(false)
+    const [newPostsNotification, setNewPostsNotification] = useState(false)
     const notificationsRef = useRef()
 
 
@@ -29,11 +30,28 @@ export function StoryIndex({navSelection}) {
 
     useEffect(() => {
         loadAppData()
+        startSocketCommunication()
+        return () => socketService.socketDisconnect()
+    }, [])
+
+    useEffect(() => {
+        loadAppData()
+        setNewPostsNotification(false)
     }, [stories.length])
+
+    function startSocketCommunication() {
+        socketService.socketConnect(currentUser)
+        //setNewPostsNotification(false)
+        socketService.onNewStory(() => {
+            console.log("Socket message: NEW-POST NOTIFICATION")
+            setNewPostsNotification(true)
+        })
+    }
 
     async function loadAppData() {
         const loadedUser = await loadCurrentUser()
         console.log("loadAppData: ",loadedUser)
+        socketService.emitUserIdentify(loadedUser._id)
         userActions.loadUserList()
         //console.log(userList)
         storyActions.loadStories(loadedUser)
@@ -43,7 +61,6 @@ export function StoryIndex({navSelection}) {
     async function loadCurrentUser() {
         try {
             const loadedUser = await userActions.loadCurrentUser()
-            console.log("loadCurrentUser: ",loadedUser)
             return loadedUser
         }
         catch (err) {
@@ -57,10 +74,10 @@ export function StoryIndex({navSelection}) {
 
     async function onAddStory(story) {
         try {
-            const savedStory = await storyActions.addStory(story)
-            showSuccessMsg(`Story added (id: ${savedStory._id})`)
+            const savedStory = await storyActions.addStory(story, currentUser)
+            //console.log("onAddStory: ",savedStory)
         } catch (err) {
-            showErrorMsg('Cannot add story')
+            console.log("onAddStory error: ",err)
         }        
     }
 
@@ -69,7 +86,7 @@ export function StoryIndex({navSelection}) {
             const savedStory = await storyActions.updateStory(story)
             //console.log("onUpdateStory: ",savedStory)
         } catch (err) {
-            showErrorMsg('Cannot update story')
+            console.log("onUpdateStory error: ",err)
         }        
     }
 
@@ -80,7 +97,7 @@ export function StoryIndex({navSelection}) {
             console.log("onUpdateUser: current -",currentUser)
         } 
         catch (err) {
-            showErrorMsg('Cannot update user')
+            console.log("onUpdateUser error: ",err)
         }        
     }
 
@@ -100,7 +117,11 @@ export function StoryIndex({navSelection}) {
         }
     }
 
-        
+    async function onClickNewPosts() {
+        await storyActions.loadStories(currentUser)
+        setNewPostsNotification(false)
+    }
+
     return ( !currentUser ? '' :
         <div className={username ? 'user-details' : 'app'}>
             <div className="nav-bar">
@@ -109,6 +130,9 @@ export function StoryIndex({navSelection}) {
 
             {(username) ? <UserDetails currentUser={currentUser}/> :
             <>
+                <div className={`new-posts-overlay ${newPostsNotification ? " new-posts-visible" : ''}`}>
+                        <button className="new-posts-button" onClick={onClickNewPosts}>New posts</button>
+                </div>
                 <div className="main-content" onClick={onClickAnywhere}>
                     <div>
                         <StoryList stories={stories} onUpdateStory={onUpdateStory} 
@@ -123,7 +147,8 @@ export function StoryIndex({navSelection}) {
             {/*<div ref={notificationsRef}>
                 {showNotificationsPane && <NotificationsPane currentUser={currentUser}/>}*/}
             <div ref={notificationsRef}>
-                <NotificationsPane show={showNotificationsPane} currentUser={currentUser}/>
+                <NotificationsPane show={showNotificationsPane} currentUser={currentUser} 
+                    userList={userList} storyList={stories}/>
             </div>
         </div>
     )

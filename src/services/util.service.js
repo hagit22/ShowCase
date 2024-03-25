@@ -163,15 +163,18 @@ function getPassedTimeString(timestamp) {
 
 function getPassedTimeGroups(itemsList, key) {
     const newItems = itemsList.filter(item => 
-        !utilService.getPassedTimeString(item[key]).endsWith('d'))
+        utilService.getPassedTimeString(item[key]).endsWith('m'))
+    const todayItems = itemsList.filter(item => 
+        utilService.getPassedTimeString(item[key]).endsWith('h'))
     const recentItems = itemsList.filter(item => 
         utilService.getPassedTimeString(item[key]).endsWith('d') &&
-        +(utilService.getPassedTimeString(item[key]).slice(0,-1)) <= 1)
+        +(utilService.getPassedTimeString(item[key]).slice(0,-1)) <= 5)
     const earlierItems = itemsList.filter(item => 
         utilService.getPassedTimeString(item[key]).endsWith('d') &&
-        +(utilService.getPassedTimeString(item[key]).slice(0,-1)) > 1)
+        +(utilService.getPassedTimeString(item[key]).slice(0,-1)) > 5)
     return[
         {name: "New", data: newItems},
+        {name: "Today", data: todayItems},
         {name: "Recent", data: recentItems},
         {name: "Earlier", data: earlierItems}]
 }

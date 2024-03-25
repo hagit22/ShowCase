@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 
-import { socketService, SOCKET_EMIT_SEND_MSG, SOCKET_EVENT_ADD_MSG, SOCKET_EMIT_SET_TOPIC } from '../services/socket.service'
+//import { socketService, SOCKET_EMIT_SEND_MSG, SOCKET_EVENT_ADD_MSG, SOCKET_EMIT_SET_TOPIC } from '../services/socket.service'
 
 export function ChatApp() {
     const [msg, setMsg] = useState({ txt: '' })
@@ -14,9 +14,9 @@ export function ChatApp() {
     const botTimeoutRef = useRef()
 
     useEffect(() => {
-        socketService.on(SOCKET_EVENT_ADD_MSG, addMsg)
+        //socketService.on(SOCKET_EVENT_ADD_MSG, addMsg)
         return () => {
-            socketService.off(SOCKET_EVENT_ADD_MSG, addMsg)
+            //socketService.off(SOCKET_EVENT_ADD_MSG, addMsg)
             botTimeoutRef.current && clearTimeout(botTimeoutRef.current)
         }
     }, [])

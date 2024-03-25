@@ -1,10 +1,8 @@
-import { store } from '../store.js'
-import { storyService } from '../../services/story.service.js'
 import { utilService } from '../../services/util.service.js'
-import { userActions } from './user.actions.js'
+import { socketService } from "../../services/socket.service.js";
+import { storyService } from '../../services/story.service.js'
+import { store } from '../store.js'
 import { storyActionTypes } from '../reducers/story.reducer.js'
-import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service.js'
-import { userService } from '../../services/user.service.js'
 
 export const storyActions = {
     loadStories,
@@ -24,14 +22,14 @@ async function loadStories(currentUser) {
         console.log('Cannot load stories', err)
         throw err
     }
-
 }
 
-async function addStory(story) {
+async function addStory(story, currentUser) {
     try {
         const savedStory = await storyService.save(story)
         //console.log('Added Story', savedStory)
         store.dispatch(_getActionAddStory(savedStory))
+        socketService.emitUserPost(currentUser.followers.map(follower=>follower._id), savedStory._id)
         return savedStory
     } catch (err) {
         console.log('Cannot add story', err)
@@ -95,14 +93,12 @@ export function onRemoveStoryOptimistic(storyId) {
         type: storyActionTypes.REMOVE_STORY,
         storyId
     })
-    showSuccessMsg('Story removed')
 
     storyService.remove(storyId)
         .then(() => {
             console.log('Server Reported - Deleted Successfully');
         })
         .catch(err => {
-            showErrorMsg('Cannot remove story')
             console.log('Cannot load stories', err)
             store.dispatch({
                 type: storyActionTypes.UNDO_REMOVE_STORY,

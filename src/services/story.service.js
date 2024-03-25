@@ -1,4 +1,3 @@
-import { utilService } from './util.service.js'
 import { userService } from './user.service.js';
 import { storyServiceRemote } from './story.service.remote.js'
 
@@ -8,7 +7,8 @@ export const storyService = {
     remove: storyServiceRemote.remove,
     save: storyServiceRemote.save,
     createNewStory,
-    createNewComment
+    createNewComment,
+    getMiniStory
 }
 
 const STORY_ID_LENGTH = 6; 
@@ -32,6 +32,16 @@ function createNewComment(commentText) {
         createdAt: Date.now(), 
     }
 }
+
+function getMiniStory(story) {
+    if (!story)
+        return null
+    const { _id, imgUrl } = story
+    return({ _id, imgUrl })
+}
+
+
+
 
 
 

@@ -1,115 +1,134 @@
 import io from 'socket.io-client'
-import { userService } from './user.service'
+import { BASE_SOCKET_URL }  from './route-base.js'
 
-export const SOCKET_EVENT_ADD_MSG = 'chat-add-msg'
-export const SOCKET_EMIT_SEND_MSG = 'chat-send-msg'
-export const SOCKET_EMIT_SET_TOPIC = 'chat-set-topic'
-export const SOCKET_EMIT_USER_WATCH = 'user-watch'
-export const SOCKET_EVENT_USER_UPDATED = 'user-updated'
-export const SOCKET_EVENT_REVIEW_ADDED = 'review-added'
-export const SOCKET_EVENT_REVIEW_ABOUT_YOU = 'review-about-you'
+export const socketService = {
+    socketConnect,
+    socketDisconnect,
+  
+    emitUserIdentify,
+    emitUserFollow,
+    emitUserPost,
 
-const SOCKET_EMIT_LOGIN = 'set-user-socket'
-const SOCKET_EMIT_LOGOUT = 'unset-user-socket'
-
-
-const baseUrl = (process.env.NODE_ENV === 'production') ? '' : '//localhost:3030'
-// export const socketService = createSocketService()
-export const socketService = createDummySocketService()
-
-// for debugging from console
-window.socketService = socketService
-
-socketService.setup()
-
-
-function createSocketService() {
-  var socket = null
-  const socketService = {
-    setup() {
-      socket = io(baseUrl)
-      const user = userService.getLoggedInUser()
-      if (user) this.login(user._id)
-    },
-    on(eventName, cb) {
-      socket.on(eventName, cb)
-    },
-    off(eventName, cb = null) {
-      if (!socket) return
-      if (!cb) socket.removeAllListeners(eventName)
-      else socket.off(eventName, cb)
-    },
-    emit(eventName, data) {
-      socket.emit(eventName, data)
-    },
-    login(userId) {
-      socket.emit(SOCKET_EMIT_LOGIN, userId)
-    },
-    logout() {
-      socket.emit(SOCKET_EMIT_LOGOUT)
-    },
-    terminate() {
-      socket = null
-    },
-
-  }
-  return socketService
+    onNewUser,
+    onNewFollower,
+    onNewStory,
+    onStoryByFollowing,
 }
 
-function createDummySocketService() {
-  var listenersMap = {}
-  const socketService = {
-    listenersMap,
-    setup() {
-      listenersMap = {}
-    },
-    terminate() {
-      this.setup()
-    },
-    login() {
-      console.log('Socket: Login')
-    },
-    logout() {
-      console.log('Socket: Logout')
-    },
-    on(eventName, cb) {
-      listenersMap[eventName] = [...(listenersMap[eventName]) || [], cb]
-    },
-    off(eventName, cb) {
-      if (!listenersMap[eventName]) return
-      if (!cb) delete listenersMap[eventName]
-      else listenersMap[eventName] = listenersMap[eventName].filter(l => l !== cb)
-    },
-    emit(eventName, data) {
-      var listeners = listenersMap[eventName]
-      if (eventName === SOCKET_EMIT_SEND_MSG) {
-        listeners = listenersMap[SOCKET_EVENT_ADD_MSG]
-      }
+const clientMessages = {
+    userIdentify: 'user-identify',  // gets: { sendingUserId }
+    userFollow: 'user-follow',      // gets: { followingUserId }
+    userPost: 'user-post'           // gets: { followersList, storyId }
+}
+ 
+const notificationTypes = {
+    newUser: 'new-user',                    // gets: { newUserId }
+    newFollower: 'new-follower',            // gets: { newFollowerId }
+    newStory: 'new-story',                  // gets: { newStoryId }
+    storyByFollowing: 'story-by-following'  // gets: { followingUserId, storyId }
+  }
+  
+export const notificationMessages = {
+    newUser: 'just joined Instushgram', //'who you might know is on Instushgram',
+    newFollower: 'started following you',
+    storyByFollowing: 'posted a thread you might like',
+    none: ''
+}
 
-      if (!listeners) return
 
-      listeners.forEach(listener => {
-        listener(data)
-      })
-    },
-    // Functions for easy testing of pushed data
-    testChatMsg() {
-      this.emit(SOCKET_EVENT_ADD_MSG, { from: 'Someone', txt: 'Aha it worked!' })
-    },
-    testUserUpdate() {
-      this.emit(SOCKET_EVENT_USER_UPDATED, { ...userService.getLoggedInUser(), score: 555 })
+const socketHandler = io(BASE_SOCKET_URL, {
+    autoConnect: true,
+    /*transports: ['websocket']*/
+})
+
+
+function socketConnect(loggedInUser) {
+
+    socketHandler.on('connect', () => {
+        console.log("Connected to Socket")
+        emitUserIdentify(loggedInUser._id)
+    })
+
+    socketHandler.on('disconnect', () => {
+        console.log("Disconnected from Socket")
+    })
+    
+    socketHandler.on("connect_error", (err) => {
+        console.log("error-message: ",err.message);
+        console.log("error-description: ",err.description);
+        console.log("error-context: ",err.context);
+    });
+
+    //socketHandler.connect()
+}
+
+function socketDisconnect() {
+    socketHandler.disconnect()
+    //socketHandler.close()
+}
+
+function onNewUser(callback) {
+    socketHandler.on(notificationTypes.newUser, ({newUserId}) => {
+        console.log("Socket: onNewUser: ", newUserId)
+        callback(notificationTypes.newUser, newUserId, '', notificationMessages.newUser)
+    })
+}
+  
+function onNewFollower(callback) {
+    socketHandler.on(notificationTypes.newFollower, ({newFollowerId}) => {
+        console.log("Socket: onNewFollower: ", newFollowerId)
+        callback(notificationTypes.newFollower, newFollowerId, '', notificationMessages.newFollower)
+    })
+}
+
+function onNewStory(callback) {
+    socketHandler.on(notificationTypes.newStory, ({newStoryId}) => {
+        console.log("Socket: onNewStory: ", newStoryId)
+        callback(notificationTypes.newStory, '', newStoryId, notificationMessages.none)
+    }) 
+}
+
+function onStoryByFollowing(callback) {
+    socketHandler.on(notificationTypes.storyByFollowing, ({followingUserId, storyId}) => {
+      console.log("Socket: onStoryByFollowing: ", followingUserId, storyId)
+      callback(notificationTypes.storyByFollowing, followingUserId, storyId, notificationMessages.storyByFollowing)
+    })
+}
+
+function emitUserIdentify(sendingUserId) {
+    try {
+        console.log("emitUserIdentify: sendingUserId - ",sendingUserId)
+        socketHandler.emit(clientMessages.userIdentify, {sendingUserId})
     }
-  }
-  window.listenersMap = listenersMap
-  return socketService
+    catch(err) {
+        console.log("emitUserIdentify - error", err)
+    }
+}
+
+function emitUserFollow(followingUserId) {
+    try {
+        console.log("emitUserFollow: followingUser - ",followingUserId)
+        socketHandler.emit(clientMessages.userFollow, {followingUserId})
+    }
+    catch(err) {
+        console.log("emitUserFollow - error", err)
+    }
+}
+
+function emitUserPost(followersList, storyId) {
+    try {
+        console.log("emitUserPost: story - ",storyId," followers: ",followersList)
+        socketHandler.emit(clientMessages.userPost, {followersList, storyId})
+    }
+    catch(err) {
+        console.log("emitUserPost - error", err)
+    }
 }
 
 
-// Basic Tests
-// function cb(x) {console.log('Socket Test - Expected Puk, Actual:', x)}
-// socketService.on('baba', cb)
-// socketService.on('baba', cb)
-// socketService.on('baba', cb)
-// socketService.on('mama', cb)
-// socketService.emit('baba', 'Puk')
-// socketService.off('baba', cb)
+
+
+
+
+
+

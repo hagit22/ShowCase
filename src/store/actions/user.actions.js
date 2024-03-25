@@ -1,11 +1,10 @@
 import { sessionStorageService } from "../../services/session-storage.service.js";
-import { userService } from "../../services/user.service.js";
 import { socketService } from "../../services/socket.service.js";
+import { userService } from "../../services/user.service.js";
 import { store } from '../../store/store.js'
-
-import { showErrorMsg } from '../../services/event-bus.service.js'
-import { LOADING_DONE, LOADING_START } from "../reducers/system.reducer.js";
+import { storyActions } from "./story.actions.js";
 import { userActionTypes } from "../reducers/user.reducer.js";
+import { LOADING_DONE, LOADING_START } from "../reducers/system.reducer.js";
 
 export const userActions = {
     loadUserList,
@@ -46,8 +45,7 @@ async function signup(credentials) {
     try {
         const user = await userService.signup(credentials)
         const loggedInUser = await loadCurrentUser()
-        //store.dispatch({ type: userActionTypes.SET_CURRENT_USER, currentUser: user })
-        socketService.login(user)
+        //store.dispatch({ type: userActionTypes.SET_CURRENT_USER, currentUser: user }) // loadCurrentUser does dispatch instead
         return loggedInUser
     } catch (err) {
         console.log('Cannot signup', err)
@@ -58,9 +56,8 @@ async function signup(credentials) {
 async function login(credentials) {
     try {
         const user = await userService.login(credentials)
-        const loggedInUser = await loadCurrentUser()
-        //store.dispatch({ type: userActionTypes.SET_CURRENT_USER, currentUser: user })
-        socketService.login(user)
+        const loggedInUser = await loadCurrentUser(true)
+        //store.dispatch({ type: userActionTypes.SET_CURRENT_USER, currentUser: user }) // loadCurrentUser does dispatch instead
         return loggedInUser
     } catch (err) {
         console.log('Cannot login', err)
@@ -72,18 +69,19 @@ async function logout() {
     try {
         await userService.logout()
         store.dispatch({ type: userActionTypes.SET_CURRENT_USER, currentUser: null })
-        socketService.logout()
     } catch (err) {
         console.log('Cannot logout', err)
         throw err
     }
 }
 
-async function loadCurrentUser() {
+async function loadCurrentUser(loadStories=false) {
     try {
         const miniUser = sessionStorageService.getLoggedInUser()
         const loggedInUser = await userService.getByUsername(miniUser.username);
         store.dispatch({ type: userActionTypes.SET_CURRENT_USER, currentUser: loggedInUser })
+        if (loadStories)
+            await storyActions.loadStories(loggedInUser)
         return loggedInUser
     } catch (err) {
         console.log('Cannot save user', err)
@@ -110,7 +108,6 @@ async function loadChosenUser(username) {
         console.log("loadChosenUser: ",user)
         store.dispatch({ type: userActionTypes.SET_CHOSEN_USER, chosenUser: user })
     } catch (err) {
-        showErrorMsg('Cannot load user')
         console.log('Cannot load user', err)
         store.dispatch({ type: userActionTypes.SET_CHOSEN_USER, chosenUser: null })
     }
@@ -119,8 +116,9 @@ async function loadChosenUser(username) {
 async function followUser(userToFollow) {
     try {
         await userService.followUser(userToFollow)
-        loadCurrentUser()
+        loadCurrentUser(true)
         loadChosenUser(userToFollow.username)
+        socketService.emitUserFollow(userToFollow._id)
     } catch (err) {
         console.log('Cannot save user', err)
         throw err
@@ -130,7 +128,7 @@ async function followUser(userToFollow) {
 async function unFollowUser(userToUnFollow) {
     try {
         await userService.unFollowUser(userToUnFollow)
-        loadCurrentUser()
+        loadCurrentUser(true)
         loadChosenUser(userToUnFollow.username)
     } catch (err) {
         console.log('Cannot save user', err)

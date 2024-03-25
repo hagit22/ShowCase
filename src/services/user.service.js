@@ -1,4 +1,6 @@
 import { sessionStorageService } from './session-storage.service.js'
+import { utilService } from './util.service.js'
+import { storyService } from './story.service.js'
 import { userServiceRemote } from './user.service.remote.js'
 
 export const userService = {
@@ -18,9 +20,11 @@ export const userService = {
     followUser,
     unFollowUser,
     getFollowLabels,
+    createNewNotification,
     changeImage
 }
 
+const USER_ID_LENGTH = 6; 
 const NUM_DISPLAY_USERS = 5
 
 const followLabels = {
@@ -63,6 +67,17 @@ async function unFollowUser(userToUnFollow) {
 
 function getFollowLabels() {
     return followLabels
+}
+
+function createNewNotification(txt, aboutUser, aboutStory) {
+    console.log("createNewNotification: ",txt,aboutUser,aboutStory)
+    return {
+        _id: utilService.makeId(USER_ID_LENGTH),
+        txt: txt,
+        about: aboutUser ? getMiniUser(aboutUser) : null,
+        aboutStory: aboutStory ? storyService.getMiniStory(aboutStory) : null,
+        createdAt: Date.now(), 
+    }
 }
 
 async function changeImage(imgUrl) {

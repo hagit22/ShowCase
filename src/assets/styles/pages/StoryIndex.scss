@@ -36,6 +36,35 @@ body, html {
   grid-row: 1 / span 2;
 }
 
+.new-posts-overlay {
+  z-index: 30;
+  position: fixed;
+  left: 50%;
+  top: 10px;
+  visibility: hidden;
+}
+
+.new-posts-visible {
+  visibility: visible;
+}
+
+.new-posts-button {
+  width: 82px;
+  height: 34px;
+  padding: 1px 6px;
+  border-radius: 22%;
+  border: white 1px outset;
+  background-color: white;
+  color: $color-default;
+  font-size: $font-size-normal;
+  font-weight: $font-weight-normal;
+  font-family: inherit;
+  line-height: $line-height-normal;
+  //position: relative;
+}
+
+
+
 /*@media screen and (max-width: 768px) {
   .app {
     grid-template-columns: 1fr;

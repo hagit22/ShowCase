@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import BASE_URL from './route-base.js'
+import { BASE_URL } from './route-base.js'
 
 export const storyServiceRemote = {
     getStories,
