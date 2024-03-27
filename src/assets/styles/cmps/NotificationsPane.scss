@@ -11,14 +11,15 @@
     width: 397px;
     left: $nav-bar-width-narrow;
     transition: width 200ms;
-    @include separator(right)
+    @include separator(right);
+    @include separator(left);
 }
 
 .notifications-hide {
     width: 0;
     left: 0;
     transition: width 300ms;
-    &::-webkit-scrollbar {display: none;} 
+    @include hide-scrollbar;
 }
 
 .notifications-content {
@@ -57,6 +58,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-right: 20px;
+    .item-image-and-text {
+        display: flex;
+        //align-items: center;
+        justify-content: flex-start;
+    }
     .item-image {
         position: relative;
         //left: 24px;
@@ -64,6 +71,11 @@
         height: 44px;
         border-radius: 50%;
         margin-right: 14px;
+    }
+    .item-story-image {
+        position: relative;
+        width: 44px;
+        height: 44px;
     }
     .item-text {
         font-size: $font-size-normal;
@@ -81,12 +93,13 @@
     }
     .item-button {
         height: 32px;
-        margin-left: 12px;
+        //margin-left: 12px;
         padding: 7px 16px;
         border-radius: 8px;
     }
     .button-follow {
         background-color: $color-blue-button;
+        margin-right: -1px;
     }
     .button-following {
         background-color: $color-button-background;
@@ -94,25 +107,52 @@
     }
 }
 
-.new-notification-overlay {
-    z-index: 30;
-    position: fixed;
-    left: 39px;
-    top: 284px;
-    visibility: hidden;
-    width: 7px;
-    height: 7px;
-    padding: 3.5px 3.5px;
-    border-radius: 50%;
-    border: white 1.5px solid;
-    background-color: $color-like;
+  
+
+@media screen and (max-width: 600px) { // 768px
+    .notifications-section {
+        //position: fixed;
+        top: 0; //55px; 
+        height: 93vh;
+        overflow-y: scroll;
+        @include hide-scrollbar;
+        @include separator(top);
+        @include separator(bottom); 
+    }
+    .notifications-show {
+        width: auto; //397px;
+        left: 0; // $nav-bar-width-narrow;
+    }
+    .notifications-hide {
+        width: 0;
+        left: 0;
+    }
+    .notifications-content {
+        width: auto; // 397;
+    }
+    .nav-bar-logo-mini {
+        display: none;
+    }
+    .notifications-title {
+        padding: 10 0px;
+        font-size: $font-size-mobile-title;
+        font-weight: $font-weight-title;
+        line-height: $line-height-normal;
+        text-align: center;
+        @include separator(bottom);
+        position: sticky;
+    }
+    .create-story-image {
+        width: 80%; 
+    } 
+    .create-story-text {
+        width: 90%;
+        height: 50vh;
+    }
+       
 }
-  
-.new-notification-visible {
-    visibility: visible;
-  }
-  
-  
+
+
 
 
 

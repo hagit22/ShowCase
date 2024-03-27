@@ -1,7 +1,10 @@
 .create-story-image {
     @include modal-layout-create;
-    width: 32%;
+    width: 33%;
+    max-width: 66%;
+    height: 66vh;
     padding-bottom: 2px;
+    @include hide-scrollbar;
 }
 
 .create-new-post {
@@ -44,5 +47,18 @@
         }
     }
 }
+
+@media screen and (max-width: 600px) { // 768px
+    .create-story-image {
+        width: 90%;
+        max-width: unset;
+        height: 63vh;
+    }
+    .create-story-text {
+        width: 40%;
+        height: fit-content;
+    }
+}
+    
 
 

@@ -22,6 +22,7 @@ export function StoryIndex({navSelection}) {
     const [initialNavSelection, setInitialNavSelection] = useState(navSelection)
     const [showNotificationsPane, setShowNotificationsPane] = useState(false)
     const [newPostsNotification, setNewPostsNotification] = useState(false)
+    const [newUserNotification, setNewUserNotification] = useState(false)
     const notificationsRef = useRef()
 
 
@@ -30,6 +31,7 @@ export function StoryIndex({navSelection}) {
 
     useEffect(() => {
         loadAppData()
+        setNewUserNotification(false)
         startSocketCommunication()
         return () => socketService.socketDisconnect()
     }, [])
@@ -103,6 +105,14 @@ export function StoryIndex({navSelection}) {
 
     function onShowNotifications(showNotifications) {
         setShowNotificationsPane(showNotifications)
+        // mark new notifications only if not currently in panel
+        if (showNotifications) setNewUserNotification(false)
+    }
+
+    function onNotify(shouldNotify) {
+        // mark new notifications only if not currently in panel
+        console.log("ON NOTIFY !!! ", shouldNotify)
+        setNewUserNotification(showNotificationsPane ? false : shouldNotify)
     }
 
     function onNavSelect(selection) {
@@ -125,31 +135,37 @@ export function StoryIndex({navSelection}) {
     return ( !currentUser ? '' :
         <div className={username ? 'user-details' : 'app'}>
             <div className="nav-bar">
-                <NavBar initialSelection={initialNavSelection} onSelect={onNavSelect} onAddStory={onAddStory} onShowNotifications={onShowNotifications}/>
+                <NavBar initialSelection={initialNavSelection} onSelect={onNavSelect} 
+                    onAddStory={onAddStory} onShowNotifications={onShowNotifications}/>
             </div>
 
-            {(username) ? <UserDetails currentUser={currentUser}/> :
-            <>
-                <div className={`new-posts-overlay ${newPostsNotification ? " new-posts-visible" : ''}`}>
-                        <button className="new-posts-button" onClick={onClickNewPosts}>New posts</button>
-                </div>
-                <div className="main-content" onClick={onClickAnywhere}>
-                    <div>
-                        <StoryList stories={stories} onUpdateStory={onUpdateStory} 
-                            currentUser={currentUser} onUpdateUser={onUpdateUser}/>
+            <div className="center-section">
+                {(username) ? <UserDetails currentUser={currentUser}/> :
+                <div>
+                    <div className="main-content" onClick={onClickAnywhere}>
+                        <div>
+                            <StoryList stories={stories} onUpdateStory={onUpdateStory} 
+                                currentUser={currentUser} onUpdateUser={onUpdateUser}/>
+                        </div>
                     </div>
-                </div>
-                <div className="users-bar" onClick={onClickAnywhere}>
-                    <UsersBar userList={userList} currentUser={currentUser} numDisplayUsers={userService.getNumDisplayUsers()}/>
-                </div>
-            </>}
+                </div>}
+            </div>
 
-            {/*<div ref={notificationsRef}>
-                {showNotificationsPane && <NotificationsPane currentUser={currentUser}/>}*/}
+            {(username) ? '' :
+            <div className="users-bar" onClick={onClickAnywhere}>
+                <UsersBar userList={userList} currentUser={currentUser} numDisplayUsers={userService.getNumDisplayUsers()}/>
+            </div>}
+
             <div ref={notificationsRef}>
                 <NotificationsPane show={showNotificationsPane} currentUser={currentUser} 
-                    userList={userList} storyList={stories}/>
+                    userList={userList} storyList={stories} onNotify={onNotify}/>
             </div>
+            
+            {/* Overlays */}
+            <div className={`new-posts-overlay ${newPostsNotification ? " new-posts-visible" : ''}`}>
+                        <button className="new-posts-button" onClick={onClickNewPosts}>New posts</button>
+                </div>
+            <div className={`new-notification-overlay ${newUserNotification ? " new-notification-visible" : ''}`}/>
         </div>
     )
 }

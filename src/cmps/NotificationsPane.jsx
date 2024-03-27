@@ -1,21 +1,19 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect, useRef } from 'react'
 import { utilService } from '../services/util.service.js'
-import { socketService } from '../services/socket.service.js'
+import { socketService, notificationTypes } from '../services/socket.service.js'
 import { userService } from '../services/user.service.js'
 import { storyService } from '../services/story.service.js'
 import { userActions } from '../store/actions/user.actions.js'
 
-export function NotificationsPane({show, currentUser, userList, storyList}) {
+export function NotificationsPane({show, currentUser, userList, storyList, onNotify}) {
 
     const userNotifications = useRef([])
     const [notificationGroups, setNotificationsGroups] = useState([])
-    const [newNotification, setNewNotification] = useState(false)
 
     useEffect(() => {
         if (!currentUser || userList.length === 0 || storyList.length === 0)
-            return
-        setNewNotification(false)
+           return
         socketService.onNewUser(onNewNotification)
         socketService.onNewFollower(onNewNotification)
         socketService.onStoryByFollowing(onNewNotification)
@@ -42,14 +40,19 @@ export function NotificationsPane({show, currentUser, userList, storyList}) {
         return groups
     }
 
-    function onNewNotification(notificationType, aboutUserId, aboutStoryId, notificationMessage) {
-        //console.log("GOT - onNewNotification: ",notificationType, aboutUserId, aboutStoryId, notificationMessage)
-        setNewNotification(true)
-        const notification = userService.createNewNotification(notificationMessage, 
-            aboutUserId ? userList.filter(user=>user._id === aboutUserId)[0] : null,
-            aboutStoryId ? storyList.filter(story=>story._id === aboutStoryId)[0] : null)
+    function onNewNotification(notificationType, aboutUserId, imgUrl, aboutUserName, notificationMessage) {
+        console.log("GOT - onNewNotification: ",notificationType, aboutUserId, imgUrl, aboutUserName, notificationMessage)
+        if (aboutUserId === currentUser._id) return // no need for users to get notifications about themselves
+        if (notificationType===notificationTypes.storyByFollowing &&    // notify only for users followed by current user
+            currentUser.following.filter(follow => aboutUserId === follow._id).length === 0)
+                return
+        const aboutUser = aboutUserName ? {_id: aboutUserId, username: aboutUserName, imgUrl} :  // in case of new sign-in, user is still not in userList
+            userList.filter(user=>user._id === aboutUserId)[0]
+        const notification = userService.createUserNotification(notificationMessage, aboutUser, imgUrl || null)
+        console.log("The New Notification is: ",notification, "length before: ",userNotifications.current.length)
         userNotifications.current = [notification, ...(userNotifications.current)]
-        userActions.updateCurrentUser({...currentUser, notifications: [notification, ...(currentUser.notifications)]})
+        console.log("all notifications: ",userNotifications.current.length,": ",userNotifications)
+        onNotify(true)
     }
 
 
@@ -71,22 +74,23 @@ export function NotificationsPane({show, currentUser, userList, storyList}) {
                     </div>
                     {group.data.map(notify => 
                     <div key={notify._id} className="notifications-item">
-                        <img className="item-image" src={notify.about.imgUrl}/>
+                        <div className="item-image-and-text"><img className="item-image" src={notify.about.imgUrl}/>
                         <span className="item-text">
                             <span className="item-user">{notify.about.username}{' '}</span> 
                             {notify.txt}
                             {' '}<span className="item-passed-time"> 
                                 {notify.createdAt && utilService.getPassedTimeString(notify.createdAt)}
                             </span>
-                        </span>
+                        </span></div>
                         {notify.txt.startsWith("posted") ?
-                        <button className="item-button button-following" onClick={onClickFollow}>Following</button> :
-                        <button className="item-button button-follow" onClick={onClickFollow}>Follow</button>}
+                            notify.storyImgUrl ?  
+                                <img className="item-story-image" src={notify.storyImgUrl}/> :
+                                <button className="item-button button-following" onClick={onClickFollow}>Following</button> :
+                            <button className="item-button button-follow" onClick={onClickFollow}>Follow</button>}
                     </div>)}
                 </div>
                 <div className="notifications-group-separator"/></div>)}
             </div>
-            <div className={`new-notification-overlay ${newNotification ? " new-notification-visible" : ''}`}/>
         </section>
     )
 }

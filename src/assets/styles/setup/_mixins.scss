@@ -100,3 +100,8 @@
   color: $color-default;
 }
 
+@mixin hide-scrollbar {
+  &::-webkit-scrollbar {display: none;} 
+  scrollbar-width: none;
+}
+

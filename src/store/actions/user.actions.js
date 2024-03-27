@@ -1,5 +1,5 @@
 import { sessionStorageService } from "../../services/session-storage.service.js";
-import { socketService } from "../../services/socket.service.js";
+import { socketService, notificationMessages } from "../../services/socket.service.js";
 import { userService } from "../../services/user.service.js";
 import { store } from '../../store/store.js'
 import { storyActions } from "./story.actions.js";
@@ -46,6 +46,8 @@ async function signup(credentials) {
         const user = await userService.signup(credentials)
         const loggedInUser = await loadCurrentUser()
         //store.dispatch({ type: userActionTypes.SET_CURRENT_USER, currentUser: user }) // loadCurrentUser does dispatch instead
+        const userNotification = userService.createUserNotification(notificationMessages.newUser, user, null)
+        userService.updateAllUsers(loggedInUser, userNotification)
         return loggedInUser
     } catch (err) {
         console.log('Cannot signup', err)
@@ -116,9 +118,11 @@ async function loadChosenUser(username) {
 async function followUser(userToFollow) {
     try {
         await userService.followUser(userToFollow)
-        loadCurrentUser(true)
+        const loggedInUser = await loadCurrentUser(true)
         loadChosenUser(userToFollow.username)
         socketService.emitUserFollow(userToFollow._id)
+        const userNotification = userService.createUserNotification(notificationMessages.newFollower, loggedInUser, null)
+        userService.addUserNotification(userToFollow, userNotification)
     } catch (err) {
         console.log('Cannot save user', err)
         throw err

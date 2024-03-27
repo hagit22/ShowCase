@@ -96,7 +96,7 @@
 
 
 
-@media screen and (max-width: 1100px) {
+@media screen and (max-width: 800px) {
     .nav-bar {
         width: $nav-bar-width-narrow;
     }      
@@ -120,51 +120,94 @@
     }
 }
 
-@media screen and (max-width: 768px) { 
+/*@media screen and (max-width: 768px) { 
     .notifications-section {
         display: none;
     }
-}
+}*/
 
 
-/*@media screen and (max-width: 600px) { // 768px
+@media screen and (max-width: 600px) { // 768px
     .nav-bar {
         border: none;
+        width: unset;
+        z-index: 10;
     }
     .nav-bar-logo {
-        display: inline;
-        position: fixed;
+        display: unset;
+        position: absolute;
         top: 0;
-        height: 60px;                           // dor
+        margin-top: 10px;
+        margin-left: -180px;
+        margin-bottom: 10px;
     }
     .nav-bar-logo-mini {
         display: none;
     }
-    .search-bar {
-        display: inline;
+    .nav-bar-content {
+        flex-direction: row;
+        justify-content: center;
     }
     .nav-bar-list {
         position: fixed;
         bottom: 0;
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-        width: 90vh;
-        height: 50px;                           // dor
+        width: 90%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+    .nav-bar-item {
+        padding: 0;
+        margin: 0;
+    }
+    .nav-bar-icon-svg {
+        // So it will be pressable for presentation
+        padding: 10px;
+        padding-top: 0;
     }
     .app {
-        //grid-template-columns: 1fr 1000fr;    // dor
-        grid-template-columns: 1fr;             // dor
-        grid-template-rows: auto 1fr auto;      // dor
+        display: flex;
+        justify-content: center;
+    }
+    .center-section {
+        position: fixed;
+        top: 55px; //45px;
+        height: 85vh;
+        display: flex;
+        justify-content: center;
+        overflow-y: scroll;
+        @include hide-scrollbar;
+        @include separator(top);
+        @include separator(bottom);
+    }
+    .new-posts-overlay {
+        left: 40%;
+    }
+    .new-notification-overlay {
+        left: 59.5%;
+        top: 94.3%;
     }
     .main-content {
         display: flex;
         flex-direction: column;
         align-items: center;
     }
-    .story-list {
-        @include separator(top);
-        //overflow: auto
+    .preview-add-comment {
+        display: none;
+        form {
+           display: none;
+        }
+        textarea {
+            display: none;
+        }
+        a {
+            display: none;;
+        }
+        svg {
+            display: none;;
+        }
     }
-}*/
+}
 
 

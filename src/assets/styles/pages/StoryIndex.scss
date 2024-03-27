@@ -2,6 +2,7 @@ body, html {
   margin: 0;
   padding: 0;
   height: 100%;
+  @include hide-scrollbar; 
 }
 
 .app {
@@ -60,8 +61,27 @@ body, html {
   font-weight: $font-weight-normal;
   font-family: inherit;
   line-height: $line-height-normal;
-  //position: relative;
 }
+
+.new-notification-overlay {
+  z-index: 30;
+  position: fixed;
+  left: 39px;
+  top: 284px;
+  visibility: hidden;
+  width: 7px;
+  height: 7px;
+  padding: 3.5px 3.5px;
+  border-radius: 50%;
+  border: white 1.5px solid;
+  background-color: $color-like;
+}
+
+.new-notification-visible {
+  visibility: visible;
+}
+
+
 
 
 

@@ -8,6 +8,7 @@ import { SVG_CreateNewPost } from '../services/svg.service.jsx';
 export function CreateStoryImage({onAddStory}) {
 
     const hiddenFileInput = useRef(null);
+    const selectButton = useRef(null)
 
     const onSelectImage = async (event) => {
         try {
@@ -21,6 +22,9 @@ export function CreateStoryImage({onAddStory}) {
 
     const onClickSelect = async (event) => {
         hiddenFileInput.current.click()
+        selectButton.current.style.backgroundColor = "lightgray" //variables.lightText
+        selectButton.current.style.cursor = "default"
+        selectButton.current = null
     }
 
     return (
@@ -37,7 +41,7 @@ export function CreateStoryImage({onAddStory}) {
                         <div>
                             <span>Drag photos and videos here</span>
                         </div>
-                        <button onClick={onClickSelect} >Select from computer</button>
+                        <button ref={selectButton} onClick={onClickSelect} >Select from computer</button>
                         <input ref={hiddenFileInput} type="file" onChange={onSelectImage} accept="img/*" style={{display:'none'}}/>
                         {/*<button onClick={onSelectImage}>Select from computer</button>*/}
                     </div>

@@ -1,5 +1,6 @@
 import { utilService } from '../../services/util.service.js'
-import { socketService } from "../../services/socket.service.js";
+import { socketService, notificationMessages } from "../../services/socket.service.js";
+import { userService } from '../../services/user.service.js';
 import { storyService } from '../../services/story.service.js'
 import { store } from '../store.js'
 import { storyActionTypes } from '../reducers/story.reducer.js'
@@ -29,7 +30,9 @@ async function addStory(story, currentUser) {
         const savedStory = await storyService.save(story)
         //console.log('Added Story', savedStory)
         store.dispatch(_getActionAddStory(savedStory))
-        socketService.emitUserPost(currentUser.followers.map(follower=>follower._id), savedStory._id)
+        socketService.emitUserPost(currentUser.followers.map(follower=>follower._id), savedStory.imgUrl)
+        const userNotification = userService.createUserNotification(notificationMessages.storyByFollowing, currentUser, savedStory.imgUrl)
+        userService.updateFollowers(currentUser, userNotification)
         return savedStory
     } catch (err) {
         console.log('Cannot add story', err)

@@ -44,7 +44,7 @@ export function UserDetails({currentUser}) {
 
 
   return ( !user ? <InstagramError/> :
-    <section>
+    <section className="center-section" >
       <div className='user-details-header'>
         <img src={user.imgUrl}></img>
         <div className='user-header-actions'>

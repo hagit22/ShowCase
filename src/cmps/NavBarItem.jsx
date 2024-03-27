@@ -9,11 +9,11 @@ export function NavBarItem({text, icons, itemId, onClickItem, currentSelection})
             <div id={itemId}> 
                 { icons.image ? 
                     <img className="nav-bar-icon" src={icons.image} id={itemId} /> :
-                    <> 
+                    <div className="nav-bar-icon-svg" id={itemId}> 
                         {itemId === currentSelection ?
                             <icons.full id={itemId}/> :
                             <icons.empty id={itemId}/>}   
-                    </>
+                    </div>
                 }
             </div>
             <div className="nav-bar-text" id={itemId}>
