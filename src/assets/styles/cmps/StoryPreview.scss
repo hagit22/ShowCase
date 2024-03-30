@@ -31,6 +31,12 @@
     @include dot(0, 5px);
 }
 
+.preview-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: last baseline;
+}
+
 .story-preview-text {
     display: block;
     color: $color-default;

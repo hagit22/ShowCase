@@ -7,8 +7,10 @@ import { storyService } from './story.service.js';
 
 export const genDataService = {
     generateInitialData,
-    login,
-    testSignup
+    //login,
+    //logout,
+    //testSignup,
+    //jennySignup
 }
 
 const ID_LENGTH = 6; 
@@ -16,76 +18,57 @@ const ID_LENGTH = 6;
 //const STORAGE_KEY_USERS = 'users_db'
 
 
-/* For mongo-db-server (as opposed to local-storage), we make sure not to generate ID for: story, user and logged-in user,
-    Next we import the downloaded files into the Mongo-DB through compass. (originally, data was saved to local-storage).
-    The loggedInUser + password will enter the Mongo due to 'signup' */
-
 async function generateInitialData() {
-    /*const loggedInUser = await login()
-    console.log("********** LOGGED IN : ", loggedInUser)
-    console.log("************************************************")*/
-    
-    //await logout()
 
-    //return
+    return
 
-    //const users = await _generateInitialUsers()
-    //console.log("generate users: ",users)
+    let users = await _generateInitialUsers()
+    return
 
-    //await _addUserPassword(users)
-    //return
-
-    //await _generateInitialFollowingData(users)
+    await _generateInitialFollowingData(users)
     //return
     
-    //const stories = await _generateInitialStories(users)    
-    //console.log("generate stories: ",stories)
+    const stories = await _generateInitialStories(users)    
 
-    //await _generateInitialBookmarks(users, stories)
+    await _generateInitialBookmarks(users, stories)
     //return
     
-    //const loggedInUser = await _generateCurrentUserBookmarks(stories)
-    //console.log("generate bookmarks: ",loggedInUser)
-
-    //await _generateInitialNotifications(users, stories)
+    await _generateInitialNotifications(users, stories)
     //return
 
-    //await _generateMoreComments(users, stories)
-
-    //return users
+    await logout()
+    await login()   // back to default current-user
+    return users
 }
 
 // User Data 
 
 async function _generateInitialUsers() {
-    //let initialUsers = utilService.loadFromStorage(STORAGE_KEY_USERS) || []
-    let initialUsers = await userService.getUsers()
-    if (!initialUsers || initialUsers.length <= 1) {
-        const loggedInUser = await signup()
-        console.log("logged-in user: ",loggedInUser)
-        initialUsers = []
-        for (let i = 0; i < 10; i++) 
-            initialUsers.push(_generateUser());
-        _saveJsonFile(initialUsers, "users-data")
-        //utilService.saveToStorage(STORAGE_KEY_USERS, initialUsers)
+    let initialUsers = await userService.getUsers() || null
+    console.log("GenData: Got users: ",initialUsers)
+    if (initialUsers && initialUsers.length > 1) 
+        return initialUsers
+    const loggedInUser = await signup()
+    console.log("logged-in user: ",loggedInUser)
+    for (let i = 0; i < 10; i++) {
+        const user = _generateUser()
+        initialUsers.push(user)
     }
-    // we always want to make sure we have a loggedInUser- as it is temporary per session
-    /*const newLoggedInUser = _generateSessionLoggedInUser(initialUsers)
-    if (newLoggedInUser) { // newly created 
-        initialUsers.push(newLoggedInUser)
-        utilService.saveToStorage(STORAGE_KEY_USERS, initialUsers)
-    //}*/
+    console.log("GenData: Created users: ",initialUsers)
+    initialUsers = utilService.makeUnique(initialUsers,"username")
+    initialUsers.forEach(async user => await userService.save(user))
     return initialUsers
 }
 
 function _generateUser() {
-    const userId = utilService.makeId(ID_LENGTH)
-    const userImgUrl = `https://picsum.photos/seed/${userId}/470/600`
+    //const userId = utilService.makeId(ID_LENGTH)
+    //const userImgUrl = `https://picsum.photos/seed/${userId}/470/600`
     const username = utilService.generateRandomUsername()
+    const userImgUrl = `https://i.pravatar.cc/150?u=${username}`
     return {
         //_id: userId,
         username: username, 
-        password: '1234',
+        "password": "$2b$10$HAcMSob5gm9OmwgjpAGteOwEnNx16SxjFK46ri0VI7UDDpRkMDi76",
         fullname: utilService.generateRandomFullname(username), 
         imgUrl: userImgUrl,
         bookmarkedStories: [],
@@ -94,15 +77,22 @@ function _generateUser() {
     }
 }
 
+async function _generateAnotherUser()
+{
+    await userService.save(_generateUser())
+}
+
 function _generateSessionLoggedInUser(initialUsers) {
-    const uniqueURLseed = "!!==loggedInUser==!!"
-    const uniqueImgUrl = `https://picsum.photos/seed/${uniqueURLseed}1/470/600` 
+    //const uniqueURLseed = "!!==loggedInUser==!!"
+    const username = "Instush"
+    //const uniqueImgUrl = `https://picsum.photos/seed/${uniqueURLseed}1/470/600` 
+    const uniqueImgUrl = `https://i.pravatar.cc/150?u=${username}`
     // we want loggedInUser from session-storage to have the same id within the 'initialUsers' list
     let loggedInUser = initialUsers.filter(user=>user.imgUrl === uniqueImgUrl)[0] || undefined
     if (!loggedInUser)  {
         loggedInUser = {
             _id: utilService.makeId(ID_LENGTH),
-            username: "Instush",
+            username: username,
             password: "1234",
             fullname: "My Name:)", //"Instagram User",
             imgUrl: uniqueImgUrl,
@@ -134,18 +124,6 @@ function _chooseRandomUser(users, excludeId='') {
     return userService.getMiniUser(utilService.chooseRandomItemFromList(users));
 }
 
-/*async function _generateInitialJustFollowing(users) {
-    if (!users || users.length == 0)
-        return 
-    users.forEach(async user => {
-        const following = _chooseRandomUserList(users, users.length*0.5) 
-        user.following = [...following]
-        console.log("generate initial following: ",user)
-        //const savedUser = await userService.save(user)
-        //console.log("initial following data saved: ",savedUser)
-    })
-}*/
-
 async function _generateInitialFollowingData(users) {
     if (!users || users.length == 0)
         return 
@@ -160,10 +138,8 @@ async function _generateInitialFollowingData(users) {
                 users.filter(u => u._id === followedUser._id)[0].followers.push(userService.getMiniUser(user))
             })
     })
-    //users.forEach(user => user.followers = utilService.makeUnique(user.followers))
-    //users = users.map(user => ({...user, password: '$2b$10$HAcMSob5gm9OmwgjpAGteOwEnNx16SxjFK46ri0VI7UDDpRkMDi76'}))
     console.log("generate initial following: ",users)
-    //users.forEach(async user => await userService.save(user))
+    users.forEach(async user => await userService.save(user))
 }
 
 async function _generateInitialNotifications(users, stories) {
@@ -175,12 +151,12 @@ async function _generateInitialNotifications(users, stories) {
         //console.log("FOR USER: ", user.username)
         //console.log("notifications: ", notifications)
 
-        user.password = "$2b$10$HAcMSob5gm9OmwgjpAGteOwEnNx16SxjFK46ri0VI7UDDpRkMDi76"
         user.notifications = [...notifications]
-        console.log("generate initial notifications: ",user)
-        //const savedUser = await userService.save(user)
-        //console.log("initial notifications data saved: ",savedUser)
+        //console.log("generate initial notifications: ",user)
+        const savedUser = await userService.save(user)
     })
+    console.log("generate initial notifications: ",users)
+
 }
 
 function _generateNotificationsPerUser(currentUser, users, origStories) {
@@ -189,58 +165,31 @@ function _generateNotificationsPerUser(currentUser, users, origStories) {
     users.forEach(user => {
         if ((currentUser.following.filter(iFollow => iFollow._id === user._id).length > 0) /*&& 
             (origStories.filter(story => story.by._id === user._id) > 0)*/)   // I follow and they have posts
-                notifications.push({ _id: utilService.makeId(ID_LENGTH), 
+                notifications.push({
+                    _id: utilService.makeId(ID_LENGTH), 
                     txt: notificationMessages.storyByFollowing,
+                    storyImgUrl: _chooseRandomFullStory(origStories).imgUrl,
                     aboutUser: userService.getMiniUser(user),
                     createdAt: utilService.generateRandomTimestamp()})
         else if (user._id !== currentUser._id && // its not me
             currentUser.following.filter(iFollow => iFollow._id === user._id).length === 0) { // i don't already follow
                 if (currentUser.followers.map(follower => follower._id).includes(user._id))
-                    notifications.push({ _id: utilService.makeId(ID_LENGTH), 
+                    notifications.push({
+                        _id: utilService.makeId(ID_LENGTH), 
                         txt: notificationMessages.newFollower,
+                        storyImgUrl: null,
                         aboutUser: userService.getMiniUser(user),
                         createdAt: utilService.generateRandomTimestamp()})
-                else notifications.push({ _id: utilService.makeId(ID_LENGTH),
+                else notifications.push({
+                    _id: utilService.makeId(ID_LENGTH),
                     txt: notificationMessages.newUser,
+                    storyImgUrl: null,
                     aboutUser: userService.getMiniUser(user),
                     createdAt: utilService.generateRandomTimestamp()})
         }
     })
     //console.log(notifications)
     return notifications
-
-
-    /*const randomUser = utilService.chooseRandomItemFromList(usersIDontFollow.filter(user=> 
-        !notifications || notifications.filter(ntf => ntf._id != user._id)))
-
-    if (randomUser.following.length > 0 && randomUser.following.filter(follow => follow._id === currentUser._id).length > 0)
-        notifications.push({ _id: randomUser._id, txt: 
-            `${randomUser.username} started following you`,
-            createdAt: utilService.generateRandomTimestamp()})
-
-    else if (randomUser.following.length > 0 && randomUser.following.filter(follow => currentUser.following.length > 0 && 
-        currentUser.following.filter (IFollow => IFollow._id === follow._id).length > 0))
-    {
-        const theyFollow = randomUser.following.filter(follow => 
-            currentUser.following.filter (IFollow => IFollow._id === follow._id))[0].username
-
-        notifications.push({ _id: randomUser._id, txt: 
-            `${theyFollow} who you follow, follows ${randomUser.username} start following them`,
-            createdAt: utilService.generateRandomTimestamp()})
-    }
-    else if (currentUser.following.length > 0 && currentUser.following.filter(IFollow => 
-        users.filter(user => user.following.length > 0 && user.following.filter(follow => follow._id === randomUser._id).length > 0))) 
-    {
-        const IFollow = currentUser.following.filter(IFollow => 
-            users.filter(user => user.following.filter(follow => follow._id === randomUser._id).length > 0))[0].username
-        notifications.push({ _id: randomUser._id, txt: 
-            `${randomUser.username} follows ${IFollow} who you follow, start following them`,
-            createdAt: utilService.generateRandomTimestamp()})
-    }
-    else 
-        notifications.push({ _id: randomUser._id, txt: 
-            `${randomUser.username} who you might know is on Instushgram`,
-            createdAt: utilService.generateRandomTimestamp()})*/
 }
 
 
@@ -250,7 +199,7 @@ async function _addUserPassword(users) {
     users.forEach(async user => {
         user = {...user, "password": "$2b$10$HAcMSob5gm9OmwgjpAGteOwEnNx16SxjFK46ri0VI7UDDpRkMDi76"}
         //console.log("addUserPassword: ",user)
-        const savedUser = await userService.save(user)
+        //const savedUser = await userService.save(user)
         console.log("addUserPassword: ",savedUser)
     })
 }
@@ -262,62 +211,47 @@ async function _addUserPassword(users) {
 async function _generateInitialStories(users) {
     if (!users || users.length == 0)
         return []
-    //let initialStories = utilService.loadFromStorage(STORAGE_KEY_STORIES)
-    let initialStories = await storyService.getStories()
+    let initialStories = await storyService.getStories() || null
+    console.log("GenData: Got stories: ",initialStories)
     if (initialStories && initialStories.length > 0) 
         return initialStories
-    initialStories = [];
-    for (let i = 0; i < 30; i++) 
-        initialStories.push(_generateStory(users));
-    initialStories.push(_generateStory(users, userService.getMiniLoggedInUser())); // loggedInUser should have at least 1 post
-    //utilService.saveToStorage(STORAGE_KEY_STORIES, initialStories)
-    _saveJsonFile(initialStories, "stories-data")
+    for (let i = 0; i < 30; i++) {
+        const story = _generateStory(users, i)
+        initialStories.push(story)
+    }
+    console.log("GenData: Created stories: ",initialStories)
+    //initialStories = utilService.makeUnique(initialStories,"imgUrl")
+    initialStories.forEach(async story => {
+        await userService.logout()
+        await userService.login({"username": story.by.username, "password": "1234"})
+        await storyService.save(story)
+    })
     return initialStories
 }
 
-function _generateStory(users, forcedUser) {
+function _generateStory(users, index) {
     const randDate = utilService.generateRandomTimestamp()
     const timestamp = randDate.getTime()
-    const randUrl = `https://picsum.photos/seed/${timestamp}/470/600`
+    //const randUrl = `https://picsum.photos/seed/${timestamp}/470/600`
+    const randUrl = `https://picsum.photos/seed/${timestamp}/585/468`
+    //const randUrl = `https://picsum.photos/seed/${timestamp}/400/500`
+    //const randUrl = `https://source.unsplash.com/random/585x468?colorful nature ${index}`
+    //const randUrl = `https://source.unsplash.com/468x585?colorful nature high res ${index}`
+    //const randUrl = `https://source.unsplash.com/random/468x585?colorful nature high res`
     return {
-        //_id: utilService.makeId(ID_LENGTH),
         txt: utilService.makeLorem(20), //utilService.generateText(),
         imgUrl: randUrl, 
         createdAt: randDate, 
-        by: forcedUser || _chooseRandomUser(users),
+        by: _chooseRandomUser(users),
         likedBy: _chooseRandomUserList(users, users.length*0.75),
-        comments: _chooseRandomUserList(users, users.length*0.5).map(miniUser => ({
+        comments: _chooseRandomUserList(users, users.length*0.9).map(miniUser => ({
             _id: utilService.makeId(ID_LENGTH), 
             by: miniUser, 
             txt: utilService.makeLorem(10), 
-            likedBy: _chooseRandomUserList(users, users.length*0.5),
+            likedBy: _chooseRandomUserList(users, users.length*0.6),
             createdAt: utilService.generateRandomTimestampFrom(timestamp) // comment only after post was published
         }))
     } 
-}
-
-async function _generateMoreComments(users, stories) {
-    if (!stories || users.stories == 0)
-        return 
-    const miniUsers = users.map(user => userService.getMiniUser(user))
-    stories.forEach(async story => {
-        const comments = _chooseRandomUserList(miniUsers, miniUsers.length*0.8).map(user => ({
-            _id: utilService.makeId(ID_LENGTH), 
-            by: user, 
-            txt: utilService.makeLorem(10), 
-            likedBy: _chooseRandomUserList(miniUsers, miniUsers.length*0.5),
-            createdAt: utilService.generateRandomTimestampFrom(story.createdAt) // comment only after post was published
-        }))
-        //console.log("STORY: ",story.txt)
-        //console.log("generated more comments: ",comments)
-        const newStory = {...story, comments}
-        console.log("story with comments: ",newStory)
-        //const savedStory = await storyService.save(newStory)
-        //console.log("stories with more comments saved: ",savedStory)
-    })
-    //users.forEach(user => user.followers = utilService.makeUnique(user.followers))
-    //users = users.map(user => ({...user, password: '$2b$10$HAcMSob5gm9OmwgjpAGteOwEnNx16SxjFK46ri0VI7UDDpRkMDi76'}))
-    //users.forEach(async user => await userService.save(user))
 }
 
 async function _generateCurrentUserBookmarks(stories) {
@@ -329,7 +263,7 @@ async function _generateCurrentUserBookmarks(stories) {
         return loggedInUser
     loggedInUser.bookmarkedStories = [..._chooseRandomStoryListExact(stories, 3)]
     console.log("generate initial bookmarks: ",loggedInUser)
-    const savedUser = await userService.save(loggedInUser)
+    //const savedUser = await userService.save(loggedInUser)
     console.log("initial bookmarks saved: ",savedUser)
     return savedUser
 }
@@ -343,8 +277,9 @@ async function _generateInitialBookmarks(users, stories) {
         user.bookmarkedStories = [...bookmarked]
         //console.log("generate initial bookmarks: ",user)
         const savedUser = await userService.save(user)
-        console.log("initial following data saved: ",savedUser)
+        //console.log("initial bookmarks data saved: ",savedUser)
     })
+    console.log("initial bookmarks generated: ",users)
 }
 
 function _chooseRandomStoryList(stories, maxAmount) {
@@ -374,11 +309,16 @@ function _chooseRandomStory(stories) {
     return storyService.getMiniStory(utilService.chooseRandomItemFromList(stories));
 }
 
+function _chooseRandomFullStory(stories) {
+    return utilService.chooseRandomItemFromList(stories);
+}
+
 
 async function signup() {
     try {
         return await userActions.signup({"username": "Instush", "password": "1234", "fullname": "Hagit Y.", 
-            "imgUrl": "https://picsum.photos/seed/!!==loggedInUser==!!1/470/600"})
+            //"imgUrl": "https://picsum.photos/seed/!!==loggedInUser==!!1/470/600"})
+            "imgUrl": `https://i.pravatar.cc/150?u=Instush`})
     }
     catch(err) {
         console.log("Signup error: ",err)
@@ -388,7 +328,21 @@ async function signup() {
 async function testSignup() {
     try {
         return await userActions.signup({"username": "test", "password": "abcd", "fullname": "Thats Me", 
-            "imgUrl": "https://picsum.photos/seed/test/470/600"})
+            //"imgUrl": "https://picsum.photos/seed/test/470/600"})
+            "imgUrl": `https://i.pravatar.cc/150?u=test`})
+    }
+    catch(err) {
+        console.log("Signup error: ",err)
+    }
+}
+
+async function jennySignup() {
+    try {
+        console.log("Jenny Signup")
+        const user = await userActions.signup({"username": "jenny", "password": "1234", "fullname": "Jenny Jenkins", 
+            //"imgUrl": "https://picsum.photos/seed/jenny/470/600"})
+            "imgUrl": `https://i.pravatar.cc/150?u=jenny`})
+        console.log("Signup:, ", user)
     }
     catch(err) {
         console.log("Signup error: ",err)

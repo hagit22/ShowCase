@@ -20,12 +20,17 @@ export function StoryPreview({ story, onUpdateStory, currentUser, onUpdateUser }
     const { txt, imgUrl, createdAt, by, likedBy } = story;
     return (
         <article className="story-preview story-preview-only">
-            <ProfileTitle profile={by}>
-                <div className="dot-container">
-                    <div className="dot">.</div>
+            <div className="preview-heading">
+                <ProfileTitle profile={by}>
+                    <div className="dot-container">
+                        <div className="dot">.</div>
+                    </div>
+                    {utilService.getPassedTimeString(createdAt)}
+                </ProfileTitle>
+                <div className="menu-dots">
+                    <div className="dot"/><div className="dot"/><div className="dot"/>
                 </div>
-                {utilService.getPassedTimeString(createdAt)}
-            </ProfileTitle>
+            </div>
             <div className="story-preview-image">
                 <img src={imgUrl}></img>
             </div>

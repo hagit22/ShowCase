@@ -1,10 +1,11 @@
 .users-bar-content {
     display: flex;
     flex-direction: column;
-    margin-top: 14px; //20px;
-    margin-left: 14px; //64px;
-    margin-bottom: 12px;
-    width: 319px;
+    margin-top: 16px;
+    margin-left: 18px; 
+    padding-left: 20px;
+    margin-bottom: 4px;
+    width: 340px;
     font-size: $font-size-normal;
     line-height: $line-height-normal;
     color-scheme: light;
@@ -15,9 +16,28 @@
 }
 
 .users-bar-list {
-    //margin-top: 3px;
+    margin-top: 12spx;
     //margin-left: -15px;
-    margin-top: -2px;
+    //margin-top: -2px;
+}
+
+.users-bar-title {
+    //margin-top: -10px;
+    //padding: 20px 36px;
+    margin-top: 2px;
+    margin-left: 8px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: $color-default;
+    font-size: $font-size-small;
+    line-height: $line-height-medium;
+    font-weight: $font-weight-normal;
+    span {
+        color: $color-light-text;
+        font-size: $font-size-normal;
+        line-height: $line-height-normal;
+    }
 }
 
 .users-bar-item {
@@ -34,7 +54,8 @@
 .users-bar-item-profile {
     @include profile-img($size: 44px);
     img {
-        margin: 0.25px 10px;
+        //margin: 0.25px 10px;
+        margin: 0px 10px;
     }
 }
 
@@ -76,6 +97,38 @@
 
 .following {
     color: inherit;
+}
+
+.stories-bar-list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 0; 
+    margin-right: -8px;
+}
+
+.stories-bar-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.stories-bar-image {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    margin: 0 6px 0 6px;
+    border: solid $color-pink-ring 2.2px;
+    border-bottom-color: $color-yellow-ring;
+    border-left-color: $color-yellow-ring;
+    padding: 1.6px;
+}
+
+.stories-bar-text {
+    line-height: $line-height-medium;
+    font-size: $font-size-small;
+    font-weight: $font-weight-light;
 }
 
 

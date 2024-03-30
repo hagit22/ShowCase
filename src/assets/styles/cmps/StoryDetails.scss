@@ -82,13 +82,6 @@
     }
 }
 
-.menu-dots{
-    display: flex;
-    .dot {
-        @include dot(0, 1.5px);
-    }
-}
-
 .details-modal-info {
     padding: 5px 20px 0px 10px; 
     height: 2px;

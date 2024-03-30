@@ -3,8 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 import { utilService } from '../services/util.service.js'
 import { socketService, notificationTypes } from '../services/socket.service.js'
 import { userService } from '../services/user.service.js'
-import { storyService } from '../services/story.service.js'
-import { userActions } from '../store/actions/user.actions.js'
+import { FollowButton } from './FollowButton.jsx'
 
 export function NotificationsPane({show, currentUser, userList, storyList, onNotify}) {
 
@@ -31,6 +30,7 @@ export function NotificationsPane({show, currentUser, userList, storyList, onNot
         setNotificationsGroups(getNotificationGroups())
     }, [userNotifications.current])
 
+
     function getNotificationGroups()
     {
         if (!userNotifications || userNotifications.length === 0) 
@@ -42,22 +42,21 @@ export function NotificationsPane({show, currentUser, userList, storyList, onNot
 
     function onNewNotification(notificationType, aboutUserId, imgUrl, aboutUserName, notificationMessage) {
         console.log("GOT - onNewNotification: ",notificationType, aboutUserId, imgUrl, aboutUserName, notificationMessage)
-        if (aboutUserId === currentUser._id) return // no need for users to get notifications about themselves
+        if ((aboutUserId === currentUser._id) || (aboutUserName === currentUser.username))
+            return // no need for users to get notifications about themselves, also for new signup
         if (notificationType===notificationTypes.storyByFollowing &&    // notify only for users followed by current user
             currentUser.following.filter(follow => aboutUserId === follow._id).length === 0)
                 return
-        const aboutUser = aboutUserName ? {_id: aboutUserId, username: aboutUserName, imgUrl} :  // in case of new sign-in, user is still not in userList
+        /*if ((notificationType === notificationTypes.newFollower) && 
+            (currentUser.username.toLowerCase() === "jenny"))  // for Demo
+                return*/
+        const aboutUser = aboutUserName ? {_id: aboutUserId, username: aboutUserName, imgUrl} :  // in case of new signup, user is still not in userList
             userList.filter(user=>user._id === aboutUserId)[0]
         const notification = userService.createUserNotification(notificationMessage, aboutUser, imgUrl || null)
         console.log("The New Notification is: ",notification, "length before: ",userNotifications.current.length)
         userNotifications.current = [notification, ...(userNotifications.current)]
         console.log("all notifications: ",userNotifications.current.length,": ",userNotifications)
         onNotify(true)
-    }
-
-
-    function onClickFollow({target}) {
-
     }
 
     return ( !currentUser || !notificationGroups ? '' :
@@ -72,21 +71,21 @@ export function NotificationsPane({show, currentUser, userList, storyList, onNot
                     <div className="notifications-group-title">
                         {group.name}
                     </div>
-                    {group.data.map(notify => 
-                    <div key={notify._id} className="notifications-item">
-                        <div className="item-image-and-text"><img className="item-image" src={notify.about.imgUrl}/>
-                        <span className="item-text">
-                            <span className="item-user">{notify.about.username}{' '}</span> 
-                            {notify.txt}
-                            {' '}<span className="item-passed-time"> 
-                                {notify.createdAt && utilService.getPassedTimeString(notify.createdAt)}
+                    {group.data.map((notify, mapIndex) => 
+                    <div key={mapIndex} className="notifications-item">
+                        <div className="item-image-and-text">
+                            <img className="item-image" src={notify.aboutUser.imgUrl}/>
+                            <span className="item-text">
+                                <span className="item-user">{notify.aboutUser.username}{' '}</span> 
+                                {notify.txt}
+                                {' '}<span className="item-passed-time"> 
+                                    {notify.createdAt && utilService.getPassedTimeString(notify.createdAt)}
+                                </span>
                             </span>
-                        </span></div>
-                        {notify.txt.startsWith("posted") ?
-                            notify.storyImgUrl ?  
-                                <img className="item-story-image" src={notify.storyImgUrl}/> :
-                                <button className="item-button button-following" onClick={onClickFollow}>Following</button> :
-                            <button className="item-button button-follow" onClick={onClickFollow}>Follow</button>}
+                        </div>
+                        {notify.storyImgUrl && (!notify.txt.startsWith('joined')) ?  // new story but not new signup
+                            <img className="item-story-image" src={notify.storyImgUrl}/> :
+                            <FollowButton currentUser={currentUser} aboutUserMini={notify.aboutUser} userList={userList}/>}
                     </div>)}
                 </div>
                 <div className="notifications-group-separator"/></div>)}

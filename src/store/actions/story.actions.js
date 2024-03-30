@@ -110,8 +110,12 @@ export function onRemoveStoryOptimistic(storyId) {
 }
 
 function _arrangeByFollowing(stories, currentUser) {
-    if (!currentUser || !currentUser.following || currentUser.following.length === 0)
+    //if (!currentUser || !currentUser.following || currentUser.following.length === 0)
+        //return stories
+
+    if (!currentUser)
         return stories
+
     let usersIFollow = currentUser.following.map(follow => follow._id)
     usersIFollow = [...usersIFollow, currentUser._id]
 
@@ -122,7 +126,32 @@ function _arrangeByFollowing(stories, currentUser) {
     storiesFollowing = [...storiesFollowing.sort((a,b) => a.createdAt > b.createdAt ? -1 : 1)]  // latest first
     
     stories = [...storiesFollowing.concat([...storiesNotFollowing])]
-    console.log(stories)
-    return stories
+    //console.log(stories)
+
+    //const myStories = stories.filter(story => story.by._id === currentUser._id)
+    const todaysStories = stories.filter(story => fromToday(story.createdAt))
+    const sortedTodaysStories = [...todaysStories.sort((a,b) => a.createdAt > b.createdAt ? -1 : 1)]  // latest first
+
+    //console.log("Today: ",sortedTodaysStories)
+
+    const otherStories = stories.filter(story => !todaysStories.includes(story))
+
+    const resultedStories = [...sortedTodaysStories, ...otherStories]
+
+    return resultedStories
+    //return stories
 }
+
+function fromToday(timestamp) {
+    const today = new Date();
+    const isToday = (today.toDateString() === new Date(timestamp).toDateString());
+    return isToday
+}
+
+/*const fromToday = (someDate) => {
+    const today = new Date()
+    return someDate.getDate() == today.getDate() &&
+      someDate.getMonth() == today.getMonth() &&
+      someDate.getFullYear() == today.getFullYear()
+}*/
 

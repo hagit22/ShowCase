@@ -96,7 +96,7 @@
 
 
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1000px) {
     .nav-bar {
         width: $nav-bar-width-narrow;
     }      
@@ -118,6 +118,11 @@
     .notifications-section {
         left: $nav-bar-width-narrow;
     }
+    .main-content {
+        grid-column: unset;
+        grid-row: unset;
+        align-items:center;
+    }      
 }
 
 /*@media screen and (max-width: 768px) { 
@@ -135,10 +140,11 @@
     }
     .nav-bar-logo {
         display: unset;
-        position: absolute;
+        position: fixed;
         top: 0;
+        left: 0;
         margin-top: 10px;
-        margin-left: -180px;
+        //margin-left: -180px;
         margin-bottom: 10px;
     }
     .nav-bar-logo-mini {
@@ -153,18 +159,20 @@
         bottom: 0;
         width: 90%;
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 10px;
+        align-items: end;
+        justify-content: space-around;
+        margin: 2px;
     }
     .nav-bar-item {
-        padding: 0;
+        //padding: 2px;
         margin: 0;
+        padding: 10px;
+        padding-top: 0;
     }
     .nav-bar-icon-svg {
         // So it will be pressable for presentation
-        padding: 10px;
-        padding-top: 0;
+        //padding: 10px;
+        //padding-top: 0;
     }
     .app {
         display: flex;
@@ -172,11 +180,13 @@
     }
     .center-section {
         position: fixed;
-        top: 55px; //45px;
-        height: 85vh;
+        top: 35px; //55px; 
+        height: 87vh; 
+        margin: 10px;
         display: flex;
-        justify-content: center;
+        //justify-content: center;
         overflow-y: scroll;
+        width: 100%;
         @include hide-scrollbar;
         @include separator(top);
         @include separator(bottom);
@@ -208,6 +218,13 @@
             display: none;;
         }
     }
+    .stories-bar-section {
+        @include separator(bottom);
+    }
+    .story-preview-image {
+        //width: 100vw;
+    }    
 }
+
 
 

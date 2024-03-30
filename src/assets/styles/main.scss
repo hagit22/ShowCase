@@ -12,16 +12,10 @@
 @import "basics/forms";
 
 // Pages
-@import "pages/AboutUs";
-@import "pages/HomePage";
-@import "pages/CarIndex";
-@import "pages/ReviewIndex";
 @import "pages/StoryIndex";
 @import "pages/UserDetails";
 
 // Components
-@import "cmps/AppHeader";
-@import "cmps/AppFooter";
 @import "cmps/CreateStoryImage";
 @import "cmps/CreateStoryText";
 @import "cmps/DynamicModal";
@@ -34,7 +28,6 @@
 @import "cmps/SwitchUserModal";
 @import "cmps/UsersBar.scss";
 @import "cmps/UserMsg";
-@import "cmps/ShoppingCart";
 
 
 

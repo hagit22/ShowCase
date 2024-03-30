@@ -8,7 +8,7 @@ export function SwitchUserModalItem({user, currentUser, onDoneSwitchUser}) {
         try {
             await userActions.logout()
             await userActions.login({"username": user.username, "password": "1234"})
-            //window.location.reload(false)     
+            window.location.reload(false)     
             onDoneSwitchUser()
         }
         catch(err) {

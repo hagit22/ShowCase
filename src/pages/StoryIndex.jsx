@@ -7,6 +7,7 @@ import { userService } from '../services/user.service.js'
 import { userActions } from '../store/actions/user.actions.js'
 import { storyActions } from '../store/actions/story.actions.js'
 import { NavBar } from '../cmps/NavBar.jsx'
+import { StoriesBar } from '../cmps/StoriesBar.jsx'
 import { StoryList } from '../cmps/StoryList.jsx'
 import { UsersBar } from '../cmps/UsersBar.jsx'
 import { UserDetails } from './UserDetails.jsx'
@@ -52,12 +53,12 @@ export function StoryIndex({navSelection}) {
 
     async function loadAppData() {
         const loadedUser = await loadCurrentUser()
-        console.log("loadAppData: ",loadedUser)
+        //console.log("loadedUser: ",loadedUser)
         socketService.emitUserIdentify(loadedUser._id)
         userActions.loadUserList()
         //console.log(userList)
         storyActions.loadStories(loadedUser)
-        //console.log(stories)
+        //console.log("loadedStories: ",stories)
     }
 
     async function loadCurrentUser() {
@@ -143,6 +144,8 @@ export function StoryIndex({navSelection}) {
                 {(username) ? <UserDetails currentUser={currentUser}/> :
                 <div>
                     <div className="main-content" onClick={onClickAnywhere}>
+                        <StoriesBar className="stories-bar" userList={userList} currentUser={currentUser} 
+                            numDisplayStories={userService.getNumDisplayStories()}/>
                         <div>
                             <StoryList stories={stories} onUpdateStory={onUpdateStory} 
                                 currentUser={currentUser} onUpdateUser={onUpdateUser}/>
@@ -164,7 +167,7 @@ export function StoryIndex({navSelection}) {
             {/* Overlays */}
             <div className={`new-posts-overlay ${newPostsNotification ? " new-posts-visible" : ''}`}>
                         <button className="new-posts-button" onClick={onClickNewPosts}>New posts</button>
-                </div>
+            </div>
             <div className={`new-notification-overlay ${newUserNotification ? " new-notification-visible" : ''}`}/>
         </div>
     )

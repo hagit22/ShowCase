@@ -17,6 +17,7 @@ export const userService = {
     getMiniUser,
     getMiniLoggedInUser,
     getNumDisplayUsers,
+    getNumDisplayStories,
     followUser,
     unFollowUser,
     getFollowLabels,
@@ -27,8 +28,9 @@ export const userService = {
     changeImage
 }
 
-const USER_ID_LENGTH = 6; 
+const USER_ID_LENGTH = 6
 const NUM_DISPLAY_USERS = 5
+const NUM_DISPLAY_STORIES = 7
 
 const followLabels = {
     FOLLOW: "Follow",
@@ -48,6 +50,10 @@ function getMiniLoggedInUser(user) {
 
 function getNumDisplayUsers() {
     return NUM_DISPLAY_USERS
+}
+
+function getNumDisplayStories() {
+    return NUM_DISPLAY_STORIES
 }
 
 async function followUser(userToFollow) {
@@ -97,7 +103,7 @@ function createUserNotification(txt, aboutUser, storyImgUrl) {
     return {
         _id: utilService.makeId(USER_ID_LENGTH),
         txt: txt,
-        about: aboutUser ? getMiniUser(aboutUser) : null,
+        aboutUser: aboutUser ? getMiniUser(aboutUser) : null,
         storyImgUrl: storyImgUrl,
         createdAt: Date.now(), 
     }

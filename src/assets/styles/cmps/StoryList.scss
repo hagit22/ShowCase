@@ -4,7 +4,17 @@
     padding: 0;
     gap: 0px;
     list-style-type: none;
+    margin-top: 10px;
     /*scroll-behavior: smooth;
     overflow-y: auto;
     height: 90%;*/
 }
+
+.menu-dots{
+    display: flex;
+    .dot {
+        @include dot(0, 1.5px);
+    }
+}
+
+

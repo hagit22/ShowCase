@@ -78,6 +78,13 @@
       height: $size;
       border-radius: 50%;
       margin: $margin;
+      border-color: rgba(0, 0, 0, 0.4);
+      background-color: rgb(250, 250, 250);
+      color: rgb(0, 55, 107);
+      text-decoration-color: rgb(0, 55, 107)
+      -webkit-tap-highlight-color rgba(0, 0, 0, 0);
+      text-decoration-style: solid;
+      text-decoration-thickness: auto;
   }
 }
 

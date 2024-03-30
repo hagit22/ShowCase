@@ -16,9 +16,10 @@ export const socketService = {
 }
 
 export const notificationMessages = {
-    newUser: 'just joined Instushgram', //'who you might know is on Instushgram',
-    newFollower: 'started following you',
-    storyByFollowing: 'posted a thread you might like',
+    newUser: 'joined Instushgram, give them a warm welcome',
+        //'just joined Instushgram', //'who you might know is on Instushgram',
+    newFollower: 'started following you, see what they are up to',
+    storyByFollowing: 'posted a thread you might like, check it out',
     none: ''
 }
 
@@ -45,7 +46,7 @@ const socketHandler = io(BASE_SOCKET_URL, {
 function socketConnect(loggedInUser) {
 
     socketHandler.on('connect', () => {
-        console.log("Connected to Socket")
+        //console.log("Connected to Socket")
         emitUserIdentify(loggedInUser._id)
     })
 
@@ -91,14 +92,14 @@ function onNewStory(callback) {
 function onStoryByFollowing(callback) {
     socketHandler.on(notificationTypes.storyByFollowing, ({followingUserId, storyImgUrl}) => {
       console.log("Socket: onStoryByFollowing: ", followingUserId, storyImgUrl)
-      console.log("callback: ", callback)
+      //console.log("callback: ", callback)
       callback(notificationTypes.storyByFollowing, followingUserId, storyImgUrl, '', notificationMessages.storyByFollowing)
     })
 }
 
 function emitUserIdentify(sendingUserId) {
     try {
-        console.log("emitUserIdentify: sendingUserId - ",sendingUserId)
+        //console.log("emitUserIdentify: sendingUserId - ",sendingUserId)
         socketHandler.emit(clientMessages.userIdentify, {sendingUserId})
     }
     catch(err) {

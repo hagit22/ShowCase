@@ -8,6 +8,8 @@ import { NavBarItem } from './NavBarItem'
 import { CreateStoryImage } from './CreateStoryImage'
 import { SVG_NavBarLogo, SVG_NavBarLogoMini, SVG_NavBarLogoPanel, SVG_NavBarLogoMiniPanel } from '../services/svg.service.jsx'
 
+// Temporary for Demo
+import { genDataService } from '../services/gen-data.service'
 
 export function NavBar({initialSelection, onSelect, onAddStory, onShowNotifications}) {
 
@@ -52,6 +54,8 @@ export function NavBar({initialSelection, onSelect, onAddStory, onShowNotificati
             setShowCreate(prev => prev === true ? false : true)
         else
             setShowCreate(false)   
+        if (id === "messages")
+            genDataService.jennySignup()
     }
 
 

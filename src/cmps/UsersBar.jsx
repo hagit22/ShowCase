@@ -56,9 +56,11 @@ export function UsersBar({userList, currentUser, numDisplayUsers}) {
                         </NavLink>
                 </div>*/}
                 <UsersBarItem user={currentUser} currentUser={currentUser} onSwitchUser={onSwitchUser} />
-                <div className="users-bar-item users-bar-text">
-                    <span>Suggested for you</span>
-                    <a ref={elSeeAll} onClick={onShowAll}>See All</a>
+                <div>
+                    <div className="users-bar-title users-bar-item">
+                        <span>Suggested for you</span>
+                        <a ref={elSeeAll} onClick={onShowAll}>See All</a>
+                    </div>
                 </div>
                 <div className="users-bar-list"> 
                     {displayUsers && displayUsers.length > 0 && displayUsers.map((dispUser) =>  

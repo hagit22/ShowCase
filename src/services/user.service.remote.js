@@ -24,7 +24,7 @@ const BASE_URL_AUTH = BASE_URL + 'auth/'
 async function getUsers() {
     try {
         var { data: users } = await axios.get(BASE_URL_USER)
-        console.log("user service getUsers: ",users)
+        //console.log("user service getUsers: ",users)
         return users
     }
     catch (err) {

@@ -2,27 +2,40 @@ body, html {
   margin: 0;
   padding: 0;
   height: 100%;
+  width: 100vw;
   @include hide-scrollbar; 
 }
 
 .app {
   display: grid;
-  grid-template-columns: 2fr 5fr 3.5fr;
+  //grid-template-columns: 2fr 4fr 3fr;
+  grid-template-columns: 1fr 7fr 5fr;
   grid-template-rows: 1fr auto;
   width: 100vw;
   //height: 100vh;
   //min-width: 700px;
 }
 
+/*.app-content {
+  display: flex;
+  justify-content: space-between;
+}*/
+
+.center-section {
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+}
+
 .main-content {
   position: inherit;
   z-index: 1;
   grid-column: 2 / 3;
-  grid-row: 2 / span 1;
+  grid-row: 1 / span 2;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-end;
+  margin-top: 12px;
 }
 
 .nav-bar {
@@ -35,6 +48,10 @@ body, html {
 .users-bar {
   grid-column: 3 / 4;
   grid-row: 1 / span 2;
+}
+
+.stories-bar {
+  padding: 8px 0;;
 }
 
 .new-posts-overlay {
