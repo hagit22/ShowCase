@@ -1,11 +1,11 @@
 .users-bar-content {
     display: flex;
     flex-direction: column;
-    margin-top: 16px;
-    margin-left: 18px; 
+    margin-top: 14px;
+    margin-left: 24px; 
     padding-left: 20px;
     margin-bottom: 4px;
-    width: 340px;
+    width: 330px;
     font-size: $font-size-normal;
     line-height: $line-height-normal;
     color-scheme: light;
@@ -82,13 +82,14 @@
 
 .users-bar-label {  
     //justify-self: flex-end;
+    font-family: inherit;
     cursor: pointer;
     margin-top: -2px;
     margin-bottom: -3px;
     font-size: $font-size-small;
-    line-height: $line-height-medium;
+    line-height: $line-height-normal;
     text-align: center;
-    font-weight: $font-size-normal;
+    font-weight: $font-weight-normal;
 }
 
 .follow {
@@ -105,6 +106,7 @@
     justify-content: center;
     padding: 4px 0; 
     margin-right: -8px;
+    margin-bottom: 2px;
 }
 
 .stories-bar-item {

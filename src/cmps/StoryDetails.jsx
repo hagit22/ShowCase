@@ -6,6 +6,7 @@ import { StoryDetailsSingleEntry } from './StoryDetailsSingleEntry.jsx';
 import { StoryPreviewIcons } from './StoryPreviewIcons'
 import { StoryPreviewLikedBy } from './StoryPreviewLikedBy.jsx';
 import { StoryAddComment } from './StoryAddComment.jsx';
+import { SVG_MenuDots } from '../services/svg.service.jsx';
 
 export function StoryDetails({story, onUpdateStory, onUpdateUser}) {
 
@@ -24,10 +25,8 @@ export function StoryDetails({story, onUpdateStory, onUpdateUser}) {
                 <div>
                     <div className="details-modal-content">
                         <div className="header-row">
-                            <ProfileTitle profile={by}><div></div></ProfileTitle>
-                            <div className="menu-dots">
-                                <div className="dot"/><div className="dot"/><div className="dot"/>
-                            </div>
+                            <ProfileTitle profile={by}></ProfileTitle>   
+                            <SVG_MenuDots/>
                         </div>
                         <div className="details-modal-entries">
                             <StoryDetailsSingleEntry entry={modalStory} extraInfo={false}/>

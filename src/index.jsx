@@ -18,6 +18,7 @@ import './assets/styles/main.scss'
 //await genDataService.testSignup()
 //await genDataService.logout()
 //await genDataService.login()
+genDataService.tryLogin()
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(

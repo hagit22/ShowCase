@@ -8,7 +8,7 @@
 }
 
 .notifications-show {
-    width: 397px;
+    width: $notification-panel-width;
     left: $nav-bar-width-narrow;
     transition: width 200ms;
     @include separator(right);
@@ -23,15 +23,14 @@
 }
 
 .notifications-content {
-    width: 397px;
+    width: $notification-panel-width;
     height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
 .notifications-title {
-    padding: 24px;
-    //padding-top: 16px;
+    padding: 16px;
     font-size: $font-size-title;
     font-weight: $font-weight-title;
     line-height: $line-height-title;
@@ -107,49 +106,32 @@
     }
 }
 
-  
 
 @media screen and (max-width: 600px) { // 768px
     .notifications-section {
-        //position: fixed;
-        top: 0; //55px; 
-        height: 93vh;
-        overflow-y: scroll;
+        height: 92vh; //93vh;
         @include hide-scrollbar;
-        @include separator(top);
         @include separator(bottom); 
     }
     .notifications-show {
-        width: auto; //397px;
-        left: 0; // $nav-bar-width-narrow;
+        left: 0; 
+        width: 100vw;
     }
     .notifications-hide {
-        width: 0;
-        left: 0;
+        padding: 0; 
     }
     .notifications-content {
-        width: auto; // 397;
-    }
-    .nav-bar-logo-mini {
-        display: none;
+        width: 100vw;
     }
     .notifications-title {
-        padding: 10 0px;
+        //padding: 10 0px;
         font-size: $font-size-mobile-title;
         font-weight: $font-weight-title;
         line-height: $line-height-normal;
         text-align: center;
-        @include separator(bottom);
+        //@include separator(bottom);
         position: sticky;
     }
-    .create-story-image {
-        width: 80%; 
-    } 
-    .create-story-text {
-        width: 90%;
-        height: 50vh;
-    }
-       
 }
 
 

@@ -6,11 +6,12 @@ import { userActions } from '../store/actions/user.actions.js';
 import { storyService } from './story.service.js';
 
 export const genDataService = {
-    generateInitialData,
-    //login,
+    //generateInitialData,
+    //defaultLogin,
     //logout,
-    //testSignup,
-    //jennySignup
+    //defaultSignup,
+    //testSignup
+    tryLogin
 }
 
 const ID_LENGTH = 6; 
@@ -314,7 +315,7 @@ function _chooseRandomFullStory(stories) {
 }
 
 
-async function signup() {
+async function defaultSignup() {
     try {
         return await userActions.signup({"username": "Instush", "password": "1234", "fullname": "Hagit Y.", 
             //"imgUrl": "https://picsum.photos/seed/!!==loggedInUser==!!1/470/600"})
@@ -336,7 +337,7 @@ async function testSignup() {
     }
 }
 
-async function jennySignup() {
+/*async function jennySignup() {
     try {
         console.log("Jenny Signup")
         const user = await userActions.signup({"username": "jenny", "password": "1234", "fullname": "Jenny Jenkins", 
@@ -347,9 +348,29 @@ async function jennySignup() {
     catch(err) {
         console.log("Signup error: ",err)
     }
+}*/
+
+async function tryLogin() {
+    try {
+        const loggedInUser = sessionStorageService.getLoggedInUser()
+        if (loggedInUser) {
+            console.log("tryLogin: loggedInUser user is: ",loggedInUser)
+            return
+        }
+        console.log("tryLogin: No logged-in user -> Going to Default-Login...")
+        await logout()
+        await defaultLogin()  
+        console.log("tryLogin: Logged-in with Default")
+    }
+    catch(err) {
+        console.log("tryLogin error: ",err)
+        await logout()
+        await defaultLogin()
+        console.log("tryLogin: Logged-in with Default")
+    }
 }
 
-async function login() {
+async function defaultLogin() {
     try {
         const loggedInUser = await userActions.login({"username": "Instush", "password": "1234"})      
         return loggedInUser  

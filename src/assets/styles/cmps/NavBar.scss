@@ -115,21 +115,7 @@
     .app {
         grid-template-columns: 1fr 10fr;
     }
-    .notifications-section {
-        left: $nav-bar-width-narrow;
-    }
-    .main-content {
-        grid-column: unset;
-        grid-row: unset;
-        align-items:center;
-    }      
 }
-
-/*@media screen and (max-width: 768px) { 
-    .notifications-section {
-        display: none;
-    }
-}*/
 
 
 @media screen and (max-width: 600px) { // 768px
@@ -142,10 +128,9 @@
         display: unset;
         position: fixed;
         top: 0;
-        left: 0;
-        margin-top: 10px;
-        //margin-left: -180px;
-        margin-bottom: 10px;
+        left: 0;    
+        margin-top: 12px;
+        padding: 16px, 0;
     }
     .nav-bar-logo-mini {
         display: none;
@@ -159,15 +144,14 @@
         bottom: 0;
         width: 90%;
         display: flex;
-        align-items: end;
+        //align-items: center;
         justify-content: space-around;
-        margin: 2px;
+        //margin: 10px 0;
     }
     .nav-bar-item {
         //padding: 2px;
         margin: 0;
-        padding: 10px;
-        padding-top: 0;
+        padding: 7px;
     }
     .nav-bar-icon-svg {
         // So it will be pressable for presentation
@@ -181,12 +165,13 @@
     .center-section {
         position: fixed;
         top: 35px; //55px; 
-        height: 87vh; 
+        height: 86vh; 
         margin: 10px;
         display: flex;
         //justify-content: center;
         overflow-y: scroll;
         width: 100%;
+        align-items: center;
         @include hide-scrollbar;
         @include separator(top);
         @include separator(bottom);
@@ -203,6 +188,11 @@
         flex-direction: column;
         align-items: center;
     }
+    /*story-preview-heading {
+        margin-left: -8px;
+        margin-right: 2px;
+        line-height: $line-height-normal;
+    }*/
     .preview-add-comment {
         display: none;
         form {
@@ -218,13 +208,25 @@
             display: none;;
         }
     }
-    .stories-bar-section {
-        @include separator(bottom);
-    }
-    .story-preview-image {
-        //width: 100vw;
-    }    
+    /*.story-preview-image {
+        width: 100vw;
+    } */   
+    .create-story-image {
+        width: 80%; 
+    } 
+    .create-story-text {
+        width: 90%;
+        height: 50vh;
+    }   
 }
+
+
+@media screen and (max-width: 400px) {
+    .nav-bar-list {
+        margin: 10px 0;
+    }
+}
+
 
 
 

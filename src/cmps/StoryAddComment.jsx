@@ -18,8 +18,10 @@ export function StoryAddComment({ story, onUpdateStory, origin }) {
     }
     
     const onPostComment = () => {
-        let comments = story.comments;
-        comments.push(storyService.createNewComment(commentTextRef.current.value))
+        //let comments = story.comments;
+        //comments.push(storyService.createNewComment(commentTextRef.current.value))
+        const newlyCreatedComment = storyService.createNewComment(commentTextRef.current.value)
+        story.comments = [newlyCreatedComment, ...story.comments]
         commentTextRef.current.value = "";
         commentTextRef.current.height = 0;
         if (origin == "Details")

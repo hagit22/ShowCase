@@ -54,8 +54,8 @@ export function NavBar({initialSelection, onSelect, onAddStory, onShowNotificati
             setShowCreate(prev => prev === true ? false : true)
         else
             setShowCreate(false)   
-        if (id === "messages")
-            genDataService.jennySignup()
+        //if (id === "messages")
+            //Can do here something for testing
     }
 
 

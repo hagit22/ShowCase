@@ -15,6 +15,7 @@
 .story-preview-only {
     border-bottom: 0.8px solid $color-separator;
     width: 350px; //400px;
+    //width: 425px; //400px;
 }
 
 .story-preview-image {
@@ -31,10 +32,20 @@
     @include dot(0, 5px);
 }
 
-.preview-heading {
+.story-preview-heading {
     display: flex;
     justify-content: space-between;
-    align-items: last baseline;
+    align-items: center;
+    margin-left: -8px;
+    margin-right: 2px;
+    font-family: inherit;
+    font-size: $font-size-normal;
+    line-height: $line-height-normal;
+}
+
+.preview-passed-time {
+    color: $color-light-text;
+    font-weight: $font-weight-light;
 }
 
 .story-preview-text {

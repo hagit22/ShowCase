@@ -19,7 +19,7 @@ export function StoryDetailsSingleEntry({ entry, extraInfo }) {
                     <Heart className="heart" onClick={onToggleLikeComment}/>
                 </div>
                 <div className="info">
-                    <div>{utilService.getPassedTimeString(createdAt)}</div>
+                    <span className="preview-passed-time">{utilService.getPassedTimeString(createdAt)}</span>
                     {extraInfo && <>
                         {likedBy.length > 0 && 
                             <div>{likedBy.length} {likedBy.length === 1 ? 'like' : 'likes'}</div>}

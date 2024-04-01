@@ -37,6 +37,7 @@
     }
     .details-modal-entries {
         @include hide-scrollbar;
+        margin-top: 8px;
         overflow-y: scroll;
         height: 59vh;
         margin-right: 15px;
@@ -46,7 +47,7 @@
         .single-entry {
             @include profile-img($margin: 12px);
             display: flex;
-            align-items: flex-start;
+            align-items: last-baseline;
             margin-bottom: 5px;
             .content {
                 display: flex;
@@ -56,11 +57,12 @@
                 gap: 5px;
                 width: 90%;
                 .data {
-                    padding-top: 12px;
+                    //padding-top: 12px;
                     display: grid;
                     grid-template-columns: 100fr 1fr;
                     grid-template-rows: 1fr;
                     justify-content: space-between;
+                    align-items: first baseline;
                     .heart {
                         width: 10px;
                         height: 10px;
@@ -71,8 +73,7 @@
                     display: flex;
                     gap: 10px;
                     margin-bottom: 5px;
-                    font-size: $font-size-extra-small;
-                    font-weight: $font-weight-light;
+                    font-size: $font-size-small;
                 }
             }
         }
@@ -86,7 +87,11 @@
     padding: 5px 20px 0px 10px; 
     height: 2px;
     .details-passed-time {
-        font-weight: $font-weight-very-light;
+        font-family: inherit;
+        color: $color-light-text;
+        font-size: $font-size-small;
+        font-weight: $font-weight-light;
+        line-height: $line-height-medium;
         padding-bottom: 10px;
         @include separator($side: bottom);
     }
@@ -115,7 +120,6 @@
         font-family: Inherit;
         font-size: $font-size-normal;
         color: inherit;
-        width: $font-weight-light;
         border: none;
         margin: 0px;
         outline: none;

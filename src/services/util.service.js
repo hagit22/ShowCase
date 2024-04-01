@@ -25,6 +25,8 @@ export const utilService = {
     randomShuffleArray
 }
 
+const JUST_NOW = "Now"
+
 function makeId(length = 6) {
     var txt = ''
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
@@ -159,11 +161,12 @@ function getPassedTimeString(timestamp) {
     const minutes = Math.floor(seconds / 60);
     const hours = Math.floor(minutes / 60);
     const days = Math.floor(hours / 24);
-    return days > 0 ? `${days}d` : hours > 0 ? `${hours}h` : `${minutes}m`
+    return days > 0 ? `${days}d` : hours > 0 ? `${hours}h` : minutes > 0 ? `${minutes}m` : JUST_NOW
 }
 
 function getPassedTimeGroups(itemsList, key) {
     const newItems = itemsList.filter(item => 
+        utilService.getPassedTimeString(item[key]) === JUST_NOW ||
         utilService.getPassedTimeString(item[key]).endsWith('m'))
     const todayItems = itemsList.filter(item => 
         utilService.getPassedTimeString(item[key]).endsWith('h'))

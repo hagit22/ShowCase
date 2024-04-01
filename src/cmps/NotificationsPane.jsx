@@ -47,9 +47,6 @@ export function NotificationsPane({show, currentUser, userList, storyList, onNot
         if (notificationType===notificationTypes.storyByFollowing &&    // notify only for users followed by current user
             currentUser.following.filter(follow => aboutUserId === follow._id).length === 0)
                 return
-        /*if ((notificationType === notificationTypes.newFollower) && 
-            (currentUser.username.toLowerCase() === "jenny"))  // for Demo
-                return*/
         const aboutUser = aboutUserName ? {_id: aboutUserId, username: aboutUserName, imgUrl} :  // in case of new signup, user is still not in userList
             userList.filter(user=>user._id === aboutUserId)[0]
         const notification = userService.createUserNotification(notificationMessage, aboutUser, imgUrl || null)

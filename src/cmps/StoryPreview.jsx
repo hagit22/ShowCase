@@ -7,6 +7,7 @@ import { StoryPreviewLikedBy } from './StoryPreviewLikedBy'
 import { StoryPreviewCaption } from './StoryPreviewCaption'
 import { StoryPreviewComments } from './StoryPreviewComments'
 import { ProfileTitle } from './ProfileTitle.jsx'
+import { SVG_MenuDots } from '../services/svg.service.jsx'
 
 export function StoryPreview({ story, onUpdateStory, currentUser, onUpdateUser }) {
 
@@ -20,16 +21,12 @@ export function StoryPreview({ story, onUpdateStory, currentUser, onUpdateUser }
     const { txt, imgUrl, createdAt, by, likedBy } = story;
     return (
         <article className="story-preview story-preview-only">
-            <div className="preview-heading">
+            <div className="story-preview-heading">
                 <ProfileTitle profile={by}>
-                    <div className="dot-container">
-                        <div className="dot">.</div>
-                    </div>
-                    {utilService.getPassedTimeString(createdAt)}
+                    <div className="dot-container"/>
+                    <span className="preview-passed-time">{utilService.getPassedTimeString(createdAt)}</span>
                 </ProfileTitle>
-                <div className="menu-dots">
-                    <div className="dot"/><div className="dot"/><div className="dot"/>
-                </div>
+                <SVG_MenuDots/>
             </div>
             <div className="story-preview-image">
                 <img src={imgUrl}></img>

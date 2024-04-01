@@ -68,7 +68,7 @@ export function StoryIndex({navSelection}) {
         }
         catch (err) {
             console.log("loadCurrentUser ERROR: ",err)
-            const loadedUser = await genDataService.login()
+            const loadedUser = await genDataService.defaultLogin()
             console.log("**** Logged In  :",loadedUser)
             console.log("********************************************")
             return loadedUser

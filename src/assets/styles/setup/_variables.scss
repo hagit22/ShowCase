@@ -19,11 +19,11 @@ $font-size-large-caption: 20px;
 $font-size-title: 24px;
 
 // Font Weights
-$font-weight-very-light: 200; // StoryDetails
+$font-weight-very-light: 200; // CreateStory
 $font-weight-light: 400;
 $font-weight-medium: 540; // StoryDetails
 $font-weight-normal: 600;
-$font-weight-title: 700; // NavBar
+$font-weight-title: 700;  // NavBar
 //$font-weight-bold: 800;
 
 // Line Heights
@@ -35,6 +35,7 @@ $line-height-title: 30px;
 // App Sizes
 $nav-bar-width-normal: 220px;
 $nav-bar-width-narrow: 60px;
+$notification-panel-width: 330px; //397px;
 
 
 // ------------------------------
