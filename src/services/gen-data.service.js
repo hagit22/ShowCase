@@ -6,7 +6,7 @@ import { userActions } from '../store/actions/user.actions.js';
 import { storyService } from './story.service.js';
 
 export const genDataService = {
-    //generateInitialData,
+    generateInitialData,
     //defaultLogin,
     //logout,
     //defaultSignup,
@@ -24,21 +24,20 @@ async function generateInitialData() {
     return
 
     let users = await _generateInitialUsers()
-    return
 
-    await _generateInitialFollowingData(users)
+    //await _generateInitialFollowingData(users)
     //return
     
     const stories = await _generateInitialStories(users)    
 
-    await _generateInitialBookmarks(users, stories)
+    //await _generateInitialBookmarks(users, stories)
     //return
     
-    await _generateInitialNotifications(users, stories)
+    //await _generateInitialNotifications(users, stories)
     //return
 
-    await logout()
-    await login()   // back to default current-user
+    //await logout()
+    //await login()   // back to default current-user
     return users
 }
 

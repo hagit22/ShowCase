@@ -1,8 +1,8 @@
 .create-story-image {
     @include modal-layout-create;
-    width: 33%;
-    max-width: 66%;
-    height: 66vh;
+    width: 484px; //33%;
+    height: 527px; //66vh;
+    //max-width: 66%;
     padding-bottom: 2px;
     @include hide-scrollbar;
 }
@@ -48,17 +48,6 @@
     }
 }
 
-@media screen and (max-width: 600px) { // 768px
-    .create-story-image {
-        width: 90%;
-        max-width: unset;
-        height: 63vh;
-    }
-    .create-story-text {
-        width: 40%;
-        height: fit-content;
-    }
-}
     
 
 

@@ -42,11 +42,6 @@ export function NotificationsPane({show, currentUser, userList, storyList, onNot
 
     function onNewNotification(notificationType, aboutUserId, imgUrl, aboutUserName, notificationMessage) {
         console.log("GOT - onNewNotification: ",notificationType, aboutUserId, imgUrl, aboutUserName, notificationMessage)
-        if ((aboutUserId === currentUser._id) || (aboutUserName === currentUser.username))
-            return // no need for users to get notifications about themselves, also for new signup
-        if (notificationType===notificationTypes.storyByFollowing &&    // notify only for users followed by current user
-            currentUser.following.filter(follow => aboutUserId === follow._id).length === 0)
-                return
         const aboutUser = aboutUserName ? {_id: aboutUserId, username: aboutUserName, imgUrl} :  // in case of new signup, user is still not in userList
             userList.filter(user=>user._id === aboutUserId)[0]
         const notification = userService.createUserNotification(notificationMessage, aboutUser, imgUrl || null)
@@ -76,7 +71,10 @@ export function NotificationsPane({show, currentUser, userList, storyList, onNot
                                 <span className="item-user">{notify.aboutUser.username}{' '}</span> 
                                 {notify.txt}
                                 {' '}<span className="item-passed-time"> 
-                                    {notify.createdAt && utilService.getPassedTimeString(notify.createdAt)}
+                                    {notify.createdAt && 
+                                        (utilService.getPassedTimeString(notify.createdAt) == "0m" ? '' :
+                                            utilService.getPassedTimeString(notify.createdAt)
+                                    )}
                                 </span>
                             </span>
                         </div>

@@ -24,7 +24,10 @@ export function StoryPreview({ story, onUpdateStory, currentUser, onUpdateUser }
             <div className="story-preview-heading">
                 <ProfileTitle profile={by}>
                     <div className="dot-container"/>
-                    <span className="preview-passed-time">{utilService.getPassedTimeString(createdAt)}</span>
+                    <span className="preview-passed-time">
+                        {utilService.getPassedTimeString(createdAt) == '0m' ? "just now" :
+                            utilService.getPassedTimeString(createdAt)}
+                    </span>
                 </ProfileTitle>
                 <SVG_MenuDots/>
             </div>

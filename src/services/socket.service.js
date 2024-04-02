@@ -33,7 +33,7 @@ export const notificationTypes = {
 const clientMessages = {
     userIdentify: 'user-identify',  // gets: { sendingUserId }
     userFollow: 'user-follow',      // gets: { followingUserId }
-    userPost: 'user-post'           // gets: { followersList, storyId }
+    userPost: 'user-post'           // gets: { followersIdList, storyId }
 }
  
 
@@ -117,10 +117,10 @@ function emitUserFollow(followingUserId) {
     }
 }
 
-function emitUserPost(followersList, storyId) {
+function emitUserPost(followersIdList, storyId) {
     try {
-        console.log("emitUserPost: story - ",storyId," followers: ",followersList)
-        socketHandler.emit(clientMessages.userPost, {followersList, storyId})
+        console.log("emitUserPost: story - ",storyId," followers: ",followersIdList)
+        socketHandler.emit(clientMessages.userPost, {followersIdList, storyId})
     }
     catch(err) {
         console.log("emitUserPost - error", err)

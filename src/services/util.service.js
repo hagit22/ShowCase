@@ -25,7 +25,6 @@ export const utilService = {
     randomShuffleArray
 }
 
-const JUST_NOW = "Now"
 
 function makeId(length = 6) {
     var txt = ''
@@ -161,24 +160,47 @@ function getPassedTimeString(timestamp) {
     const minutes = Math.floor(seconds / 60);
     const hours = Math.floor(minutes / 60);
     const days = Math.floor(hours / 24);
-    return days > 0 ? `${days}d` : hours > 0 ? `${hours}h` : minutes > 0 ? `${minutes}m` : JUST_NOW
+    return days > 0 ? `${days}d` : hours > 0 ? `${hours}h` : `${minutes}m`
+    //return days > 0 ? `${days}d` : hours > 0 ? `${hours}h` : minutes > 0 ? `${minutes}m` : justNowStr
 }
 
-function getPassedTimeGroups(itemsList, key) {
+/*function getPassedTimeGroups(itemsList, key) {
     const newItems = itemsList.filter(item => 
-        utilService.getPassedTimeString(item[key]) === JUST_NOW ||
         utilService.getPassedTimeString(item[key]).endsWith('m'))
     const todayItems = itemsList.filter(item => 
         utilService.getPassedTimeString(item[key]).endsWith('h'))
     const recentItems = itemsList.filter(item => 
         utilService.getPassedTimeString(item[key]).endsWith('d') &&
-        +(utilService.getPassedTimeString(item[key]).slice(0,-1)) <= 5)
+        +(utilService.getPassedTimeString(item[key]).slice(0,-1)) <= 2)
     const earlierItems = itemsList.filter(item => 
         utilService.getPassedTimeString(item[key]).endsWith('d') &&
-        +(utilService.getPassedTimeString(item[key]).slice(0,-1)) > 5)
+        +(utilService.getPassedTimeString(item[key]).slice(0,-1)) > 2)
     return[
         {name: "New", data: newItems},
         {name: "Today", data: todayItems},
+        {name: "Recent", data: recentItems},
+        {name: "Earlier", data: earlierItems}]
+}*/
+
+
+function getPassedTimeGroups(itemsList, key) {
+    const newItems = itemsList.filter(item => 
+        utilService.getPassedTimeString(item[key]).endsWith('m'))
+    const todayItems = itemsList.filter(item => 
+        utilService.getPassedTimeString(item[key]).endsWith('h'))
+    const weekItems = itemsList.filter(item => 
+        utilService.getPassedTimeString(item[key]).endsWith('d') &&
+        +(utilService.getPassedTimeString(item[key]).slice(0,-1)) <= 7)
+        const recentItems = itemsList.filter(item => 
+            utilService.getPassedTimeString(item[key]).endsWith('d') &&
+            +(utilService.getPassedTimeString(item[key]).slice(0,-1)) <= 20)
+        const earlierItems = itemsList.filter(item => 
+        utilService.getPassedTimeString(item[key]).endsWith('d') &&
+        +(utilService.getPassedTimeString(item[key]).slice(0,-1)) > 20)
+    return[
+        {name: "New", data: newItems},
+        {name: "Today", data: todayItems},
+        {name: "This Week", data: weekItems},
         {name: "Recent", data: recentItems},
         {name: "Earlier", data: earlierItems}]
 }

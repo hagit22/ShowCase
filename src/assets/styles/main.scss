@@ -19,8 +19,6 @@
 @import "cmps/CreateStoryImage";
 @import "cmps/CreateStoryText";
 @import "cmps/DynamicModal";
-@import "cmps/NavBar.scss";
-@import "cmps/NotificationsPane";
 @import "cmps/ProfileTitle";
 @import "cmps/StoryDetails";
 @import "cmps/StoryList";
@@ -28,6 +26,9 @@
 @import "cmps/SwitchUserModal";
 @import "cmps/UsersBar.scss";
 @import "cmps/UserMsg";
+//The following two scss files contain media-queries and are therefore defined last!!!
+@import "cmps/NotificationsPane";
+@import "cmps/NavBar.scss";
 
 
 

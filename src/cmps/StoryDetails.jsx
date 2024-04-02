@@ -41,7 +41,10 @@ export function StoryDetails({story, onUpdateStory, onUpdateUser}) {
                         <StoryPreviewIcons story={modalStory} onUpdateStory={onUpdateStory} onUpdateUser={onUpdateUser} 
                             currentUser={currentUser} onViewDetails={null} origin={"Details"}/>
                         <StoryPreviewLikedBy likedBy={likedBy} origin={"Details"}/>
-                        <span className='details-passed-time'>{utilService.getPassedTimeString(createdAt)}</span>
+                        <span className='details-passed-time'>
+                            {utilService.getPassedTimeString(createdAt) == '0m' ? "Now" :
+                                utilService.getPassedTimeString(createdAt)}
+                        </span>
                         <StoryAddComment story={modalStory} onUpdateStory={onUpdateStory} origin={"Details"}/>
                     </div>
                 </div>

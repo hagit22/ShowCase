@@ -127,6 +127,7 @@ function _arrangeByFollowing(stories, currentUser) {
     
     stories = [...storiesFollowing.concat([...storiesNotFollowing])]
     //console.log(stories)
+    return stories
 
     //const myStories = stories.filter(story => story.by._id === currentUser._id)
     const todaysStories = stories.filter(story => fromToday(story.createdAt))
