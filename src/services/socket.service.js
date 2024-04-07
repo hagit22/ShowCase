@@ -31,9 +31,9 @@ export const notificationTypes = {
 }
   
 const clientMessages = {
-    userIdentify: 'user-identify',  // gets: { sendingUserId }
+    userIdentify: 'user-identify',  // gets: { connectedUserId, connectedUsername }
     userFollow: 'user-follow',      // gets: { followingUserId }
-    userPost: 'user-post'           // gets: { followersIdList, storyId }
+    userPost: 'user-post'           // gets: { followersIdList, storyImgUrl }
 }
  
 
@@ -43,11 +43,10 @@ const socketHandler = io(BASE_SOCKET_URL, {
 })
 
 
-function socketConnect(loggedInUser) {
+function socketConnect() {
 
     socketHandler.on('connect', () => {
-        //console.log("Connected to Socket")
-        emitUserIdentify(loggedInUser._id)
+        console.log("Connected to Socket")
     })
 
     socketHandler.on('disconnect', () => {
@@ -59,8 +58,6 @@ function socketConnect(loggedInUser) {
         console.log("error-description: ",err.description);
         console.log("error-context: ",err.context);
     });
-
-    //socketHandler.connect()
 }
 
 function socketDisconnect() {
@@ -69,6 +66,10 @@ function socketDisconnect() {
 }
 
 function onNewUser(callback) {
+    if (!callback) {
+        socketHandler.off(notificationTypes.newUser)
+        return
+    }
     socketHandler.on(notificationTypes.newUser, ({newUserId, newUserImgUrl, newUserName}) => {
         console.log("Socket: onNewUser: ", newUserId, newUserImgUrl, newUserName)
         callback(notificationTypes.newUser, newUserId, newUserImgUrl, newUserName, notificationMessages.newUser)
@@ -76,6 +77,10 @@ function onNewUser(callback) {
 }
   
 function onNewFollower(callback) {
+    if (!callback) {
+        socketHandler.off(notificationTypes.newFollower)
+        return
+    }
     socketHandler.on(notificationTypes.newFollower, ({newFollowerId}) => {
         console.log("Socket: onNewFollower: ", newFollowerId)
         callback(notificationTypes.newFollower, newFollowerId, '', '', notificationMessages.newFollower)
@@ -83,6 +88,10 @@ function onNewFollower(callback) {
 }
 
 function onNewStory(callback) {
+    if (!callback) {
+        socketHandler.off(notificationTypes.newStory)
+        return
+    }
     socketHandler.on(notificationTypes.newStory, ({newStoryId}) => {
         console.log("Socket: onNewStory: ", newStoryId)
         callback(notificationTypes.newStory, '', newStoryId, notificationMessages.none)
@@ -90,6 +99,10 @@ function onNewStory(callback) {
 }
 
 function onStoryByFollowing(callback) {
+    if (!callback) {
+        socketHandler.off(notificationTypes.storyByFollowing)
+        return
+    }
     socketHandler.on(notificationTypes.storyByFollowing, ({followingUserId, storyImgUrl}) => {
       console.log("Socket: onStoryByFollowing: ", followingUserId, storyImgUrl)
       //console.log("callback: ", callback)
@@ -97,10 +110,13 @@ function onStoryByFollowing(callback) {
     })
 }
 
-function emitUserIdentify(sendingUserId) {
+function emitUserIdentify(connectedUser) {
     try {
-        //console.log("emitUserIdentify: sendingUserId - ",sendingUserId)
-        socketHandler.emit(clientMessages.userIdentify, {sendingUserId})
+        console.log("emitUserIdentify: ",connectedUser)
+        socketHandler.emit(clientMessages.userIdentify, {
+            connectedUserId: connectedUser._id, 
+            connectedUsername: connectedUser.username
+    })
     }
     catch(err) {
         console.log("emitUserIdentify - error", err)
@@ -117,10 +133,10 @@ function emitUserFollow(followingUserId) {
     }
 }
 
-function emitUserPost(followersIdList, storyId) {
+function emitUserPost(followersIdList, storyImgUrl) {
     try {
-        console.log("emitUserPost: story - ",storyId," followers: ",followersIdList)
-        socketHandler.emit(clientMessages.userPost, {followersIdList, storyId})
+        console.log("emitUserPost: story - ",storyImgUrl," followers: ",followersIdList)
+        socketHandler.emit(clientMessages.userPost, {followersIdList, storyImgUrl})
     }
     catch(err) {
         console.log("emitUserPost - error", err)

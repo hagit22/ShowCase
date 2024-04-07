@@ -21,9 +21,6 @@ export const userService = {
     followUser,
     unFollowUser,
     getFollowLabels,
-    addUserNotification,
-    updateFollowers,
-    updateAllUsers,
     createUserNotification,
     changeImage
 }
@@ -76,26 +73,6 @@ async function unFollowUser(userToUnFollow) {
 
 function getFollowLabels() {
     return followLabels
-}
-
-async function addUserNotification(userToUpdate, userNotification) {
-    const updatedUser = {...userToUpdate, notifications: [userNotification, ...userToUpdate.notifications]}
-    userServiceRemote.save(updatedUser)
-}
-
-async function updateFollowers(currentUser, userNotification) {
-    if (currentUser.followers.length <= 0) 
-        return
-    //currentUser.followers.forEach(async miniFollower => {
-    for (const miniFollower of currentUser.followers) {
-        let follower = await userServiceRemote.getById(miniFollower._id)
-        addUserNotification(follower, userNotification)
-    }
-}
-
-async function updateAllUsers(currentUser, userNotification) {
-    const allUsers = await userServiceRemote.getUsers()
-    allUsers.filter(user => user._id !== currentUser._id).forEach(user => addUserNotification(user, userNotification))
 }
 
 function createUserNotification(txt, aboutUser, storyImgUrl) {

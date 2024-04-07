@@ -6,8 +6,8 @@ import { userActions } from '../store/actions/user.actions.js';
 import { storyService } from './story.service.js';
 
 export const genDataService = {
-    generateInitialData,
-    //defaultLogin,
+    defaultLogin,
+    //generateInitialData,
     //logout,
     //defaultSignup,
     //testSignup

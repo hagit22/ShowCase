@@ -104,11 +104,6 @@
   border-radius: 12px;
 }
 
-@mixin modal-layout-create {
-  @include modal-layout;
-  margin-top: 87px;
-}
-
 @mixin single-icon ($size: 24px) {
   width: $size;
   height: $size;

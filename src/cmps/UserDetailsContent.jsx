@@ -29,7 +29,7 @@ export function UserDetailsContent({userStories}) {
         })  
     }
         
-    return (
+    return ( !userStories ? '' :
         userStories.map(story => 
             <img className='user-content-image' key={story._id}
                 src={story.imgUrl} onClick={() => onViewDetails(story)} >

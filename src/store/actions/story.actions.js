@@ -1,6 +1,5 @@
 import { utilService } from '../../services/util.service.js'
 import { socketService, notificationMessages } from "../../services/socket.service.js";
-import { userService } from '../../services/user.service.js';
 import { storyService } from '../../services/story.service.js'
 import { store } from '../store.js'
 import { storyActionTypes } from '../reducers/story.reducer.js'
@@ -31,8 +30,6 @@ async function addStory(story, currentUser) {
         //console.log('Added Story', savedStory)
         store.dispatch(_getActionAddStory(savedStory))
         socketService.emitUserPost(currentUser.followers.map(follower=>follower._id), savedStory.imgUrl)
-        const userNotification = userService.createUserNotification(notificationMessages.storyByFollowing, currentUser, savedStory.imgUrl)
-        userService.updateFollowers(currentUser, userNotification)
         return savedStory
     } catch (err) {
         console.log('Cannot add story', err)
@@ -109,11 +106,15 @@ export function onRemoveStoryOptimistic(storyId) {
         })
 }
 
+
+// First stories of users that I follow, including my own photos - sorted by date (most recent on top)
+// Next stories by users that I don't follow - mixed together in random order
+
 function _arrangeByFollowing(stories, currentUser) {
     //if (!currentUser || !currentUser.following || currentUser.following.length === 0)
         //return stories
 
-    if (!currentUser)
+    if (!currentUser || !currentUser.following)
         return stories
 
     let usersIFollow = currentUser.following.map(follow => follow._id)

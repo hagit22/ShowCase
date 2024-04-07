@@ -46,8 +46,6 @@ async function signup(credentials) {
         const user = await userService.signup(credentials)
         const loggedInUser = await loadCurrentUser()
         //store.dispatch({ type: userActionTypes.SET_CURRENT_USER, currentUser: user }) // loadCurrentUser does dispatch instead
-        const userNotification = userService.createUserNotification(notificationMessages.newUser, user, null)
-        userService.updateAllUsers(loggedInUser, userNotification)
         return loggedInUser
     } catch (err) {
         console.log('Cannot signup', err)
@@ -121,8 +119,6 @@ async function followUser(userToFollow) {
         const loggedInUser = await loadCurrentUser(true)
         loadChosenUser(userToFollow.username)
         socketService.emitUserFollow(userToFollow._id)
-        const userNotification = userService.createUserNotification(notificationMessages.newFollower, loggedInUser, null)
-        userService.addUserNotification(userToFollow, userNotification)
     } catch (err) {
         console.log('Cannot save user', err)
         throw err

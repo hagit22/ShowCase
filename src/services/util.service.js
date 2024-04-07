@@ -191,10 +191,11 @@ function getPassedTimeGroups(itemsList, key) {
     const weekItems = itemsList.filter(item => 
         utilService.getPassedTimeString(item[key]).endsWith('d') &&
         +(utilService.getPassedTimeString(item[key]).slice(0,-1)) <= 7)
-        const recentItems = itemsList.filter(item => 
-            utilService.getPassedTimeString(item[key]).endsWith('d') &&
-            +(utilService.getPassedTimeString(item[key]).slice(0,-1)) <= 20)
-        const earlierItems = itemsList.filter(item => 
+    const recentItems = itemsList.filter(item => 
+        utilService.getPassedTimeString(item[key]).endsWith('d') &&
+        +(utilService.getPassedTimeString(item[key]).slice(0,-1)) > 7 &&
+        +(utilService.getPassedTimeString(item[key]).slice(0,-1)) <= 20)
+    const earlierItems = itemsList.filter(item => 
         utilService.getPassedTimeString(item[key]).endsWith('d') &&
         +(utilService.getPassedTimeString(item[key]).slice(0,-1)) > 20)
     return[

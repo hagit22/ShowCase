@@ -28,9 +28,13 @@ export function UserDetails({currentUser}) {
       return
     if (currentTab == "posts") {
       setContentImages(stories.filter(story => story.by._id == user._id))
+      return
     }
-    else if (currentTab == "saved")
+    if (currentTab == "saved") {
       setContentImages(user.bookmarkedStories || [])
+      return
+    }
+    setContentImages([])
 }, [user, currentTab])
 
   useEffect(() => {
@@ -44,7 +48,7 @@ export function UserDetails({currentUser}) {
 
 
   return ( !user ? <InstagramError/> :
-    <section className="center-section" >
+    <>
       <div className='user-details-header'>
         <img src={user.imgUrl}></img>
         <div className='user-header-actions'>
@@ -71,6 +75,6 @@ export function UserDetails({currentUser}) {
       <div className='user-details-content'>
           <UserDetailsContent userStories={contentImages} />
       </div>
-    </section>
+    </>
   )
 }

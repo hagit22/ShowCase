@@ -1,6 +1,7 @@
 // Colors
 $color-button-background: rgb(239,239,239); //#EFEFEF;
 $color-separator: rgb(219, 219, 219);
+$color-border: rgb(118, 118, 118);
 $color-light-text: rgb(115, 115, 115);
 $color-default: black;
 $color-like: #FF3040;
@@ -30,6 +31,7 @@ $font-weight-title: 700;  // NavBar
 $line-height-medium: 16px;
 $line-height-normal: 18px;
 $line-height-large: 20px;
+$line-height-textarea: 24px;
 $line-height-title: 30px;
 
 // App Sizes
@@ -37,6 +39,17 @@ $nav-bar-width-normal: 220px;
 $nav-bar-width-narrow: 60px;
 $notification-panel-width: 397px;   // 330px
 
+// Create Sizes
+$create-image-size: 484px;
+$create-title-height: 43px;
+$create-image-text: 340px;
+$create-image-size-narrow: 395px;
+$create-image-size-mobile: 348px;
+
+// UserDetailsSizes
+$user-content-image-size: 250px;
+$user-content-image-size-narrow: 180px;
+$user-content-image-size-mobile: 130px;
 
 // ------------------------------
 

@@ -8,7 +8,7 @@
     position: relative;
     z-index: 1;
     display: grid;
-    grid-template-columns: 3fr 7fr 3fr;
+    grid-template-columns: 1fr auto; //3fr 7fr 3fr;
     grid-template-rows: 1fr auto;
     width: 100vw;
 }
@@ -105,7 +105,7 @@
 
 .user-header-hr {
     color: $color-separator;
-    width: 290%;
+    width: 100%; 
     height: 0px;
     margin-top: 80px; //180px;
     margin-left: -22px;
@@ -141,8 +141,8 @@
 }
 .chosen-tab {
     color: $color-default;
-    //border-color: $color-default;
-    //border-width: 1.4px;
+    border-color: $color-default;
+    border-width: 1.4px;
     fill: none;
 }
 
@@ -151,7 +151,7 @@
     display: flex;
     flex-wrap: wrap;
     padding: 20px;
-    width: 120%;
+    width: 100%;
 }
 
 /*.user-content-image {
@@ -169,10 +169,10 @@
 }*/
 
 .user-content-image {
-    width: 250px; //309px;
-    height: 250px; //309px;
-    padding: 10px;
-    border-radius: 12%;
+    width: $user-content-image-size;
+    height: $user-content-image-size;
+    padding: 3px;
+    //border-radius: 12%;
     cursor: pointer;
 }
 

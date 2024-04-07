@@ -1,61 +1,62 @@
 .create-story-text {
-    @include modal-layout-create;
-    width: 824px; //55%;
-    height: 527px;
-    //min-height: 50vh;
-    //max-height: 73vh;
-    padding-bottom: 2px;
+    @include modal-layout;
+    width: $create-image-size+$create-image-text; //824px; 
+    height: $create-image-size+$create-title-height; //527.2px;
     overflow: hidden;
 }
 
-.new-story-share {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 15fr;
-    justify-items: center;
-    margin-top: 25px;
-    .title {
-        font-weight: $font-weight-normal;
-        font-size: $font-size-large;
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        width: 100%;
-        padding: 15px;
-        margin-top: -40px;
-        a {
-            font-size: $font-size-normal;
-            color: $color-blue-button;
-        }
+.create-story-text-title {
+    width: 100%;
+    height: $create-title-height; //43px;
+    font-weight: $font-weight-normal;
+    font-size: $font-size-normal;
+    line-height: $line-height-normal;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px;
+    @include separator($side: bottom);
+    a {
+        color: $color-blue-button;
     }
-    .content {
-        @include separator($side: top);
+}
+
+.create-story-text-content {
+    width: 100%;
+    height: $create-image-size; //484.2px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    .content-image {
+        width: $create-image-size; //484px;
+        //object-fit: contain;
+        object-fit: cover;
+    }
+    .content-form {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         align-items: flex-start;
         justify-content: flex-start;
-        margin-top: -15px;
-        .content-image {
-            width: 50%;
-            object-fit: scale-down;
-        }
-        .content-form {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            justify-content: flex-start;
-            textarea {
-                font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-                font-size: $font-size-large;
-                font-weight: $font-weight-very-light;    
-                border: none;
-                outline: none;
-                resize: none;
-                overflow: hidden;
-                margin-left: 12px;
-                @include separator($side: bottom);            }
+        textarea {
+            width: $create-image-text; //340px;
+            font-family: inherit; 
+            font-size: $font-size-large;
+            font-weight: $font-weight-light;  
+            border: none;
+            outline: none;
+            resize: none;
+            overflow: hidden;
+            margin-left: 12px;
+            //@include separator($side: bottom);  
         }
     }
 }
+
+textarea::placeholder {
+    font-weight: $font-weight-very-light; 
+}          
+
+
 
 

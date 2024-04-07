@@ -12,6 +12,7 @@ import { StoryList } from '../cmps/StoryList.jsx'
 import { UsersBar } from '../cmps/UsersBar.jsx'
 import { UserDetails } from './UserDetails.jsx'
 import { NotificationsPane } from '../cmps/NotificationsPane'
+import notificationSound from "../assets/sound/notification.wav"
 
 export function StoryIndex({navSelection}) {
 
@@ -21,40 +22,79 @@ export function StoryIndex({navSelection}) {
     const stories = useSelector(storeState => storeState.storyModule.stories)
 
     const [initialNavSelection, setInitialNavSelection] = useState(navSelection)
+    const [userNotifications, setUserNotifications] = useState([])
     const [showNotificationsPane, setShowNotificationsPane] = useState(false)
     const [newPostsNotification, setNewPostsNotification] = useState(false)
     const [newUserNotification, setNewUserNotification] = useState(false)
-    const notificationsRef = useRef()
 
-
-    // params
+    const elNotificationsPaneRef = useRef()
     const username = useParams().username
+    const audioPlayer = useRef(null)
 
     useEffect(() => {
-        loadAppData()
+        loadAppData() 
         setNewUserNotification(false)
-        startSocketCommunication()
-        return () => socketService.socketDisconnect()
+        socketService.socketConnect()
+        socketService.onNewStory(() => {
+            console.log("Socket message: NEW-POST NOTIFICATION")
+            setNewPostsNotification(true)
+        })
+        return () => {
+            socketService.onNewStory(null)
+            socketService.socketDisconnect()
+        }
     }, [])
 
     useEffect(() => {
         loadAppData()
         setNewPostsNotification(false)
-    }, [stories.length])
+    }, [stories.length])  // For when user uploads new photo, and we want to update the local list - for immediate display to user  
 
-    function startSocketCommunication() {
-        socketService.socketConnect(currentUser)
-        //setNewPostsNotification(false)
-        socketService.onNewStory(() => {
-            console.log("Socket message: NEW-POST NOTIFICATION")
-            setNewPostsNotification(true)
-        })
-    }
+    useEffect(() => {
+        if (!userList || userList.length === 0)
+           return
+        socketService.onNewUser(onNewNotification)
+        socketService.onNewFollower(onNewNotification)
+        socketService.onStoryByFollowing(onNewNotification)
+        return () => {
+            socketService.onNewUser(null)
+            socketService.onNewFollower(null)
+            socketService.onStoryByFollowing(null)
+        }
+    }, [userList]) // userList is required for onNewNotification() callback, otherwise 'Closure' will put null
+
+    useEffect(() => {
+        if (currentUser)
+            socketService.emitUserIdentify(currentUser)     // => Should move to Store
+    }, [currentUser])
+
+    useEffect(() => {
+        if (!currentUser || !currentUser.notifications) {
+            setUserNotifications([])
+            return
+        }
+        setUserNotifications([...(currentUser.notifications)])
+    }, [currentUser, currentUser.notifications])
+
+    useEffect(() => {
+        if (!currentUser || !currentUser.notifications || !userNotifications)
+            return
+        if (userNotifications.length > currentUser.notifications.length)
+            onUpdateUser({...currentUser, notifications: [...userNotifications]})
+    }, [userNotifications])
+
+    useEffect(() => {
+        setNewUserNotification(prev => showNotificationsPane ? false : prev)
+    }, [showNotificationsPane])
+
+    useEffect(() => {
+        if (newUserNotification === true) 
+            audioPlayer.current.play();
+    }, [newUserNotification])
 
     async function loadAppData() {
         const loadedUser = await loadCurrentUser()
         //console.log("loadedUser: ",loadedUser)
-        socketService.emitUserIdentify(loadedUser._id)
         userActions.loadUserList()
         //console.log(userList)
         storyActions.loadStories(loadedUser)
@@ -73,6 +113,18 @@ export function StoryIndex({navSelection}) {
             console.log("********************************************")
             return loadedUser
         }
+    }
+
+    function onNewNotification(notificationType, aboutUserId, imgUrl, aboutUserName, notificationMessage) {
+        console.log("GOT - onNewNotification: ",notificationType, aboutUserId, imgUrl, aboutUserName, notificationMessage)
+        const aboutUser = aboutUserName ? {_id: aboutUserId, username: aboutUserName, imgUrl} :  // in case of new signup, user is still not in userList
+            userList.filter(user=>user._id === aboutUserId)[0]
+        const notification = userService.createUserNotification(notificationMessage, aboutUser, imgUrl || null)
+        console.log("The New Notification is: ",notification, "length before: ",userNotifications.length)
+        setUserNotifications(prev => [notification, ...prev])
+        console.log("all notifications: ",currentUser,userNotifications.length,": ",userNotifications)
+        if (!showNotificationsPane)
+            setNewUserNotification(true)
     }
 
     async function onAddStory(story) {
@@ -106,14 +158,6 @@ export function StoryIndex({navSelection}) {
 
     function onShowNotifications(showNotifications) {
         setShowNotificationsPane(showNotifications)
-        // mark new notifications only if not currently in panel
-        if (showNotifications) setNewUserNotification(false)
-    }
-
-    function onNotify(shouldNotify) {
-        // mark new notifications only if not currently in panel
-        console.log("ON NOTIFY !!! ", shouldNotify)
-        setNewUserNotification(showNotificationsPane ? false : shouldNotify)
     }
 
     function onNavSelect(selection) {
@@ -122,8 +166,8 @@ export function StoryIndex({navSelection}) {
     }
 
     function onClickAnywhere({target}) {
-        if (setShowNotificationsPane && !notificationsRef.current.contains(target)) {
-            onShowNotifications(false)
+        if (showNotificationsPane && !elNotificationsPaneRef.current.contains(target)) {
+            setShowNotificationsPane(false)
             setInitialNavSelection('')
         }
     }
@@ -159,10 +203,11 @@ export function StoryIndex({navSelection}) {
                 <UsersBar userList={userList} currentUser={currentUser} numDisplayUsers={userService.getNumDisplayUsers()}/>
             </div>}
 
-            <div ref={notificationsRef}>
+            <div ref={elNotificationsPaneRef}>
                 <NotificationsPane show={showNotificationsPane} currentUser={currentUser} 
-                    userList={userList} storyList={stories} onNotify={onNotify}/>
+                    userList={userList} userNotifications={userNotifications}/>
             </div>
+            <audio ref={audioPlayer} src={notificationSound} />
             
             {/* Overlays */}
             <div className={`new-posts-overlay ${newPostsNotification ? " new-posts-visible" : ''}`}>

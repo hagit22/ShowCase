@@ -66,7 +66,7 @@ export function NavBar({initialSelection, onSelect, onAddStory, onShowNotificati
         <section className="nav-bar-section">
             <div className="nav-bar-content">
                 <NavLink to={'/'}>
-                    {currentNavOption === "notifications" ?
+                    {currentNavOption === "notifications" ? // Need to surround either SVG with div with onClick for marking home-svg as current!
                         <><SVG_NavBarLogoPanel/><SVG_NavBarLogoMiniPanel/></> :
                         <><SVG_NavBarLogo/><SVG_NavBarLogoMini/></>}
                 </NavLink>

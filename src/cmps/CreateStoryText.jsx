@@ -35,27 +35,25 @@ export function CreateStoryText({imageUrl, onAddStory}) {
     }
 
     return (
-        <section className="modal-container">
+        <section className="center-container">
             <div className="create-story-text">
-                <div className="new-story-share">
-                    <div className="title">
-                        <div className="icon-style" onClick={onClickArrowBack} 
-                            onMouseDown={onMouseDownArrowBack} onMouseUp={onMouseUpArrowBack}>
-                                <SVG_ArrowBack/>
-                        </div>
-                        <span>Create new post</span>
-                        <a onClick={onShareStory}>Share</a>
+                <div className="create-story-text-title">
+                    <div className="icon-style" onClick={onClickArrowBack} 
+                        onMouseDown={onMouseDownArrowBack} onMouseUp={onMouseUpArrowBack}>
+                            <SVG_ArrowBack/>
                     </div>
-                    <div className="content">
-                        <div className="content-image">
-                            <img src={imageUrl}></img>
-                        </div>
-                        <div className="content-form">
-                            <ProfileTitle profile={currentUser}/>
-                            <form>
-                                <textarea ref={storyCaption} rows="12" placeholder="Write a caption..."/>
-                            </form>
-                        </div>
+                    <span>Create new post</span>
+                    <a onClick={onShareStory}>Share</a>
+                </div>
+                <div className="create-story-text-content">
+                    <div className="content-image">
+                        <img src={imageUrl}></img>
+                    </div>
+                    <div className="content-form">
+                        <ProfileTitle profile={currentUser}/>
+                        <form>
+                            <textarea ref={storyCaption} rows="19" placeholder="Write a caption..."/>
+                        </form>
                     </div>
                 </div>
             </div>
