@@ -8,7 +8,7 @@ export function StoriesBar({userList, currentUser, numDisplayStories}) {
 
     useEffect(() => {
         updateDisplayStories(numDisplayStories)
-    }, [userList])
+    }, [userList.length])
 
     async function updateDisplayStories(maxUsers) {
         if (!currentUser || !userList || userList.length <= 0) return

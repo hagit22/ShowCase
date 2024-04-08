@@ -1,8 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect, useRef } from 'react'
-import { NavLink } from 'react-router-dom'
 import { utilService } from '../services/util.service'
-import { ProfileTitle } from './ProfileTitle'
 import { UsersBarItem } from './UsersBarItem'
 import { SwitchUserModal } from './SwitchUserModal';
 import { DynamicModal2 } from './DynamicModal2'
@@ -16,7 +14,7 @@ export function UsersBar({userList, currentUser, numDisplayUsers}) {
 
     useEffect(() => {
         updateDisplayUsers(numDisplayUsers)
-    }, [userList])
+    }, [userList.length])
 
     async function updateDisplayUsers(maxUsers) {
         if (!currentUser || !userList || userList.length <= 0) return

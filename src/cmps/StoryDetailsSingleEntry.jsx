@@ -26,7 +26,7 @@ export function StoryDetailsSingleEntry({ entry, extraInfo }) {
                     {extraInfo && <>
                         {likedBy.length > 0 && 
                             <div>{likedBy.length} {likedBy.length === 1 ? 'like' : 'likes'}</div>}
-                        <div>Reply</div> </>}
+                        <div>{/*Reply*/}</div> </>}
                 </div>
             </div>
         </div>
