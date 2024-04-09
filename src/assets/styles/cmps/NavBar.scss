@@ -250,7 +250,7 @@
         position: fixed;
         bottom: 0;
         left: 0;
-        width: 90vw; //90%;
+        width: 100vw; //90vw; //90%;
         display: flex;
         //align-items: center;
         justify-content: space-around;
@@ -269,6 +269,10 @@
     .story-preview-only {
         width: 380px; //400px;
         //width: 450px; 
+    }
+    .story-preview-heading {
+        margin-left: -2px; //-8px;
+        margin-right: 16px; //2px;
     }
     .preview-add-comment {
         display: none;
